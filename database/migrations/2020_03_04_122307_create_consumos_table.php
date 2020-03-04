@@ -15,7 +15,27 @@ class CreateConsumosTable extends Migration
     {
         Schema::create('consumos', function (Blueprint $table) {
             $table->id();
+            $table->smallInteger('cantidad')->default(1);
+            $table->boolean('pagado');
+            $table->unsignedBigInteger('cajas_id');
+            $table->unsignedBigInteger('reservas_id');
+            $table->unsignedBigInteger('productos_id');
+            $table->unsignedBigInteger('users_id');
+            
+            $table->foreign('cajas_id')
+		        ->references('id')->on('cajas');
+		
+		    $table->foreign('reservas_id')
+		        ->references('id')->on('reservas');
+		
+		    $table->foreign('productos_id')
+		        ->references('id')->on('productos');
+		
+		    $table->foreign('users_id')
+		        ->references('id')->on('users');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

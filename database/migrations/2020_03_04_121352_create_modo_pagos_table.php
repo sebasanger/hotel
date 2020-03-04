@@ -13,9 +13,13 @@ class CreateModoPagosTable extends Migration
      */
     public function up()
     {
-        Schema::create('modo_pagos', function (Blueprint $table) {
-            $table->id();
+        Schema::create('modosPagos', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('modoPago', 80);
+		    $table->smallInteger('cantidadPagos')->nullable()->default(1);
+            $table->string('descripcion', 45)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,6 +30,6 @@ class CreateModoPagosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modo_pagos');
+        Schema::dropIfExists('modosPagos');
     }
 }

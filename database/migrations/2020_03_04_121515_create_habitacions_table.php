@@ -13,9 +13,21 @@ class CreateHabitacionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('habitacions', function (Blueprint $table) {
-            $table->id();
+        Schema::create('habitaciones', function (Blueprint $table) {
+            $table->increments('id');
+            $table->smallInteger('numeroHabitacion');
+		    $table->smallInteger('piso');
+		    $table->smallInteger('capacidad');
+		    $table->smallInteger('single')->nullable();
+		    $table->smallInteger('doble')->nullable();
+		    $table->string('image_path', 255)->nullable();
+		    $table->string('image_path2', 255)->nullable();
+		    $table->string('image_path3', 255)->nullable();		    
+		    $table->boolean('disponible')->nullable();
+		    $table->boolean('ocupada')->nullable();
+		    $table->boolean('limpieza')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,6 +38,7 @@ class CreateHabitacionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('habitacions');
+     
+        Schema::dropIfExists('habitaciones');
     }
 }

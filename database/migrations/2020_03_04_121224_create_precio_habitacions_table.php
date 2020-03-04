@@ -13,9 +13,12 @@ class CreatePrecioHabitacionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('precio_habitacions', function (Blueprint $table) {
-            $table->id();
+        Schema::create('preciosHabitaciones', function (Blueprint $table) {
+            $table->increments('id');
+            $table->double('precioHabitacion');
+            $table->string('descripcion', 80);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,6 +29,6 @@ class CreatePrecioHabitacionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('precio_habitacions');
+        Schema::dropIfExists('preciosHabitaciones');
     }
 }

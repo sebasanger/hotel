@@ -14,8 +14,10 @@ class CreateMotivosTable extends Migration
     public function up()
     {
         Schema::create('motivos', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->string('motivo', 45);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

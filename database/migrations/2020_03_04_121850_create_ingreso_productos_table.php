@@ -13,9 +13,22 @@ class CreateIngresoProductosTable extends Migration
      */
     public function up()
     {
-        Schema::create('ingreso_productos', function (Blueprint $table) {
+        Schema::create('ingresosProductos', function (Blueprint $table) {
             $table->id();
+		    $table->smallInteger('cantidadIngreso');
+		    $table->smallInteger('precioCompra')->nullable();
+            $table->unsignedBigInteger('users_id');
+            $table->unsignedBigInteger('productos_id');
+            
+            $table->foreign('users_id')
+            ->references('id')->on('users');
+    
+            $table->foreign('productos_id')
+            ->references('id')->on('productos');
+
             $table->timestamps();
+            $table->softDeletes();
+      
         });
     }
 
@@ -26,6 +39,6 @@ class CreateIngresoProductosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ingreso_productos');
+        Schema::dropIfExists('ingresosProductos');
     }
 }
