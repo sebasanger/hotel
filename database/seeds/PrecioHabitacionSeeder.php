@@ -41,5 +41,11 @@ class PrecioHabitacionSeeder extends Seeder
         $precio->descripcion = "habitacion single viajante";
 
         $precio->save();
+
+        $precio = new PrecioHabitacion();
+        $precio->precioHabitacion = 1400;
+        $precio->descripcion = "habitacion doble viajante";
+
+        $precio->save();
     }
 }

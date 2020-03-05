@@ -43,7 +43,7 @@ class CreateReservasTable extends Migration
 
             $table->unsignedInteger('habitaciones_id');
             $table->foreign('habitaciones_id')
-            ->references('id')->on('preciosHabitaciones');
+            ->references('id')->on('habitaciones');
 
         });
     }

@@ -14,21 +14,25 @@ class CategoriaSeeder extends Seeder
     {
         $categoria = new Categoria();
         $categoria->categoria = "Gaseosa";
+        $categoria->created_at = now();
 
         $categoria->save();
 
         $categoria = new Categoria();
         $categoria->categoria = "Cerveza";
+        $categoria->created_at = now();
 
         $categoria->save();
 
         $categoria = new Categoria();
         $categoria->categoria = "Artesania";
+        $categoria->created_at = now();
 
         $categoria->save();
 
         $categoria = new Categoria();
         $categoria->categoria = "Desayuno";
+        $categoria->created_at = now();
 
         $categoria->save();
     }

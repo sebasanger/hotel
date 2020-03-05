@@ -17,11 +17,11 @@ class CreateClientesTable extends Migration
             $table->bigIncrements('id');
 		    $table->string('nombre', 80);
 		    $table->string('apellido', 80);
-		    $table->string('dni', 20)->unique();
+		    $table->string('dni', 40)->unique();
 		    $table->date('fechaNacimiento')->nullable();
-		    $table->string('celular', 20)->nullable();
+		    $table->string('celular', 40)->nullable();
 		    $table->string('email', 60)->nullable();
-		    $table->string('cuit', 20)->nullable();
+		    $table->string('cuit', 40)->nullable();
             $table->unsignedInteger('facturas_id')->nullable();
             $table->foreign('facturas_id')
             ->references('id')->on('facturas');
