@@ -14,7 +14,9 @@ class CajaController extends Controller
      */
     public function index()
     {
-        //
+        $cajas = Caja::all()->where('id', "=" ,1);
+
+        return $cajas;
     }
 
     /**
@@ -25,7 +27,7 @@ class CajaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      
     }
 
     /**
