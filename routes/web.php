@@ -23,34 +23,40 @@ Route::get('/', function () {
 Route::get('/home', 'HomeController@index')->name('home');
 
 
+
 Auth::routes();
 
-Route::apiResource('cajas', 'CajaController');
+Route::middleware(['auth'])->group(function () {
 
-Route::apiResource('categoria', 'CategoriaController');
+    Route::middleware(['role:admin'])->group(function () {
+        Route::apiResource('cajas', 'CajaController');
 
-Route::apiResource('cliente', 'ClienteController');
+        Route::apiResource('categoria', 'CategoriaController');
 
-Route::apiResource('consumo', 'ConsumoController');
+        Route::apiResource('factura', 'FacturaController');
 
-Route::apiResource('factura', 'FacturaController');
+        Route::apiResource('habitacion', 'HabitacionController');
 
-Route::apiResource('habitacion', 'HabitacionController');
+        Route::apiResource('ingresoProducto', 'IngresoProductoController');
 
-Route::apiResource('ingresoProducto', 'IngresoProductoController');
+        Route::apiResource('marca', 'MarcaController');
 
-Route::apiResource('marca', 'MarcaController');
+        Route::apiResource('modoPago', 'ModoPagoController');
 
-Route::apiResource('modoPago', 'ModoPagoController');
+        Route::apiResource('motivo', 'MotivoController');
 
-Route::apiResource('motivo', 'MotivoController');
+        Route::apiResource('precioHabitacion', 'PrecioHabitacionController');
 
-Route::apiResource('movimiento', 'MovimientoController');
+        Route::apiResource('producto', 'ProductoController');
+    });
 
-Route::apiResource('pago', 'PagoController');
+    Route::apiResource('cliente', 'ClienteController');
 
-Route::apiResource('precioHabitacion', 'PrecioHabitacionController');
+    Route::apiResource('consumo', 'ConsumoController');
 
-Route::apiResource('producto', 'ProductoController');
+    Route::apiResource('movimiento', 'MovimientoController');
 
-Route::apiResource('reserva', 'ReservaController');
+    Route::apiResource('pago', 'PagoController');
+
+    Route::apiResource('reserva', 'ReservaController');
+});
