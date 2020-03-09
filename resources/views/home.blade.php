@@ -1,8 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-
-<example-component></example-component>
-
-
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Clientes</div>
+                
+                <div class="card-body">
+                    <cliente></cliente>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

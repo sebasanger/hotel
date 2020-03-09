@@ -55,7 +55,7 @@ class ReservaSeeder extends Seeder
         $reserva->patenteAuto = "afe 125";
         $reserva->activa = 0;
         $reserva->totalPagar = 1700;
-        $reserva->clientes_id = 25;
+        $reserva->clientes_id = 13;
         $reserva->motivos_id = 3;
         $reserva->preciosHabitaciones_id = 3;
         $reserva->pagado = 1700;
