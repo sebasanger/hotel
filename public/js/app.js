@@ -1970,11 +1970,85 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       clientes: [],
       modoEditar: false,
+      modoCrear: false,
       cliente: {
         id: "",
         nombre: "",
@@ -1997,8 +2071,8 @@ __webpack_require__.r(__webpack_exports__);
     agregar: function agregar() {
       var _this2 = this;
 
-      if (this.cliente.nombre.trim() === "" || this.cliente.apellido.trim() === "" || this.cliente.dni.trim() === "" || this.cliente.telefono.trim() === "" || this.cliente.celular.trim() === "" || this.cliente.email.trim() === "") {
-        alert("Debes completar todos los campos antes de guardar");
+      if (this.cliente.nombre.trim() === "" || this.cliente.apellido.trim() === "" || this.cliente.dni.trim() === "") {
+        alert("El nombre, appellido y dni son obligatorios");
         return;
       }
 
@@ -2012,6 +2086,11 @@ __webpack_require__.r(__webpack_exports__);
           alert("Cliente creado");
 
           _this2.limpiar();
+
+          _this2.modoCrear = false;
+          axios.get("/cliente").then(function (res) {
+            _this2.clientes = res.data;
+          });
         } else {
           alert("No se pudo crear el cliente");
         }
@@ -2038,15 +2117,20 @@ __webpack_require__.r(__webpack_exports__);
         celular: this.cliente.celular
       };
       axios.put("/cliente/".concat(cliente.id), params).then(function (res) {
-        _this3.modoEditar = false;
+        if (res.status === 200) {
+          alert("Cliente editado correctamente");
+          _this3.modoEditar = false;
 
-        var index = _this3.clientes.findIndex(function (item) {
-          return item.id === cliente.id;
-        });
+          var index = _this3.clientes.findIndex(function (item) {
+            return item.id === cliente.id;
+          });
 
-        _this3.clientes[index] = res.data;
+          _this3.clientes[index] = res.data;
 
-        _this3.limpiar();
+          _this3.limpiar();
+        } else {
+          alert("Error, no se pudo crear el cliente");
+        }
       });
     },
     eliminarNota: function eliminarNota(cliente, index) {
@@ -2081,6 +2165,9 @@ __webpack_require__.r(__webpack_exports__);
         celular: "",
         email: ""
       };
+    },
+    modoAgregar: function modoAgregar() {
+      this.modoCrear = true;
     }
   }
 });
@@ -2096,7 +2183,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -37509,10 +37595,11 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm.modoEditar
+    _vm.modoEditar && !_vm.modoCrear
       ? _c(
           "form",
           {
+            staticClass: "col-md-8",
             on: {
               submit: function($event) {
                 $event.preventDefault()
@@ -37646,11 +37733,14 @@ var render = function() {
                 attrs: { type: "submit" },
                 on: { click: _vm.cancelarEdicion }
               },
-              [_vm._v("Cancelar")]
+              [_vm._v("\n            Cancelar\n        ")]
             )
           ]
         )
-      : _c(
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.modoEditar && _vm.modoCrear
+      ? _c(
           "form",
           {
             on: {
@@ -37673,7 +37763,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control mb-2",
-              attrs: { type: "text", placeholder: "Nombre" },
+              attrs: { type: "text", required: "", placeholder: "Nombre" },
               domProps: { value: _vm.cliente.nombre },
               on: {
                 input: function($event) {
@@ -37695,7 +37785,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control mb-2",
-              attrs: { type: "text", placeholder: "Apellido" },
+              attrs: { type: "text", placeholder: "Apellido", required: "" },
               domProps: { value: _vm.cliente.apellido },
               on: {
                 input: function($event) {
@@ -37717,7 +37807,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control mb-2",
-              attrs: { type: "number", placeholder: "Documento" },
+              attrs: { type: "number", placeholder: "Documento", required: "" },
               domProps: { value: _vm.cliente.dni },
               on: {
                 input: function($event) {
@@ -37775,69 +37865,97 @@ var render = function() {
             _vm._v(" "),
             _c(
               "button",
-              { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-              [_vm._v("Agregar")]
+              {
+                staticClass: "btn btn-primary btn-success",
+                attrs: { type: "submit" }
+              },
+              [_vm._v("\n            Agregar\n        ")]
             )
           ]
-        ),
+        )
+      : _vm._e(),
     _vm._v(" "),
-    _c("hr"),
+    !_vm.modoCrear && !_vm.modoEditar
+      ? _c(
+          "button",
+          { staticClass: "btn btn-info mb-2", on: { click: _vm.modoAgregar } },
+          [_vm._v("\n        Agregar nuevo\n    ")]
+        )
+      : _vm._e(),
     _vm._v(" "),
-    _c("h3", [_vm._v("Lista de clientes:")]),
-    _vm._v(" "),
-    _c(
-      "ul",
-      { staticClass: "list-group" },
-      _vm._l(_vm.clientes, function(item, index) {
-        return _c("li", { key: index, staticClass: "list-group-item" }, [
-          _c("span", { staticClass: "badge badge-primary float-right" }, [
-            _vm._v(_vm._s(item.updated_at))
-          ]),
+    !_vm.modoCrear && !_vm.modoEditar
+      ? _c("table", { staticClass: "table table-striped table-dark" }, [
+          _vm._m(0),
           _vm._v(" "),
-          _c("p", [_vm._v(_vm._s(item.nombre))]),
-          _vm._v(" "),
-          _c("p", [_vm._v(_vm._s(item.apellido))]),
-          _vm._v(" "),
-          _c("p", [_vm._v(_vm._s(item.dni))]),
-          _vm._v(" "),
-          _c("p", [_vm._v(_vm._s(item.email))]),
-          _vm._v(" "),
-          _c("p", [_vm._v(_vm._s(item.celular))]),
-          _vm._v(" "),
-          _c("p", [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-warning btn-sm",
-                on: {
-                  click: function($event) {
-                    return _vm.editarFormulario(item)
-                  }
-                }
-              },
-              [_vm._v("Editar")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-danger btn-sm",
-                on: {
-                  click: function($event) {
-                    return _vm.eliminarNota(item, index)
-                  }
-                }
-              },
-              [_vm._v("Eliminar")]
-            )
-          ])
+          _c(
+            "tbody",
+            _vm._l(_vm.clientes, function(item, index) {
+              return _c("tr", { key: index }, [
+                _c("td", [_vm._v(_vm._s(item.nombre))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(item.apellido))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(item.dni))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(item.email))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(item.celular))]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-warning btn-sm mt-2",
+                    on: {
+                      click: function($event) {
+                        return _vm.editarFormulario(item)
+                      }
+                    }
+                  },
+                  [_vm._v("\n                    Editar\n                ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger btn-sm ml-2 mt-2",
+                    on: {
+                      click: function($event) {
+                        return _vm.eliminarNota(item, index)
+                      }
+                    }
+                  },
+                  [_vm._v("\n                    Eliminar\n                ")]
+                )
+              ])
+            }),
+            0
+          )
         ])
-      }),
-      0
-    )
+      : _vm._e()
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Nombre")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Apellido")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("dni")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("email")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Celular")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Acciones")])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -37859,51 +37977,31 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-8" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [_vm._v("Cajas")]),
+  return _c("div", [
+    _c("h3", { staticClass: "mt-2" }, [_vm._v("Cajas")]),
+    _vm._v(" "),
+    _c(
+      "ul",
+      { staticClass: "list-group mt-2" },
+      _vm._l(_vm.cajas, function(caja, index) {
+        return _c("li", { key: index, staticClass: "list-group-item" }, [
+          _c("span", { staticClass: "badge badge-primary float-right" }, [
+            _vm._v("Hora de apertura: " + _vm._s(caja.created_at))
+          ]),
           _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c("h3", { staticClass: "mt-2" }, [_vm._v("Notas")]),
-            _vm._v(" "),
-            _c(
-              "ul",
-              { staticClass: "list-group mt-2" },
-              _vm._l(_vm.cajas, function(caja, index) {
-                return _c(
-                  "li",
-                  { key: index, staticClass: "list-group-item" },
-                  [
-                    _c(
-                      "span",
-                      { staticClass: "badge badge-primary float-right" },
-                      [_vm._v("Hora de apertura: " + _vm._s(caja.created_at))]
-                    ),
-                    _vm._v(" "),
-                    _c("p", [
-                      _vm._v("Monto de apertura: " + _vm._s(caja.montoApertura))
-                    ]),
-                    _vm._v(" "),
-                    _c("p", [
-                      _vm._v("Hora de Cierre: " + _vm._s(caja.horaCierre))
-                    ]),
-                    _vm._v(" "),
-                    _c("p", [
-                      _vm._v("Monto de cierre: " + _vm._s(caja.montoCierre))
-                    ]),
-                    _vm._v(" "),
-                    _c("p", [_vm._v("Encargado: " + _vm._s(caja.users_id))])
-                  ]
-                )
-              }),
-              0
-            )
-          ])
+          _c("p", [_vm._v("Monto de apertura: " + _vm._s(caja.montoApertura))]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Hora de Cierre: " + _vm._s(caja.horaCierre))]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Monto de cierre: " + _vm._s(caja.montoCierre))]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Encargado: " + _vm._s(caja.users_id))])
         ])
-      ])
-    ])
+      }),
+      0
+    ),
+    _vm._v(" "),
+    _c("hr")
   ])
 }
 var staticRenderFns = []
@@ -50095,7 +50193,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
+Vue.component('example', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 Vue.component('cliente', __webpack_require__(/*! ./components/ClienteComponent.vue */ "./resources/js/components/ClienteComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to

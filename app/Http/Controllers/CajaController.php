@@ -18,7 +18,7 @@ class CajaController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return Caja::all();
+            return Caja::where('id','>','6')->orderBy('id', 'desc')->get();
         } else {
             abort(403, "No permitido");
         }

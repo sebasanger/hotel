@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Cliente;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ClienteController extends Controller
 {
@@ -14,7 +15,7 @@ class ClienteController extends Controller
      */
     public function index(Request $request)
     {
-        return Cliente::where("id", ">" , "23")->get();
+        return Cliente::orderBy('id', 'desc')->get();
     }
 
     /**
@@ -28,7 +29,7 @@ class ClienteController extends Controller
         $validatedData = $request->validate([
             'nombre' => 'required',
             'apellido' => 'required',
-            'email' => 'required|unique:clientes',
+           'email' => 'unique:clientes,email|nullable',
             'dni' => 'required|unique:clientes',
         ]);
 
@@ -66,11 +67,13 @@ class ClienteController extends Controller
      */
     public function update(Request $request)
     {
+        $id = $request->id;
+
         $validatedData = $request->validate([
             'id' => 'required',
             'nombre' => 'required',
             'apellido' => 'required',
-            'email' => 'required',
+            //'email' => [ Rule::unique('clientes')->ignore($id)],
             'dni' => 'required',
         ]);
 
