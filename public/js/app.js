@@ -2043,6 +2043,62 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2054,9 +2110,12 @@ __webpack_require__.r(__webpack_exports__);
         nombre: "",
         appelldio: "",
         dni: "",
-        email: "",
         telefono: "",
-        celular: ""
+        celular: "",
+        procedencia: "",
+        destino: "",
+        profecion: "",
+        domicilio: ""
       }
     };
   },
@@ -2101,11 +2160,14 @@ __webpack_require__.r(__webpack_exports__);
       this.cliente.apellido = item.apellido;
       this.cliente.dni = item.dni;
       this.cliente.celular = item.celular;
-      this.cliente.email = item.email;
+      this.cliente.profecion = item.profecion;
+      this.cliente.domicilio = item.domicilio;
+      this.cliente.procedencia = item.procedencia;
+      this.cliente.destino = item.destino;
       this.cliente.id = item.id;
       this.modoEditar = true;
     },
-    editarNota: function editarNota(cliente) {
+    editarCliente: function editarCliente(cliente) {
       var _this3 = this;
 
       var params = {
@@ -2113,12 +2175,14 @@ __webpack_require__.r(__webpack_exports__);
         nombre: this.cliente.nombre,
         apellido: this.cliente.apellido,
         dni: this.cliente.dni,
-        email: this.cliente.email,
-        celular: this.cliente.celular
+        profecion: this.cliente.profecion,
+        celular: this.cliente.celular,
+        procedencia: this.cliente.procedencia,
+        domicilio: this.cliente.domicilio,
+        destino: this.cliente.destino
       };
       axios.put("/cliente/".concat(cliente.id), params).then(function (res) {
         if (res.status === 200) {
-          alert("Cliente editado correctamente");
           _this3.modoEditar = false;
 
           var index = _this3.clientes.findIndex(function (item) {
@@ -2133,7 +2197,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    eliminarNota: function eliminarNota(cliente, index) {
+    eliminarCliente: function eliminarCliente(cliente, index) {
       var _this4 = this;
 
       var confirmacion = confirm("\xBFEsta seguro desea eliminar al cliente ".concat(cliente.nombre, " ").concat(cliente.apellido, "?"));
@@ -2144,26 +2208,29 @@ __webpack_require__.r(__webpack_exports__);
 
           if (res.status === 200) {
             _this4.clientes.splice(index, 1);
-
-            alert("Cliente eliminado");
           } else {
             alert("No se pudo eliminar el cliente");
           }
         });
       }
     },
-    cancelarEdicion: function cancelarEdicion() {
+    cancelar: function cancelar() {
       this.modoEditar = false;
+      this.modoCrear = false;
       this.limpiar();
     },
     limpiar: function limpiar() {
       this.cliente = {
+        id: "",
         nombre: "",
-        apellido: "",
+        appelldio: "",
         dni: "",
+        profecion: "",
         telefono: "",
         celular: "",
-        email: ""
+        procedencia: "",
+        destino: "",
+        domicilio: ""
       };
     },
     modoAgregar: function modoAgregar() {
@@ -37603,12 +37670,12 @@ var render = function() {
             on: {
               submit: function($event) {
                 $event.preventDefault()
-                return _vm.editarNota(_vm.cliente)
+                return _vm.editarCliente(_vm.cliente)
               }
             }
           },
           [
-            _c("h3", [_vm._v("Editar nota")]),
+            _c("h3", [_vm._v("Editar cliente")]),
             _vm._v(" "),
             _c("input", {
               directives: [
@@ -37620,7 +37687,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control mb-2",
-              attrs: { type: "text", placeholder: "Nombre" },
+              attrs: { type: "text", required: "", placeholder: "Nombre" },
               domProps: { value: _vm.cliente.nombre },
               on: {
                 input: function($event) {
@@ -37642,7 +37709,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control mb-2",
-              attrs: { type: "text", placeholder: "Apellido" },
+              attrs: { type: "text", placeholder: "Apellido", required: "" },
               domProps: { value: _vm.cliente.apellido },
               on: {
                 input: function($event) {
@@ -37664,7 +37731,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control mb-2",
-              attrs: { type: "number", placeholder: "Documento" },
+              attrs: { type: "number", placeholder: "Documento", required: "" },
               domProps: { value: _vm.cliente.dni },
               on: {
                 input: function($event) {
@@ -37672,28 +37739,6 @@ var render = function() {
                     return
                   }
                   _vm.$set(_vm.cliente, "dni", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.cliente.email,
-                  expression: "cliente.email"
-                }
-              ],
-              staticClass: "form-control mb-2",
-              attrs: { type: "email", placeholder: "Email" },
-              domProps: { value: _vm.cliente.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.cliente, "email", $event.target.value)
                 }
               }
             }),
@@ -37720,6 +37765,94 @@ var render = function() {
               }
             }),
             _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.cliente.procedencia,
+                  expression: "cliente.procedencia"
+                }
+              ],
+              staticClass: "form-control mb-2",
+              attrs: { type: "text", placeholder: "Procedencia" },
+              domProps: { value: _vm.cliente.procedencia },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.cliente, "procedencia", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.cliente.domicilio,
+                  expression: "cliente.domicilio"
+                }
+              ],
+              staticClass: "form-control mb-2",
+              attrs: { type: "text", placeholder: "Domicilio" },
+              domProps: { value: _vm.cliente.domicilio },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.cliente, "domicilio", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.cliente.destino,
+                  expression: "cliente.destino"
+                }
+              ],
+              staticClass: "form-control mb-2",
+              attrs: { type: "text", placeholder: "Destino" },
+              domProps: { value: _vm.cliente.destino },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.cliente, "destino", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.cliente.profecion,
+                  expression: "cliente.profecion"
+                }
+              ],
+              staticClass: "form-control mb-2",
+              attrs: { type: "text", placeholder: "Profecion" },
+              domProps: { value: _vm.cliente.profecion },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.cliente, "profecion", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
             _c(
               "button",
               { staticClass: "btn btn-warning", attrs: { type: "submit" } },
@@ -37731,7 +37864,7 @@ var render = function() {
               {
                 staticClass: "btn btn-danger",
                 attrs: { type: "submit" },
-                on: { click: _vm.cancelarEdicion }
+                on: { click: _vm.cancelar }
               },
               [_vm._v("\n            Cancelar\n        ")]
             )
@@ -37824,28 +37957,6 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.cliente.email,
-                  expression: "cliente.email"
-                }
-              ],
-              staticClass: "form-control mb-2",
-              attrs: { type: "email", placeholder: "Email" },
-              domProps: { value: _vm.cliente.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.cliente, "email", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
                   value: _vm.cliente.celular,
                   expression: "cliente.celular"
                 }
@@ -37863,6 +37974,94 @@ var render = function() {
               }
             }),
             _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.cliente.procedencia,
+                  expression: "cliente.procedencia"
+                }
+              ],
+              staticClass: "form-control mb-2",
+              attrs: { type: "text", placeholder: "Procedencia" },
+              domProps: { value: _vm.cliente.procedencia },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.cliente, "procedencia", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.cliente.domicilio,
+                  expression: "cliente.domicilio"
+                }
+              ],
+              staticClass: "form-control mb-2",
+              attrs: { type: "text", placeholder: "Domicilio" },
+              domProps: { value: _vm.cliente.domicilio },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.cliente, "domicilio", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.cliente.destino,
+                  expression: "cliente.destino"
+                }
+              ],
+              staticClass: "form-control mb-2",
+              attrs: { type: "text", required: "", placeholder: "Destino" },
+              domProps: { value: _vm.cliente.destino },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.cliente, "destino", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.cliente.profecion,
+                  expression: "cliente.profecion"
+                }
+              ],
+              staticClass: "form-control mb-2",
+              attrs: { type: "text", placeholder: "Profecion" },
+              domProps: { value: _vm.cliente.profecion },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.cliente, "profecion", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
             _c(
               "button",
               {
@@ -37870,6 +38069,16 @@ var render = function() {
                 attrs: { type: "submit" }
               },
               [_vm._v("\n            Agregar\n        ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-danger",
+                attrs: { type: "submit" },
+                on: { click: _vm.cancelar }
+              },
+              [_vm._v("\n            Cancelar\n        ")]
             )
           ]
         )
@@ -37884,53 +38093,63 @@ var render = function() {
       : _vm._e(),
     _vm._v(" "),
     !_vm.modoCrear && !_vm.modoEditar
-      ? _c("table", { staticClass: "table table-striped table-dark" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c(
-            "tbody",
-            _vm._l(_vm.clientes, function(item, index) {
-              return _c("tr", { key: index }, [
-                _c("td", [_vm._v(_vm._s(item.nombre))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(item.apellido))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(item.dni))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(item.email))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(item.celular))]),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-warning btn-sm mt-2",
-                    on: {
-                      click: function($event) {
-                        return _vm.editarFormulario(item)
+      ? _c(
+          "table",
+          { staticClass: "table table-striped table-dark col-md-12" },
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.clientes, function(item, index) {
+                return _c("tr", { key: index }, [
+                  _c("td", [_vm._v(_vm._s(item.nombre))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.apellido))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.dni))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.celular))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.procedencia))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.domicilio))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.destino))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.profecion))]),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-warning  btn-sm mt-2",
+                      on: {
+                        click: function($event) {
+                          return _vm.editarFormulario(item)
+                        }
                       }
-                    }
-                  },
-                  [_vm._v("\n                    Editar\n                ")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-danger btn-sm ml-2 mt-2",
-                    on: {
-                      click: function($event) {
-                        return _vm.eliminarNota(item, index)
+                    },
+                    [_vm._v("\n                    Editar\n                ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger btn-sm ml-1 mt-2",
+                      on: {
+                        click: function($event) {
+                          return _vm.eliminarCliente(item, index)
+                        }
                       }
-                    }
-                  },
-                  [_vm._v("\n                    Eliminar\n                ")]
-                )
-              ])
-            }),
-            0
-          )
-        ])
+                    },
+                    [_vm._v("\n                    X\n                ")]
+                  )
+                ])
+              }),
+              0
+            )
+          ]
+        )
       : _vm._e()
   ])
 }
@@ -37947,9 +38166,15 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("dni")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("email")]),
-        _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Celular")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Procedencia")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Domicilio")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Destino")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Profecion")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Acciones")])
       ])

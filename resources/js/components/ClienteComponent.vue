@@ -1,14 +1,15 @@
 <template>
     <div>
         <form
-            @submit.prevent="editarNota(cliente)"
+            @submit.prevent="editarCliente(cliente)"
             v-if="modoEditar && !modoCrear"
             class="col-md-8"
         >
-            <h3>Editar nota</h3>
+            <h3>Editar cliente</h3>
             <input
                 type="text"
                 class="form-control mb-2"
+                required
                 placeholder="Nombre"
                 v-model="cliente.nombre"
             />
@@ -16,19 +17,15 @@
                 type="text"
                 class="form-control mb-2"
                 placeholder="Apellido"
+                required
                 v-model="cliente.apellido"
             />
             <input
                 type="number"
                 class="form-control mb-2"
                 placeholder="Documento"
+                required
                 v-model="cliente.dni"
-            />
-            <input
-                type="email"
-                class="form-control mb-2"
-                placeholder="Email"
-                v-model="cliente.email"
             />
             <input
                 type="number"
@@ -36,11 +33,35 @@
                 placeholder="celular"
                 v-model="cliente.celular"
             />
+            <input
+                type="text"
+                class="form-control mb-2"
+                placeholder="Procedencia"
+                v-model="cliente.procedencia"
+            />
+            <input
+                type="text"
+                class="form-control mb-2"
+                placeholder="Domicilio"
+                v-model="cliente.domicilio"
+            />
+            <input
+                type="text"
+                class="form-control mb-2"
+                placeholder="Destino"
+                v-model="cliente.destino"
+            />
+            <input
+                type="text"
+                class="form-control mb-2"
+                placeholder="Profecion"
+                v-model="cliente.profecion"
+            />
             <button class="btn btn-warning" type="submit">Editar</button>
             <button
                 class="btn btn-danger"
                 type="submit"
-                @click="cancelarEdicion"
+                @click="cancelar"
             >
                 Cancelar
             </button>
@@ -69,21 +90,50 @@
                 required
                 v-model="cliente.dni"
             />
-            <input
-                type="email"
-                class="form-control mb-2"
-                placeholder="Email"
-                v-model="cliente.email"
-            />
+
             <input
                 type="number"
                 class="form-control mb-2"
                 placeholder="celular"
                 v-model="cliente.celular"
             />
+            <input
+                type="text"
+                class="form-control mb-2"
+                placeholder="Procedencia"
+                v-model="cliente.procedencia"
+            />
+            <input
+                type="text"
+                class="form-control mb-2"
+                placeholder="Domicilio"
+                v-model="cliente.domicilio"
+            />
+            <input
+                type="text"
+                class="form-control mb-2"
+                required
+                placeholder="Destino"
+                v-model="cliente.destino"
+            />
+            <input
+                type="text"
+                class="form-control mb-2"
+                placeholder="Profecion"
+                v-model="cliente.profecion"
+            />
+            
             <button class="btn btn-primary btn-success" type="submit">
                 Agregar
             </button>
+            <button
+                class="btn btn-danger"
+                type="submit"
+                @click="cancelar"
+            >
+                Cancelar
+            </button>
+            
         </form>
 
         <button
@@ -94,7 +144,7 @@
             Agregar nuevo
         </button>
         <table
-            class="table table-striped table-dark"
+            class="table table-striped table-dark col-md-12"
             v-if="!modoCrear && !modoEditar"
         >
             <thead>
@@ -102,8 +152,11 @@
                     <th scope="col">Nombre</th>
                     <th scope="col">Apellido</th>
                     <th scope="col">dni</th>
-                    <th scope="col">email</th>
                     <th scope="col">Celular</th>
+                    <th scope="col">Procedencia</th>
+                    <th scope="col">Domicilio</th>
+                    <th scope="col">Destino</th>
+                    <th scope="col">Profecion</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
@@ -112,20 +165,23 @@
                     <td>{{ item.nombre }}</td>
                     <td>{{ item.apellido }}</td>
                     <td>{{ item.dni }}</td>
-                    <td>{{ item.email }}</td>
                     <td>{{ item.celular }}</td>
+                    <td>{{ item.procedencia }}</td>
+                    <td>{{ item.domicilio }}</td>
+                    <td>{{ item.destino }}</td>
+                    <td>{{ item.profecion }}</td>
 
                     <button
-                        class="btn btn-warning btn-sm mt-2"
+                        class="btn btn-warning  btn-sm mt-2"
                         @click="editarFormulario(item)"
                     >
                         Editar
                     </button>
                     <button
-                        class="btn btn-danger btn-sm ml-2 mt-2"
-                        @click="eliminarNota(item, index)"
+                        class="btn btn-danger btn-sm ml-1 mt-2"
+                        @click="eliminarCliente(item, index)"
                     >
-                        Eliminar
+                        X
                     </button>
                 </tr>
             </tbody>
@@ -145,9 +201,12 @@ export default {
                 nombre: "",
                 appelldio: "",
                 dni: "",
-                email: "",
                 telefono: "",
-                celular: ""
+                celular: "",
+                procedencia: "",
+                destino: "",
+                profecion: "",
+                domicilio: ""
             }
         };
     },
@@ -188,22 +247,27 @@ export default {
             this.cliente.apellido = item.apellido;
             this.cliente.dni = item.dni;
             this.cliente.celular = item.celular;
-            this.cliente.email = item.email;
+            this.cliente.profecion = item.profecion;
+            this.cliente.domicilio = item.domicilio;
+            this.cliente.procedencia = item.procedencia;
+            this.cliente.destino = item.destino;
             this.cliente.id = item.id;
             this.modoEditar = true;
         },
-        editarNota(cliente) {
+        editarCliente(cliente) {
             const params = {
                 id: this.cliente.id,
                 nombre: this.cliente.nombre,
                 apellido: this.cliente.apellido,
                 dni: this.cliente.dni,
-                email: this.cliente.email,
-                celular: this.cliente.celular
+                profecion: this.cliente.profecion,
+                celular: this.cliente.celular,
+                procedencia: this.cliente.procedencia,
+                domicilio: this.cliente.domicilio,
+                destino: this.cliente.destino
             };
             axios.put(`/cliente/${cliente.id}`, params).then(res => {
                 if (res.status === 200) {
-                    alert("Cliente editado correctamente");
                     this.modoEditar = false;
                     const index = this.clientes.findIndex(
                         item => item.id === cliente.id
@@ -215,7 +279,7 @@ export default {
                 }
             });
         },
-        eliminarNota(cliente, index) {
+        eliminarCliente(cliente, index) {
             const confirmacion = confirm(
                 `¿Esta seguro desea eliminar al cliente ${cliente.nombre} ${cliente.apellido}?`
             );
@@ -224,25 +288,29 @@ export default {
                     console.log(res);
                     if (res.status === 200) {
                         this.clientes.splice(index, 1);
-                        alert("Cliente eliminado");
                     } else {
                         alert("No se pudo eliminar el cliente");
                     }
                 });
             }
         },
-        cancelarEdicion() {
+        cancelar() {
             this.modoEditar = false;
+            this.modoCrear = false;
             this.limpiar();
         },
         limpiar() {
             this.cliente = {
+                id: "",
                 nombre: "",
-                apellido: "",
+                appelldio: "",
                 dni: "",
+                profecion: "",
                 telefono: "",
                 celular: "",
-                email: ""
+                procedencia: "",
+                destino: "",
+                domicilio: ""
             };
         },
         modoAgregar() {

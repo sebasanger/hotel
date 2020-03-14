@@ -20,13 +20,16 @@ Route::get('/', function () {
 */
 
 
-Route::get('/', 'HomeController@index')->name('home');
+
 
 
 
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
+  Route::get('/', 'HomeController@index')->name('home');
+
+  Route::get('/home', 'HomeController@index')->name('home');
 
   //  Route::middleware(['role: Admin'])->group(function () {
 

@@ -39,9 +39,11 @@ class ClienteController extends Controller
         $cliente->dni = $request->dni;
         $cliente->celular = $request->celular;
         $cliente->email = $request->email;
-
-
-
+        $cliente->domicilio = $request->domicilio;
+        $cliente->destino = $request->destino;
+        $cliente->procedencia = $request->procedencia;
+        $cliente->profecion = $request->profecion;  
+        
         $cliente->save();
 
         return $cliente;
@@ -83,7 +85,10 @@ class ClienteController extends Controller
         $cliente->dni = $request->dni;
         $cliente->celular = $request->celular;
         $cliente->email = $request->email;
-
+        $cliente->domicilio = $request->domicilio;
+        $cliente->destino = $request->destino;
+        $cliente->procedencia = $request->procedencia;
+        $cliente->profecion = $request->profecion;    
 
 
         $cliente->save();
