@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(HabitacionSeeder::class);
 
-        factory(Cliente::class, 200)->create();
+        factory(Cliente::class, 25)->create();
 
         $this->call(ProductoSeeder::class);
         

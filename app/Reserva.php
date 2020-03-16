@@ -3,14 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Reserva extends Model
 {
-    protected $table = 'Reservas';
+  use SoftDeletes;
 
-
-      public function cajas()
-    {
-        return $this->hasManyThrough('App\Caja', 'App\Pago');
-    }
+  protected $table = 'Reservas';
 }

@@ -12,9 +12,9 @@ class ClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return Cliente::where("id", ">" , "23")->get();
     }
 
     /**
@@ -25,7 +25,25 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'email' => 'required|unique:clientes',
+            'dni' => 'required|unique:clientes',
+        ]);
+
+        $cliente = new Cliente();
+        $cliente->nombre = $request->nombre;
+        $cliente->apellido = $request->apellido;
+        $cliente->dni = $request->dni;
+        $cliente->celular = $request->celular;
+        $cliente->email = $request->email;
+
+
+
+        $cliente->save();
+
+        return $cliente;
     }
 
     /**
@@ -46,9 +64,28 @@ class ClienteController extends Controller
      * @param  \App\Cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cliente $cliente)
+    public function update(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'id' => 'required',
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'email' => 'required',
+            'dni' => 'required',
+        ]);
+
+        $cliente = cliente::find($request->id);
+        $cliente->nombre = $request->nombre;
+        $cliente->apellido = $request->apellido;
+        $cliente->dni = $request->dni;
+        $cliente->celular = $request->celular;
+        $cliente->email = $request->email;
+
+
+
+        $cliente->save();
+
+        return $cliente;
     }
 
     /**
@@ -57,8 +94,10 @@ class ClienteController extends Controller
      * @param  \App\Cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cliente $cliente)
+    public function destroy($id)
     {
-        //
+       $cliente = Cliente::findOrFail($id);
+       $cliente->delete();
+       return $cliente;
     }
 }

@@ -26,9 +26,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
-Route::middleware(['auth'])->group(function () {
+//Route::middleware(['auth'])->group(function () {
 
-    Route::middleware(['role:admin'])->group(function () {
+  //  Route::middleware(['role: Admin'])->group(function () {
+
         Route::apiResource('cajas', 'CajaController');
 
         Route::apiResource('categoria', 'CategoriaController');
@@ -48,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource('precioHabitacion', 'PrecioHabitacionController');
 
         Route::apiResource('producto', 'ProductoController');
-    });
+  //  });
 
     Route::apiResource('cliente', 'ClienteController');
 
@@ -59,4 +60,4 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('pago', 'PagoController');
 
     Route::apiResource('reserva', 'ReservaController');
-});
+//});
