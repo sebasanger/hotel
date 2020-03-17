@@ -13,11 +13,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/*
-Route::get('/', function () {
-    return view('welcome');
-});
-*/
+
+
 
 
 
@@ -26,38 +23,44 @@ Route::get('/', function () {
 
 Auth::routes();
 
-//Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 
-  //  Route::middleware(['role: Admin'])->group(function () {
+//  Route::middleware(['role: Admin'])->group(function () {
 
-        Route::apiResource('cajas', 'CajaController');
+Route::get('/', function () {
+  return view('home');
+});
 
-        Route::apiResource('categoria', 'CategoriaController');
 
-        Route::apiResource('factura', 'FacturaController');
+Route::apiResource('cajas', 'CajaController');
 
-        Route::apiResource('habitacion', 'HabitacionController');
+Route::apiResource('categoria', 'CategoriaController');
 
-        Route::apiResource('ingresoProducto', 'IngresoProductoController');
+Route::apiResource('factura', 'FacturaController');
 
-        Route::apiResource('marca', 'MarcaController');
+Route::apiResource('habitacion', 'HabitacionController');
 
-        Route::apiResource('modoPago', 'ModoPagoController');
+Route::apiResource('ingresoProducto', 'IngresoProductoController');
 
-        Route::apiResource('motivo', 'MotivoController');
+Route::apiResource('marca', 'MarcaController');
 
-        Route::apiResource('precioHabitacion', 'PrecioHabitacionController');
+Route::apiResource('modoPago', 'ModoPagoController');
 
-        Route::apiResource('producto', 'ProductoController');
-  //  });
+Route::apiResource('motivo', 'MotivoController');
 
-    Route::apiResource('cliente', 'ClienteController');
+Route::apiResource('precioHabitacion', 'PrecioHabitacionController');
 
-    Route::apiResource('consumo', 'ConsumoController');
+Route::apiResource('producto', 'ProductoController');
+//  });
 
-    Route::apiResource('movimiento', 'MovimientoController');
+Route::apiResource('cliente', 'ClienteController');
 
-    Route::apiResource('pago', 'PagoController');
+Route::apiResource('consumo', 'ConsumoController');
 
-    Route::apiResource('reserva', 'ReservaController');
-//});
+Route::apiResource('movimiento', 'MovimientoController');
+
+Route::apiResource('pago', 'PagoController');
+
+Route::apiResource('reserva', 'ReservaController');
+
+});
