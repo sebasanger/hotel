@@ -1,0 +1,47 @@
+[33mcommit 2ba18f392f178b4709c1828854b500adfde6f103[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: seba <seba_sanger@hotmail.com>
+Date:   Mon Mar 16 02:07:19 2020 -0300
+
+    ultima modificaccion desde la pc
+
+[33mcommit 1db97710518d0a8beb21eb73923102ea03f19cf9[m
+Author: seba <seba_sanger@hotmail.com>
+Date:   Thu Mar 5 21:51:59 2020 -0300
+
+    middleware de roles cread e implementado
+
+[33mcommit b9a88aeca94a32b15566bbae3024884f0b4a7e66[m
+Author: seba <seba_sanger@hotmail.com>
+Date:   Thu Mar 5 20:00:59 2020 -0300
+
+    rutas api resource creadas
+
+[33mcommit 07dc77fdb01cd082561b1e422e8c896411a85795[m
+Author: seba <seba_sanger@hotmail.com>
+Date:   Thu Mar 5 18:29:59 2020 -0300
+
+    migraciones arregladas, seeders y factorias terminadas
+
+[33mcommit bed42846cd4d619ed0bf4fef883d28f7976a4862[m
+Author: seba <seba_sanger@hotmail.com>
+Date:   Wed Mar 4 17:23:48 2020 -0300
+
+    migraciones finalizadas
+
+[33mcommit 3d825118f01bf1e86a100be98650549a70896214[m
+Author: seba <seba_sanger@hotmail.com>
+Date:   Wed Mar 4 12:26:12 2020 -0300
+
+    modelos resource creados pero vacios
+
+[33mcommit 74cdccea1cefadb41f968926feada075e331d463[m
+Author: seba <seba_sanger@hotmail.com>
+Date:   Wed Mar 4 09:03:52 2020 -0300
+
+    arreglo de la migracion de db
+
+[33mcommit afad79985a6b65e1af7172279f0a95cc30555917[m
+Author: seba <seba_sanger@hotmail.com>
+Date:   Wed Mar 4 08:47:36 2020 -0300
+
+    primer commit
