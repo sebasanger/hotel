@@ -20,7 +20,7 @@ class UserTableSeeder extends Seeder
         $user->telefono = "402641";
         $user->celular = "3755309633";
         $user->email = "seba_sanger@hotmail.com";
-        $user->role = "Admin";
+        $user->role = 1;
         $user->created_at = Carbon::now();
         $user->email_verified_at = Carbon::now();
         $user->password = "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi";
@@ -35,7 +35,7 @@ class UserTableSeeder extends Seeder
         $user->telefono = "402641";
         $user->celular = "7878554";
         $user->email = "nora@hotmail.com";
-        $user->role = "User";
+        $user->role = 2;
         $user->created_at = Carbon::now();
         $user->email_verified_at = Carbon::now();
         $user->password = "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi";

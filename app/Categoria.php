@@ -10,4 +10,9 @@ class Categoria extends Model
     use SoftDeletes;
 
     protected $table = 'Categorias';
+
+    protected $casts = [
+        'created_at' => 'datetime:d-m-Y',
+        'updated_at' => 'datetime:d-m-Y'
+    ];
 }

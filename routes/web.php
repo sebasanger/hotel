@@ -14,53 +14,44 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-
-
-
-
-
-
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
 
-//  Route::middleware(['role: Admin'])->group(function () {
+  Route::get('/', function () {
+    return view('home');
+  });
 
-Route::get('/', function () {
-  return view('home');
-});
+  Route::middleware(['role:1'])->group(function () {
 
+    Route::apiResource('cajas', 'CajaController');
 
-Route::apiResource('cajas', 'CajaController');
+    Route::apiResource('categoria', 'CategoriaController');
 
-Route::apiResource('categoria', 'CategoriaController');
+    Route::apiResource('factura', 'FacturaController');
 
-Route::apiResource('factura', 'FacturaController');
+    Route::apiResource('habitacion', 'HabitacionController');
 
-Route::apiResource('habitacion', 'HabitacionController');
+    Route::apiResource('ingresoProducto', 'IngresoProductoController');
 
-Route::apiResource('ingresoProducto', 'IngresoProductoController');
+    Route::apiResource('marca', 'MarcaController');
 
-Route::apiResource('marca', 'MarcaController');
+    Route::apiResource('modoPago', 'ModoPagoController');
 
-Route::apiResource('modoPago', 'ModoPagoController');
+    Route::apiResource('motivo', 'MotivoController');
 
-Route::apiResource('motivo', 'MotivoController');
+    Route::apiResource('precioHabitacion', 'PrecioHabitacionController');
 
-Route::apiResource('precioHabitacion', 'PrecioHabitacionController');
+    Route::apiResource('producto', 'ProductoController');
+  });
 
-Route::apiResource('producto', 'ProductoController');
-//  });
+  Route::apiResource('cliente', 'ClienteController');
 
-Route::apiResource('cliente', 'ClienteController');
+  Route::apiResource('consumo', 'ConsumoController');
 
-Route::apiResource('consumo', 'ConsumoController');
+  Route::apiResource('movimiento', 'MovimientoController');
 
-Route::apiResource('movimiento', 'MovimientoController');
+  Route::apiResource('pago', 'PagoController');
 
-Route::apiResource('pago', 'PagoController');
-
-Route::apiResource('reserva', 'ReservaController');
-
+  Route::apiResource('reserva', 'ReservaController');
 });

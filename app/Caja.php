@@ -11,8 +11,8 @@ class Caja extends Model
 
     protected $table = 'Cajas';
 
-    public function reservas()
-    {
-        return $this->hasManyThrough('App\Reserva', 'App\Pago');
-    }
+    protected $casts = [
+        'created_at' => 'datetime:d-m-Y',
+        'updated_at' => 'datetime:d-m-Y'
+    ];
 }

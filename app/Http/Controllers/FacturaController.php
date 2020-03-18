@@ -14,7 +14,7 @@ class FacturaController extends Controller
      */
     public function index()
     {
-        //
+        return  Factura::all();
     }
 
     /**

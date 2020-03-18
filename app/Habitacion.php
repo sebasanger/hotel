@@ -10,4 +10,9 @@ class Habitacion extends Model
     use SoftDeletes;
 
     protected $table = 'Habitaciones';
+    
+    protected $casts = [
+        'created_at' => 'datetime:d-m-Y',
+        'updated_at' => 'datetime:d-m-Y'
+    ];
 }

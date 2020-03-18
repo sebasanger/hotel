@@ -1,4 +1,4 @@
-<template>
+|<template>
   <div>
     <form @submit.prevent="editarCliente(cliente)" v-if="modoEditar && !modoCrear" class="col-md-8">
       <h3>Editar cliente</h3>
@@ -125,6 +125,8 @@
           <th scope="col">Domicilio</th>
           <th scope="col">Destino</th>
           <th scope="col">Profecion</th>
+          <th scope="col">Agregado</th>
+          <th scope="col">Modificado</th>
           <th scope="col">Acciones</th>
         </tr>
       </thead>
@@ -138,38 +140,38 @@
           <td>{{ item.domicilio }}</td>
           <td>{{ item.destino }}</td>
           <td>{{ item.profecion }}</td>
+          <td>{{ item.created_at }}</td>
+          <td>{{ item.updated_at }}</td>
 
           <button class="btn btn-warning btn-sm mt-2" @click="editarFormulario(item)">Editar</button>
           <button class="btn btn-danger btn-sm ml-1 mt-2" @click="eliminarCliente(item, index)">X</button>
         </tr>
       </tbody>
     </table>
-    <ul class="pagination"  v-if="!modoCrear && !modoEditar">
-          <li class="page-item" v-if="paginacion.current_page > 1">
-            <a class="page-link" href="#" @click.prevent="changePage(paginacion.current_page - 1)">
-              <span>Atras</span>
-            </a>
-          </li>
+    <ul class="pagination" v-if="!modoCrear && !modoEditar">
+      <li class="page-item" v-if="paginacion.current_page > 1">
+        <a class="page-link" href="#" @click.prevent="changePage(paginacion.current_page - 1)">
+          <span>Atras</span>
+        </a>
+      </li>
 
-          <li
-            class="page-item"
-            v-for="page in pagesNumber"
-            
-            :key="page.id"
-            :class="[ page == isActived ? 'active' : '' ]"
-            
-          >
-            <a class="page-link" href="#" @click.prevent="changePage(page)">
-              <span>{{ page }}</span>
-            </a>
-          </li>
+      <li
+        class="page-item"
+        v-for="page in pagesNumber"
+        :key="page.id"
+        :class="[ page == isActived ? 'active' : '' ]"
+      >
+        <a class="page-link" href="#" @click.prevent="changePage(page)">
+          <span>{{ page }}</span>
+        </a>
+      </li>
 
-          <li class="page-item" v-if="paginacion.current_page < paginacion.last_page">
-            <a class="page-link" href="#" @click.prevent="changePage(paginacion.current_page + 1)">
-              <span>Siguiente</span>
-            </a>
-          </li>
-        </ul>
+      <li class="page-item" v-if="paginacion.current_page < paginacion.last_page">
+        <a class="page-link" href="#" @click.prevent="changePage(paginacion.current_page + 1)">
+          <span>Siguiente</span>
+        </a>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -200,7 +202,7 @@ export default {
         from: 0,
         to: 0
       },
-      offset: 1,
+      offset: 1
     };
   },
   created() {
@@ -221,7 +223,11 @@ export default {
         this.cliente.apellido.trim() === "" ||
         this.cliente.dni.trim() === ""
       ) {
-         swal("Faltan datos", "El dni, nombre y apellido son olbigatorios", "warning");
+        swal(
+          "Faltan datos",
+          "El dni, nombre y apellido son olbigatorios",
+          "warning"
+        );
         return;
       }
       const clienteNuevo = this.cliente;
@@ -268,7 +274,11 @@ export default {
           const index = this.clientes.findIndex(item => item.id === cliente.id);
           this.clientes[index] = res.data;
           this.limpiar();
-          swal("Cliente editado", "Cliente actualizado correctamente", "success");
+          swal(
+            "Cliente editado",
+            "Cliente actualizado correctamente",
+            "success"
+          );
         } else {
           swal("Cliente no editado", "No se puedo editar el cliente", "error");
         }
@@ -339,7 +349,7 @@ export default {
       if (from < 1) {
         from = 1;
       }
-      var to = from + this.offset ;
+      var to = from + this.offset;
       if (to < this.paginacion.last_page) {
         to = this.paginacion.last_page;
       }

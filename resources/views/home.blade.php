@@ -6,9 +6,11 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Clientes</div>
+            
                 
                 <div class="card-body">
-                    <cliente></cliente>
+                    <router-view></router-view>
+                    
                 </div>
             </div>
         </div>

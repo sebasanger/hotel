@@ -25,7 +25,7 @@ $factory->define(User::class, function (Faker $faker) {
         'celular' => $faker->phoneNumber,
         'telefono' => $faker->phoneNumber,
         'image' => $faker->imageUrl($width = 640, $height = 480),
-        'role' => "Empleado",
+        'role' => 2,
 
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
