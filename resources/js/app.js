@@ -1,41 +1,45 @@
-import './bootstrap';
-import swal from 'sweetalert';
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-
-
-Vue.use(VueRouter)
-
-
-
-const Bar = {
-    template: '<div>home</div>'
-}
-
-const routes = [{
-        path: '/cliente',
-        name: 'cliente',
-        component: () => import('./components/ClienteComponent.vue')
-    },
-
-    {
-        path: '/factura',
-        name: 'factura',
-        component: () => import('./components/FacturaComponent.vue')
-    }
-]
-
-const router = new VueRouter({
-    routes // short for `routes: routes`
-})
+require('./bootstrap');
 
 window.Vue = require('vue');
 
+//Import Vue Filter
+require('./filter'); 
+
+//Import progressbar
+require('./progressbar'); 
+
+//Setup custom events 
+require('./customEvents'); 
+
+//Import View Router
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
+
+//Import Sweetalert2
+import Swal from 'sweetalert'
+window.Swal = Swal
 
 
 
+//Import v-from
+import { Form, HasError, AlertError } from 'vform'
+window.Form = Form;
+Vue.component(HasError.name, HasError)
+Vue.component(AlertError.name, AlertError)
 
+//Routes
+import { routes } from './routes';
+
+//Register Routes
+const router = new VueRouter({
+    routes, 
+    mode: 'hash',
+
+})
+
+//Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 const app = new Vue({
+    el: '#app',
     router
-}).$mount('#app')
+});

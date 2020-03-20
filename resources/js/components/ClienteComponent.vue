@@ -1,120 +1,10 @@
 |<template>
   <div>
-    <form @submit.prevent="editarCliente(cliente)" v-if="modoEditar && !modoCrear" class="col-md-8">
-      <h3>Editar cliente</h3>
-      <input
-        type="text"
-        class="form-control mb-2"
-        required
-        placeholder="Nombre"
-        v-model="cliente.nombre"
-      />
-      <input
-        type="text"
-        class="form-control mb-2"
-        placeholder="Apellido"
-        required
-        v-model="cliente.apellido"
-      />
-      <input
-        type="number"
-        class="form-control mb-2"
-        placeholder="Documento"
-        required
-        v-model="cliente.dni"
-      />
-      <input
-        type="number"
-        class="form-control mb-2"
-        placeholder="celular"
-        v-model="cliente.celular"
-      />
-      <input
-        type="text"
-        class="form-control mb-2"
-        placeholder="Procedencia"
-        v-model="cliente.procedencia"
-      />
-      <input
-        type="text"
-        class="form-control mb-2"
-        placeholder="Domicilio"
-        v-model="cliente.domicilio"
-      />
-      <input type="text" class="form-control mb-2" placeholder="Destino" v-model="cliente.destino" />
-      <input
-        type="text"
-        class="form-control mb-2"
-        placeholder="Profecion"
-        v-model="cliente.profecion"
-      />
-      <button class="btn btn-warning" type="submit">Editar</button>
-      <button class="btn btn-danger" type="submit" @click="cancelar">Cancelar</button>
-    </form>
 
-    <form @submit.prevent="agregar" v-if="!modoEditar && modoCrear">
-      <h3>Agregar cliente</h3>
-      <input
-        type="text"
-        class="form-control mb-2"
-        required
-        placeholder="Nombre"
-        v-model="cliente.nombre"
-      />
-      <input
-        type="text"
-        class="form-control mb-2"
-        placeholder="Apellido"
-        required
-        v-model="cliente.apellido"
-      />
-      <input
-        type="number"
-        class="form-control mb-2"
-        placeholder="Documento"
-        required
-        v-model="cliente.dni"
-      />
-
-      <input
-        type="number"
-        class="form-control mb-2"
-        placeholder="celular"
-        v-model="cliente.celular"
-      />
-      <input
-        type="text"
-        class="form-control mb-2"
-        placeholder="Procedencia"
-        v-model="cliente.procedencia"
-      />
-      <input
-        type="text"
-        class="form-control mb-2"
-        placeholder="Domicilio"
-        v-model="cliente.domicilio"
-      />
-      <input type="text" class="form-control mb-2" placeholder="Destino" v-model="cliente.destino" />
-      <input
-        type="text"
-        class="form-control mb-2"
-        placeholder="Profecion"
-        v-model="cliente.profecion"
-      />
-
-      <button class="btn btn-primary btn-success" type="submit">Agregar</button>
-      <button class="btn btn-danger" type="submit" @click="cancelar">Cancelar</button>
-    </form>
-
-    <button
-      class="btn btn-info mb-2"
-      @click="modoAgregar"
-      v-if="!modoCrear && !modoEditar"
-    >Agregar nuevo</button>
-    <table
-      class="table table-striped table-hover table-dark col-md-12"
-      v-if="!modoCrear && !modoEditar"
-    >
+    <router-link to="agregar/cliente">
+      <button class="btn btn-info btn-primary mb-2">Agregar nuevo</button>
+    </router-link>
+    <table class="table table-striped table-hover table-dark col-md-12">
       <thead>
         <tr>
           <th scope="col">Nombre</th>
@@ -143,12 +33,13 @@
           <td>{{ item.created_at }}</td>
           <td>{{ item.updated_at }}</td>
 
-          <button class="btn btn-warning btn-sm mt-2" @click="editarFormulario(item)">Editar</button>
+          <button class="btn btn-warning btn-sm mt-2">Editar</button>
+
           <button class="btn btn-danger btn-sm ml-1 mt-2" @click="eliminarCliente(item, index)">X</button>
         </tr>
       </tbody>
     </table>
-    <ul class="pagination" v-if="!modoCrear && !modoEditar">
+    <ul class="pagination">
       <li class="page-item" v-if="paginacion.current_page > 1">
         <a class="page-link" href="#" @click.prevent="changePage(paginacion.current_page - 1)">
           <span>Atras</span>
@@ -176,6 +67,8 @@
 </template>
 
 <script>
+
+
 export default {
   data() {
     return {
@@ -217,33 +110,6 @@ export default {
         this.paginacion = res.data;
       });
     },
-    agregar() {
-      if (
-        this.cliente.nombre.trim() === "" ||
-        this.cliente.apellido.trim() === "" ||
-        this.cliente.dni.trim() === ""
-      ) {
-        swal(
-          "Faltan datos",
-          "El dni, nombre y apellido son olbigatorios",
-          "warning"
-        );
-        return;
-      }
-      const clienteNuevo = this.cliente;
-
-      axios.post("/cliente", clienteNuevo).then(res => {
-        if (res.status === 201) {
-          swal("Cliente creado", "Se creo correctamente el cliente", "success");
-          const clienteCreado = res.data;
-          this.cargarClientes();
-          this.limpiar();
-          this.cancelar();
-        } else {
-          swal("Cliente no creado", "No se puedo crear el cliente", "error");
-        }
-      });
-    },
     editarFormulario(item) {
       this.cliente.nombre = item.nombre;
       this.cliente.apellido = item.apellido;
@@ -256,34 +122,7 @@ export default {
       this.cliente.id = item.id;
       this.modoEditar = true;
     },
-    editarCliente(cliente) {
-      const params = {
-        id: this.cliente.id,
-        nombre: this.cliente.nombre,
-        apellido: this.cliente.apellido,
-        dni: this.cliente.dni,
-        profecion: this.cliente.profecion,
-        celular: this.cliente.celular,
-        procedencia: this.cliente.procedencia,
-        domicilio: this.cliente.domicilio,
-        destino: this.cliente.destino
-      };
-      axios.put(`/cliente/${cliente.id}`, params).then(res => {
-        if (res.status === 200) {
-          this.modoEditar = false;
-          const index = this.clientes.findIndex(item => item.id === cliente.id);
-          this.clientes[index] = res.data;
-          this.limpiar();
-          swal(
-            "Cliente editado",
-            "Cliente actualizado correctamente",
-            "success"
-          );
-        } else {
-          swal("Cliente no editado", "No se puedo editar el cliente", "error");
-        }
-      });
-    },
+
     eliminarCliente(cliente, index) {
       swal({
         title: "¿Esta seguro que desea eliminar el cliente?",
@@ -310,28 +149,7 @@ export default {
         }
       });
     },
-    cancelar() {
-      this.modoEditar = false;
-      this.modoCrear = false;
-      this.limpiar();
-    },
-    limpiar() {
-      this.cliente = {
-        id: "",
-        nombre: "",
-        appelldio: "",
-        dni: "",
-        profecion: "",
-        telefono: "",
-        celular: "",
-        procedencia: "",
-        destino: "",
-        domicilio: ""
-      };
-    },
-    modoAgregar() {
-      this.modoCrear = true;
-    },
+
     changePage(page) {
       this.paginacion.current_page = page;
       this.cargarClientes(page);
@@ -345,12 +163,12 @@ export default {
       if (!this.paginacion.to) {
         return [];
       }
-      var from = this.paginacion.current_page - this.offset;
+      var from = this.paginacion.current_page - 3;
       if (from < 1) {
         from = 1;
       }
-      var to = from + this.offset;
-      if (to < this.paginacion.last_page) {
+      var to = from + 7;
+      if (to >= this.paginacion.last_page) {
         to = this.paginacion.last_page;
       }
 

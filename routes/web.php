@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+Auth::routes(["register" => false]);
 
 Route::middleware(['auth'])->group(function () {
 
@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function () {
 
   Route::middleware(['role:1'])->group(function () {
 
-    Route::apiResource('cajas', 'CajaController');
+    Route::apiResource('caja', 'CajaController');
 
     Route::apiResource('categoria', 'CategoriaController');
 
@@ -43,6 +43,8 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('precioHabitacion', 'PrecioHabitacionController');
 
     Route::apiResource('producto', 'ProductoController');
+
+    Route::apiResource('user', 'UserController');
   });
 
   Route::apiResource('cliente', 'ClienteController');

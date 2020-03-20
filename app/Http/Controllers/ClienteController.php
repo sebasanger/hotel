@@ -15,7 +15,7 @@ class ClienteController extends Controller
      */
     public function index(Request $request)
     {
-        return Cliente::orderBy('id', 'desc')->paginate(10);
+        return Cliente::latest()->paginate(15);
     }
 
     /**
