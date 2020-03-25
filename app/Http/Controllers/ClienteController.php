@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Cliente;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+
 
 class ClienteController extends Controller
 {
@@ -15,7 +15,7 @@ class ClienteController extends Controller
      */
     public function index(Request $request)
     {
-        return Cliente::latest()->paginate(15);
+        return Cliente::latest()->paginate(13);
     }
 
     /**
@@ -55,9 +55,9 @@ class ClienteController extends Controller
      * @param  \App\Cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function show(Cliente $cliente)
+    public function show(Request $request, $id)
     {
-        //
+        return cliente::findOrFail($id);
     }
 
     /**
@@ -71,7 +71,7 @@ class ClienteController extends Controller
     {
         $id = $request->id;
 
-        $validatedData = $request->validate([
+        $request->validate([
             'id' => 'required',
             'nombre' => 'required',
             'apellido' => 'required',

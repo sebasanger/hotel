@@ -1,14 +1,14 @@
 |<template>
   <div>
-
-    <router-link to="agregar/cliente">
+    <router-link to="/agregar/cliente">
       <button class="btn btn-info btn-primary mb-2">Agregar nuevo</button>
     </router-link>
-    <table class="table table-striped table-hover table-dark col-md-12">
+
+    <table class="table table-hover table-dark">
       <thead>
         <tr>
-          <th scope="col">Nombre</th>
-          <th scope="col">Apellido</th>
+          <th scope="col">Nombres</th>
+          <th scope="col">Apellidos</th>
           <th scope="col">dni</th>
           <th scope="col">Celular</th>
           <th scope="col">Procedencia</th>
@@ -20,26 +20,33 @@
           <th scope="col">Acciones</th>
         </tr>
       </thead>
+
       <tbody>
-        <tr v-for="(item, index) in clientes" :key="index">
-          <td>{{ item.nombre }}</td>
-          <td>{{ item.apellido }}</td>
+        <tr v-for="(item, index) in clientes" :key="item.id">
+          <td>{{ item.nombre | capitalize}}</td>
+          <td>{{ item.apellido | capitalize}}</td>
           <td>{{ item.dni }}</td>
           <td>{{ item.celular }}</td>
-          <td>{{ item.procedencia }}</td>
-          <td>{{ item.domicilio }}</td>
-          <td>{{ item.destino }}</td>
-          <td>{{ item.profecion }}</td>
+          <td>{{ item.procedencia | capitalize}}</td>
+          <td>{{ item.domicilio | capitalize}}</td>
+          <td>{{ item.destino | capitalize}}</td>
+          <td>{{ item.profecion | capitalize}}</td>
           <td>{{ item.created_at }}</td>
           <td>{{ item.updated_at }}</td>
 
-          <button class="btn btn-warning btn-sm mt-2">Editar</button>
+          <div class="btn-group mt-2">
+            <router-link
+              :to="{name: 'ClienteEdit', params: { id: item.id }}"
+              class="btn btn-warning btn-sm"
+            >Editar</router-link>
 
-          <button class="btn btn-danger btn-sm ml-1 mt-2" @click="eliminarCliente(item, index)">X</button>
+            <button class="btn btn-danger btn-sm ml-1" @click="eliminarCliente(item, index)">X</button>
+          </div>
         </tr>
       </tbody>
     </table>
-    <ul class="pagination">
+
+    <ul class="pagination justify-content-end">
       <li class="page-item" v-if="paginacion.current_page > 1">
         <a class="page-link" href="#" @click.prevent="changePage(paginacion.current_page - 1)">
           <span>Atras</span>
@@ -67,26 +74,10 @@
 </template>
 
 <script>
-
-
 export default {
   data() {
     return {
       clientes: [],
-      modoEditar: false,
-      modoCrear: false,
-      cliente: {
-        id: "",
-        nombre: "",
-        appelldio: "",
-        dni: "",
-        telefono: "",
-        celular: "",
-        procedencia: "",
-        destino: "",
-        profecion: "",
-        domicilio: ""
-      },
       paginacion: {
         total: 0,
         current_page: 0,
@@ -110,42 +101,18 @@ export default {
         this.paginacion = res.data;
       });
     },
-    editarFormulario(item) {
-      this.cliente.nombre = item.nombre;
-      this.cliente.apellido = item.apellido;
-      this.cliente.dni = item.dni;
-      this.cliente.celular = item.celular;
-      this.cliente.profecion = item.profecion;
-      this.cliente.domicilio = item.domicilio;
-      this.cliente.procedencia = item.procedencia;
-      this.cliente.destino = item.destino;
-      this.cliente.id = item.id;
-      this.modoEditar = true;
-    },
-
     eliminarCliente(cliente, index) {
-      swal({
-        title: "¿Esta seguro que desea eliminar el cliente?",
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
         icon: "warning",
-        buttons: true,
-        dangerMode: true
-      }).then(willDelete => {
-        if (willDelete) {
-          axios.delete(`/cliente/${cliente.id}`).then(res => {
-            console.log(res);
-            if (res.status === 200) {
-              this.clientes.splice(index, 1);
-            } else {
-              alert("No se pudo eliminar el cliente");
-            }
-          });
-          swal("Cliente eliminado correctamente", {
-            icon: "success"
-          });
-        } else {
-          swal("No se pudo eliminar el cliente", {
-            icon: "error"
-          });
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
+        if (result.value) {
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
         }
       });
     },

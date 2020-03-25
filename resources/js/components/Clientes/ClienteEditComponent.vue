@@ -72,23 +72,14 @@ export default {
       }
     };
   },
-  mounted() {
-
+  created() {
+    axios.get(`/cliente/${this.$route.params.id}`).then(res => {
+      this.cliente = res.data;
+    });
   },
+ 
 
   methods: {
-    editarFormulario(item) {
-      this.cliente.nombre = item.nombre;
-      this.cliente.apellido = item.apellido;
-      this.cliente.dni = item.dni;
-      this.cliente.celular = item.celular;
-      this.cliente.profecion = item.profecion;
-      this.cliente.domicilio = item.domicilio;
-      this.cliente.procedencia = item.procedencia;
-      this.cliente.destino = item.destino;
-      this.cliente.id = item.id;
-      this.modoEditar = true;
-    },
     editarCliente(cliente) {
       const params = {
         id: this.cliente.id,
@@ -103,26 +94,24 @@ export default {
       };
       axios.put(`/cliente/${cliente.id}`, params).then(res => {
         if (res.status === 200) {
-          this.modoEditar = false;
-          const index = this.clientes.findIndex(item => item.id === cliente.id);
-          this.clientes[index] = res.data;
-          this.limpiar();
+          this.back();
           swal(
             "Cliente editado",
             "Cliente actualizado correctamente",
             "success"
           );
         } else {
+          this.back();
           swal("Cliente no editado", "No se puedo editar el cliente", "error");
         }
       });
     },
-    home() {
-      this.$router.push("/");
+    back() {
+      this.$router.push("/clientes");
     },
 
     cancelar() {
-      this.home();
+      this.back();
     }
   }
 };

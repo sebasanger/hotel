@@ -19,7 +19,7 @@ Auth::routes(["register" => false]);
 Route::middleware(['auth'])->group(function () {
 
   Route::get('/', function () {
-    return view('home');
+    return view('layouts/master');
   });
 
   Route::middleware(['role:1'])->group(function () {
@@ -56,4 +56,6 @@ Route::middleware(['auth'])->group(function () {
   Route::apiResource('pago', 'PagoController');
 
   Route::apiResource('reserva', 'ReservaController');
+
+  Route::get('{path}', 'HomeController@index')->where( 'path' , '([A-z\d\-\/_.]+)?' );
 });

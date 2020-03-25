@@ -2,7 +2,7 @@
   <div>
     <table
       class="table table-striped table-hover table-dark col-md-12"
-      v-if="!modoCrear && !modoEditar"
+
     >
       <thead>
         <tr>

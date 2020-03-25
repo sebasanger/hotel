@@ -1,43 +1,42 @@
 require('./bootstrap');
-
 window.Vue = require('vue');
 
+//import vform
+require('./vform');
+
+
 //Import Vue Filter
-require('./filter'); 
+require('./filter');
+
 
 //Import progressbar
-require('./progressbar'); 
+require('./progresbar');
 
-//Setup custom events 
-require('./customEvents'); 
+
+//Import Sweetalert2
+require('./sweetalert');
 
 //Import View Router
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
-//Import Sweetalert2
-import Swal from 'sweetalert'
-window.Swal = Swal
-
-
-
-//Import v-from
-import { Form, HasError, AlertError } from 'vform'
-window.Form = Form;
-Vue.component(HasError.name, HasError)
-Vue.component(AlertError.name, AlertError)
-
 //Routes
-import { routes } from './routes';
+import {
+    routes
+} from './routes';
 
 //Register Routes
 const router = new VueRouter({
-    routes, 
-    mode: 'hash',
-
+    mode: 'history',
+    routes
 })
 
-//Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+//Eventos personalizados
+window.Fire = new Vue();
+
+
+
+Vue.component('app', require('./components/App.vue').default);
 
 const app = new Vue({
     el: '#app',
