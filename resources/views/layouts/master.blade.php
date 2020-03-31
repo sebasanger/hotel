@@ -15,6 +15,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <title>Hotel | Sistema de gestion</title>
 
     <link rel="stylesheet" href="/css/app.css">
+
+
+
+
 </head>
 
 <!-- transicion entre componentes -->
@@ -115,15 +119,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </router-link>
                             </li>
 
-                            <li class="nav-item">
-                                <router-link to="/facturas" class="nav-link">
-                                    <i class="nav-icon fas fa-paperclip teal"></i>
-                                    <p>
-                                        Facturas
-                                    </p>
-                                </router-link>
-                            </li>
 
+                            @can('isAdmin')
                             <li class="nav-item has-treeview">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fa fa-cog green"></i>
@@ -140,23 +137,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </router-link>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Inactive Page</p>
-                                        </a>
+                                        <router-link to="/facturas" class="nav-link">
+                                            <i class="nav-icon fas fa-paperclip teal"></i>
+                                            <p>
+                                                Facturas
+                                            </p>
+                                        </router-link>
                                     </li>
                                 </ul>
                             </li>
+                            @endcan
 
-                            <li class="nav-item">
-                                <router-link to="/profile" class="nav-link">
-                                    <i class="nav-icon fas fa-user-cog cyan"></i>
-                                    <p>
-                                        Perfil
 
-                                    </p>
-                                </router-link>
-                            </li>
 
                             <li class="nav-item">
 
@@ -178,13 +170,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- /.sidebar -->
             </aside>
 
-             <!-- content -->
+            <!-- content -->
             <div class="content-wrapper">
-                <div class="container-fluid mt-1">
+                <div class="container-fluid">
+
+                    <vue-progress-bar></vue-progress-bar>
+                    <transition name="component-fade" mode="out-in">
+                        <router-view></router-view>
+                    </transition>
                     <app></app>
                 </div>
             </div>
-             <!-- /.content -->
+            <!-- /.content -->
 
         </div> <!-- /.body -->
 
@@ -193,16 +190,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <footer class="main-footer">
             <!-- To the right -->
             <div class="float-right d-none d-sm-inline">
-                Anything you want
+                ♣♠♥♦
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+            <strong>Copyright &copy; 2020 <a href="https://adminlte.io">Sebastian sangermnao</a>.</strong> todos los derechos reservados.
         </footer>
     </div>
     <!-- ./wrapper -->
 
     <!-- REQUIRED SCRIPTS -->
     <script src="/js/app.js"></script>
+
+
 
 </body>
 </html>

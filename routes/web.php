@@ -57,5 +57,9 @@ Route::middleware(['auth'])->group(function () {
 
   Route::apiResource('reserva', 'ReservaController');
 
+  Route::get('findUser/{text?}','UserController@userFilter');
+
   Route::get('{path}', 'HomeController@index')->where( 'path' , '([A-z\d\-\/_.]+)?' );
 });
+
+

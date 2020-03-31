@@ -1,5 +1,9 @@
 require('./bootstrap');
+
 window.Vue = require('vue');
+
+//improt vuex
+require('./store');
 
 //import vform
 require('./vform');
@@ -15,6 +19,12 @@ require('./progresbar');
 
 //Import Sweetalert2
 require('./sweetalert');
+
+//iportacion de componente de la paginacion
+Vue.component('pagination', require('laravel-vue-pagination'));
+
+//iport lodash para el debounce
+import _ from 'lodash';
 
 //Import View Router
 import VueRouter from 'vue-router'

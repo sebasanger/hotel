@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\User;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -13,7 +14,7 @@ class UserController extends Controller
 
     public function index()
     {
-        return User::orderBy('id', 'DESC')->paginate(10);
+        return User::orderBy('id', 'DESC')->paginate(11);
     }
 
     public function store(Request $request)
@@ -42,17 +43,16 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
+        $this->authorize('isAdmin');
+
         $user = User::findOrFail($id);
 
         $this->validate($request, [
             'id' => 'required',
             'name' => 'required|string|max:50',
-            'email' => [ Rule::unique('users')->ignore($id)],
+            'email' => [Rule::unique('users')->ignore($id)],
             'password' => 'sometimes|min:8|max:50',
         ]);
-
-
-
         $user->update($request->all());
 
         return $user;
@@ -60,8 +60,23 @@ class UserController extends Controller
 
     public function destroy($id)
     {
+
+        $this->authorize('isAdmin');
         $user = User::findOrFail($id);
         $user->delete();
-        return $user;
+    }
+
+    public function userFilter($query = null)
+    {
+        if (!empty($query)) {
+            $filter = trim(strtolower($query));
+            $users = User::where('name', 'LIKE', "%$filter%")
+                ->orWhere('email', 'LIKE', "%$filter%")
+                ->paginate(20);
+        } else {
+            $users = User::orderBy('id', 'DESC')->paginate(11);
+        }
+
+        return $users;
     }
 }

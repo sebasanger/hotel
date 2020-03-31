@@ -8,10 +8,19 @@ import UserIndex from './components/Users/UserIndexComponent.vue'
 
 import Factura from './components/FacturaComponent.vue'
 
+import notFound from './components/notFound.vue'
+
+import Home from './components/home.vue'
+
+
+
 
 
 export const routes = [
-
+    {
+        path: '/',
+        component: Home
+    },
     {
         path: '/facturas',
         component: Factura
@@ -36,13 +45,19 @@ export const routes = [
 
     },
 
-
-
     {
         path: '/users',
         component: UserIndex,
         name: 'UserIndex'
     },
+
+    {
+        path: '/*',
+        component: notFound,
+        name: 'notFound'
+    },
+
+
 
 
 

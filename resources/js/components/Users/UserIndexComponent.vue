@@ -1,34 +1,32 @@
 <template>
   <div>
-    <div class="row">
+    <div class="row mt-2">
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="mr-2">Listado de usuarios</h3>
-
-            <div class style="height: 15px;">
-              <button class="btn btn-success float-right" @click="newModal">Agregar usuario</button>
-
-              <div class="input-group input-group-sm" style="width: 150px;">
-                <input
-                  autocomplete="off"
-                  type="text"
-                  name="table_search"
-                  class="form-control float-lg-left"
-                  placeholder="Search"
-                />
-
-                <div class="input-group-append">
-                  <button type="submit" class="btn btn-default">
-                    <i class="fas fa-search"></i>
-                  </button>
-                </div>
+            <button class="btn-success float-right" @click="newModal">Agregar usuario</button>
+            <div class="input-group input-group-sm" style="width: 200px;">
+              <input
+                autocomplete="off"
+                type="text"
+                name="table_search"
+                class="form-control float-lg-left"
+                placeholder="Buscar por nombre o email"
+                v-model="search"
+                @keydown="buscar()"
+              />
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-default">
+                  <i class="fas fa-search"></i>
+                </button>
               </div>
+
             </div>
           </div>
+
           <!-- /.card-header -->
           <div class="card-body table-responsive p-0">
-            <table class="table table-hover table-dark">
+            <table class="table table-hover">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -42,7 +40,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in users" :key="item.id">
+                <tr v-for="item in users.data" :key="item.id">
                   <td>{{ item.id }}</td>
                   <td>{{ item.name | capitalize}}</td>
                   <td>{{ item.email }}</td>
@@ -51,12 +49,12 @@
                   <td>{{ item.celular }}</td>
                   <td>{{ item.direccion | capitalize}}</td>
                   <td>
-                    <button @click="editModal(item)" class="btn btn-sm">
+                    <button @click="editModal(item)" class="btn">
                       <i class="fa fa-edit blue"></i>
                     </button>
                     |
-                    <button class="btn">
-                      <i class="fa fa-trash red" @click="deleteUser(item.id) "></i>
+                    <button class="btn" @click="deleteUser(item.id)">
+                      <i class="fa fa-trash red"></i>
                     </button>
                   </td>
                 </tr>
@@ -64,6 +62,9 @@
             </table>
           </div>
           <!-- /.card-body -->
+          <div class="card-footer">
+            <pagination :data="users" :limit="3" @pagination-change-page="getResults"></pagination>
+          </div>
         </div>
         <!-- /.card -->
       </div>
@@ -217,7 +218,8 @@ export default {
   data() {
     return {
       editMode: false,
-      users: [],
+      users: {},
+      search: "",
       form: new Form({
         id: "",
         name: "",
@@ -264,9 +266,7 @@ export default {
         });
     },
     loadUsers() {
-      axios.get("user").then(res => {
-        this.users = res.data.data;
-      });
+      axios.get("user").then(data => (this.users = data.data));
     },
     deleteUser(id) {
       Swal.fire({
@@ -291,8 +291,6 @@ export default {
             .catch(() => {
               Swal.fire("Error!", "No se pudo eliminar el usuario", "error");
             });
-        } else {
-          Swal.fire("Cancelado", "El usuario no se elimno", "success");
         }
       });
     },
@@ -329,6 +327,23 @@ export default {
             title: "Error"
           });
         });
+    },
+    getResults(page = 1) {
+      axios.get("user?page=" + page).then(res => {
+        this.users = res.data;
+      });
+    },
+    //se busca cada cierto tiempo lo que ponemos en el filtro con la funcion debounce
+    buscar: _.debounce(function() {
+      this.filter();
+    }, 500),
+
+    //llama a la ruta find user
+    filter() {
+      let query = this.search;
+      axios.get("findUser/" + query).then(res => {
+        this.users = res.data;
+      });
     }
   }
 };
