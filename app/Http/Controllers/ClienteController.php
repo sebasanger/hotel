@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Cliente;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 
 class ClienteController extends Controller
@@ -15,7 +16,7 @@ class ClienteController extends Controller
      */
     public function index(Request $request)
     {
-        return Cliente::latest()->paginate(13);
+        return Cliente::latest()->paginate(10);
     }
 
     /**
@@ -27,10 +28,15 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'nombre' => 'required',
-            'apellido' => 'required',
-            'email' => 'unique:clientes,email|nullable',
-            'dni' => 'required|unique:clientes',
+            'nombre' => 'required|string|min:2|max:30',
+            'apellido' => 'required|string|min:2|max:30',
+            'dni' => 'required|numeric',
+            'celular' => 'nullable|numeric',
+            'domicilio' => 'nullable|string|min:2|max:30',
+            'profecion' => 'nullable|string|min:2|max:30',
+            'procedencia' => 'nullable|string|min:2|max:30',
+            'destino' => 'nullable|string|min:2|max:30',
+
         ]);
 
         $cliente = new Cliente();
@@ -38,11 +44,11 @@ class ClienteController extends Controller
         $cliente->apellido = $request->apellido;
         $cliente->dni = $request->dni;
         $cliente->celular = $request->celular;
-        $cliente->email = $request->email;
         $cliente->domicilio = $request->domicilio;
         $cliente->destino = $request->destino;
         $cliente->procedencia = $request->procedencia;
         $cliente->profecion = $request->profecion;
+        $cliente->facturas_id = $request->facturas_id;
 
         $cliente->save();
 
@@ -73,10 +79,14 @@ class ClienteController extends Controller
 
         $request->validate([
             'id' => 'required',
-            'nombre' => 'required',
-            'apellido' => 'required',
-            //'email' => [ Rule::unique('clientes')->ignore($id)],
-            'dni' => 'required',
+            'nombre' => 'required|string|min:2|max:30',
+            'apellido' => 'required|string|min:2|max:30',
+            'dni' => [Rule::unique('clientes')->ignore($id)],
+            'celular' => 'nullable|numeric',
+            'domicilio' => 'nullable|string|min:2|max:30',
+            'profecion' => 'nullable|string|min:2|max:30',
+            'procedencia' => 'nullable|string|min:2|max:30',
+            'destino' => 'nullable|string|min:2|max:30',
         ]);
 
         $cliente = cliente::find($request->id);
@@ -89,6 +99,7 @@ class ClienteController extends Controller
         $cliente->destino = $request->destino;
         $cliente->procedencia = $request->procedencia;
         $cliente->profecion = $request->profecion;
+        $cliente->facturas_id = $request->facturas_id;
 
 
         $cliente->save();
@@ -106,6 +117,22 @@ class ClienteController extends Controller
     {
         $cliente = Cliente::findOrFail($id);
         $cliente->delete();
+        return $cliente;
+    }
+
+
+    public function clienteFilter($query = null)
+    {
+        if (!empty($query)) {
+            $filter = trim(strtolower($query));
+            $cliente = Cliente::where('nombre', 'LIKE', "%$filter%")
+                ->orWhere('apellido', 'LIKE', "%$filter%")
+                ->orWhere('dni', 'LIKE', "%$filter%")
+                ->paginate(20);
+        } else {
+            $cliente = Cliente::orderBy('id', 'DESC')->paginate(11);
+        }
+
         return $cliente;
     }
 }

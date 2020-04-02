@@ -59,6 +59,8 @@ Route::middleware(['auth'])->group(function () {
 
   Route::get('findUser/{text?}','UserController@userFilter');
 
+  Route::get('findCliente/{text?}','ClienteController@clienteFilter');
+
   Route::get('{path}', 'HomeController@index')->where( 'path' , '([A-z\d\-\/_.]+)?' );
 });
 

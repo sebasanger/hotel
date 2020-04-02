@@ -3,7 +3,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 //improt vuex
-require('./store');
+import store from './store';
 
 //import vform
 require('./vform');
@@ -20,8 +20,9 @@ require('./progresbar');
 //Import Sweetalert2
 require('./sweetalert');
 
-//iportacion de componente de la paginacion
-Vue.component('pagination', require('laravel-vue-pagination'));
+//importacion de los componentes
+require('./importComponents');
+
 
 //iport lodash para el debounce
 import _ from 'lodash';
@@ -38,17 +39,16 @@ import {
 //Register Routes
 const router = new VueRouter({
     mode: 'history',
-    routes
+    routes,
+    store
 })
 
 //Eventos personalizados
 window.Fire = new Vue();
 
-
-
-Vue.component('app', require('./components/App.vue').default);
-
+//instacia vue
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    store
 });

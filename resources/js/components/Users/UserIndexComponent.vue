@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="row mt-2">
+
+    <div class="row">
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
@@ -49,11 +50,11 @@
                   <td>{{ item.celular }}</td>
                   <td>{{ item.direccion | capitalize}}</td>
                   <td>
-                    <button @click="editModal(item)" class="btn">
+                    <button @click="editModal(item)" class="btn ">
                       <i class="fa fa-edit blue"></i>
                     </button>
                     |
-                    <button class="btn" @click="deleteUser(item.id)">
+                    <button class="btn " @click="deleteUser(item.id)">
                       <i class="fa fa-trash red"></i>
                     </button>
                   </td>
@@ -62,7 +63,7 @@
             </table>
           </div>
           <!-- /.card-body -->
-          <div class="card-footer">
+          <div class="card-footer" v-show="!search">
             <pagination :data="users" :limit="3" @pagination-change-page="getResults"></pagination>
           </div>
         </div>
@@ -147,24 +148,12 @@
                 <has-error :form="form" field="password"></has-error>
               </div>
 
-              <div class="form-group">
-                <label>Celular</label>
-                <input
-                  v-model="form.celular"
-                  type="text"
-                  name="celular"
-                  placeholder="Celular"
-                  class="form-control"
-                  :class="{ 'is-invalid': form.errors.has('celular') }"
-                />
-                <has-error :form="form" field="celular"></has-error>
-              </div>
-
-              <div class="form-group">
+               <div class="form-group">
                 <label>Rol</label>
                 <select
                   v-model="form.role"
                   name="role"
+                  required
                   class="form-control"
                   :class="{ 'is-invalid': form.errors.has('role') }"
                 >
@@ -176,10 +165,25 @@
               </div>
 
               <div class="form-group">
+                <label>Celular</label>
+                <input
+                  v-model="form.celular"
+                  type="number"
+                  name="celular"
+                  placeholder="Celular"
+                  class="form-control"
+                  :class="{ 'is-invalid': form.errors.has('celular') }"
+                />
+                <has-error :form="form" field="celular"></has-error>
+              </div>
+
+
+
+              <div class="form-group">
                 <label>Telefono</label>
                 <input
                   v-model="form.telefono"
-                  type="text"
+                  type="number"
                   name="telefono"
                   placeholder="Telefono"
                   class="form-control"
@@ -349,5 +353,9 @@ export default {
 };
 </script>
 
+
+<style lang="stylus" scoped>
+
+</style>
 
 

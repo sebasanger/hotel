@@ -1,8 +1,5 @@
-import App from './components/App.vue'
 
 import ClienteIndex from './components/Clientes/ClienteIndexComponent.vue'
-import ClienteCreate from './components/Clientes/ClienteCreateComponent.vue'
-import ClienteEdit from './components/Clientes/ClienteEditComponent.vue'
 
 import UserIndex from './components/Users/UserIndexComponent.vue'
 
@@ -30,19 +27,6 @@ export const routes = [
         path: '/clientes',
         component: ClienteIndex,
         name: 'ClienteIndex'
-    },
-
-    {
-        path: '/editar/cliente/:id',
-        component: ClienteEdit,
-        name: 'ClienteEdit'
-    },
-
-    {
-        path: '/agregar/cliente',
-        component: ClienteCreate,
-        name: 'ClienteCreate'
-
     },
 
     {

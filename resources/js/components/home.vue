@@ -77,7 +77,9 @@
                   <th>More</th>
                 </tr>
               </thead>
+
               <tbody>
+
                 <tr>
                   <td>
                     <img
