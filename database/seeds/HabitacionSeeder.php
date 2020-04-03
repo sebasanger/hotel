@@ -18,9 +18,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 1;
         $habitacion->single = 1;
         $habitacion->doble = 0;
-        $habitacion->disponible = 1;
-        $habitacion->ocupada = 0;
-        $habitacion->limpieza = 0;
+        $habitacion->estado = 1;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -31,9 +29,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 2;
         $habitacion->single = 0;
         $habitacion->doble = 1;
-        $habitacion->disponible = 1;
-        $habitacion->ocupada = 0;
-        $habitacion->limpieza = 0;
+        $habitacion->estado = 2;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -44,9 +40,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 3;
         $habitacion->single = 1;
         $habitacion->doble = 1;
-        $habitacion->disponible = 0;
-        $habitacion->ocupada = 1;
-        $habitacion->limpieza = 0;
+        $habitacion->estado = 3;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -57,9 +51,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 4;
         $habitacion->single = 2;
         $habitacion->doble = 1;
-        $habitacion->disponible = 1;
-        $habitacion->ocupada = 0;
-        $habitacion->limpieza = 0;
+        $habitacion->estado = 2;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -70,9 +62,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 1;
         $habitacion->single = 1;
         $habitacion->doble = 0;
-        $habitacion->disponible = 0;
-        $habitacion->ocupada = 0;
-        $habitacion->limpieza = 1;
+        $habitacion->estado = 1;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -83,9 +73,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 1;
         $habitacion->single = 1;
         $habitacion->doble = 0;
-        $habitacion->disponible = 1;
-        $habitacion->ocupada = 0;
-        $habitacion->limpieza = 0;
+        $habitacion->estado = 2;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -96,9 +84,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 2;
         $habitacion->single = 2;
         $habitacion->doble = 0;
-        $habitacion->disponible = 0;
-        $habitacion->ocupada = 1;
-        $habitacion->limpieza = 0;
+        $habitacion->estado = 3;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -109,9 +95,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 3;
         $habitacion->single = 1;
         $habitacion->doble = 1;
-        $habitacion->disponible = 1;
-        $habitacion->ocupada = 0;
-        $habitacion->limpieza = 0;
+        $habitacion->estado = 1;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -122,9 +106,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 1;
         $habitacion->single = 2;
         $habitacion->doble = 1;
-        $habitacion->disponible = 0;
-        $habitacion->ocupada = 0;
-        $habitacion->limpieza = 1;
+        $habitacion->estado = 1;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -135,9 +117,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 2;
         $habitacion->single = 0;
         $habitacion->doble = 1;
-        $habitacion->disponible = 0;
-        $habitacion->ocupada = 1;
-        $habitacion->limpieza = 0;
+        $habitacion->estado = 1;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -148,9 +128,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 1;
         $habitacion->single = 1;
         $habitacion->doble = 0;
-        $habitacion->disponible = 0;
-        $habitacion->ocupada = 1;
-        $habitacion->limpieza = 0;
+        $habitacion->estado = 1;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -161,9 +139,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 2;
         $habitacion->single = 0;
         $habitacion->doble = 1;
-        $habitacion->disponible = 0;
-        $habitacion->ocupada = 1;
-        $habitacion->limpieza = 0;
+        $habitacion->estado = 2;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -174,9 +150,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 3;
         $habitacion->single = 1;
         $habitacion->doble = 1;
-        $habitacion->disponible = 1;
-        $habitacion->ocupada = 0;
-        $habitacion->limpieza = 0;
+        $habitacion->estado = 1;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -187,9 +161,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 4;
         $habitacion->single = 2;
         $habitacion->doble = 1;
-        $habitacion->disponible = 1;
-        $habitacion->ocupada = 0;
-        $habitacion->limpieza = 0;
+        $habitacion->estado = 2;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -200,9 +172,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 3;
         $habitacion->single = 1;
         $habitacion->doble = 1;
-        $habitacion->disponible = 1;
-        $habitacion->ocupada = 0;
-        $habitacion->limpieza = 0;
+        $habitacion->estado = 2;
         $habitacion->created_at = now();
 
         $habitacion->save();

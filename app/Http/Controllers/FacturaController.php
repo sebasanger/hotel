@@ -14,7 +14,7 @@ class FacturaController extends Controller
      */
     public function index()
     {
-        return  Factura::all();
+        return Factura::paginate(10);
     }
 
     /**
@@ -25,7 +25,16 @@ class FacturaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $validatedData = $request->validate([
+            'tipoFactura' => 'required|string|min:2|max:30|unique:facturas,tipoFactura',
+        ]);
+
+        $factura = new Factura();
+        $factura->tipoFactura = $request->tipoFactura;
+        $factura->save();
+
+        return $factura;
     }
 
     /**
@@ -46,9 +55,18 @@ class FacturaController extends Controller
      * @param  \App\Factura  $factura
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Factura $factura)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'id' => 'required',
+            'tipoFactura' => 'required|string|min:2|max:30',
+        ]);
+
+        $factura = Factura::find($request->id);
+        $factura->tipoFactura = $request->tipoFactura;
+        $factura->save();
+
+        return $factura;
     }
 
     /**
@@ -57,8 +75,10 @@ class FacturaController extends Controller
      * @param  \App\Factura  $factura
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Factura $factura)
+    public function destroy($id)
     {
-        //
+        $factura = Factura::findOrFail($id);
+        $factura->delete();
+        return $factura;
     }
 }

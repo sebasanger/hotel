@@ -20,12 +20,10 @@ class CreateHabitacionsTable extends Migration
 		    $table->smallInteger('capacidad');
 		    $table->smallInteger('single')->nullable();
 		    $table->smallInteger('doble')->nullable();
-		    $table->string('image_path', 255)->nullable();
-		    $table->string('image_path2', 255)->nullable();
-		    $table->string('image_path3', 255)->nullable();		    
-		    $table->boolean('disponible')->nullable();
-		    $table->boolean('ocupada')->nullable();
-		    $table->boolean('limpieza')->nullable();
+		    $table->string('image_path')->nullable();
+		    $table->string('image_path2')->nullable();
+		    $table->string('image_path3')->nullable();
+		    $table->smallInteger('estado')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -38,7 +36,7 @@ class CreateHabitacionsTable extends Migration
      */
     public function down()
     {
-     
+
         Schema::dropIfExists('habitaciones');
     }
 }

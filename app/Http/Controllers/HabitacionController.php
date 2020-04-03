@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Habitacion;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class HabitacionController extends Controller
 {
@@ -14,7 +16,7 @@ class HabitacionController extends Controller
      */
     public function index()
     {
-        //
+        return Habitacion::OrderBy('numeroHabitacion', 'ASC')->paginate(15);
     }
 
     /**
@@ -25,7 +27,33 @@ class HabitacionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'numeroHabitacion' => 'required|numeric|unique:habitaciones',
+            'piso' => 'required|numeric|max:8',
+            'capacidad' => 'required|numeric',
+            'single' => 'nullable|numeric|max:6',
+            'doble' => 'nullable|numeric|max:4',
+            'image_path' => 'nullable|mimes:jpeg,bmp,png,jpg',
+            'image_path2' => 'nullable|mimes:jpeg,bmp,png,jpg',
+            'image_path3' => 'nullable|mimes:jpeg,bmp,png,jpg',
+
+        ]);
+
+        $habitacion = new Habitacion();
+        $habitacion->numeroHabitacion = $request->numeroHabitacion;
+        $habitacion->piso = $request->piso;
+        $habitacion->capacidad = $request->capacidad;
+        $habitacion->single = $request->single;
+        $habitacion->doble = $request->doble;
+        $habitacion->image_path = $request->image_path;
+        $habitacion->image_path2 = $request->image_path2;
+        $habitacion->image_path3 = $request->image_path3;
+        $habitacion->estado = 1;
+
+
+        $habitacion->save();
+
+        return $habitacion;
     }
 
     /**
@@ -34,9 +62,9 @@ class HabitacionController extends Controller
      * @param  \App\Habitacion  $habitacion
      * @return \Illuminate\Http\Response
      */
-    public function show(Habitacion $habitacion)
+    public function show(Request $request, $id)
     {
-        //
+        return Habitacion::findOrFail($id);
     }
 
     /**
@@ -46,9 +74,34 @@ class HabitacionController extends Controller
      * @param  \App\Habitacion  $habitacion
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Habitacion $habitacion)
+    public function update(Request $request)
     {
-        //
+        $id = $request->id;
+
+        $request->validate([
+            'numeroHabitacion' => [Rule::unique('habitaciones')->ignore($id)],
+            'piso' => 'required|numeric|max:8',
+            'capacidad' => 'required|numeric',
+            'single' => 'nullable|numeric|max:6',
+            'doble' => 'nullable|numeric|max:4',
+
+
+        ]);
+
+        $habitacion = Habitacion::find($request->id);
+        $habitacion->numeroHabitacion = $request->numeroHabitacion;
+        $habitacion->piso = $request->piso;
+        $habitacion->capacidad = $request->capacidad;
+        $habitacion->single = $request->single;
+        $habitacion->doble = $request->doble;
+        $habitacion->image_path = $request->image_path;
+        $habitacion->image_path2 = $request->image_path2;
+        $habitacion->image_path3 = $request->image_path3;
+        $habitacion->estado = $request->estado;
+
+        $habitacion->save();
+
+        return $habitacion;
     }
 
     /**
@@ -57,8 +110,10 @@ class HabitacionController extends Controller
      * @param  \App\Habitacion  $habitacion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Habitacion $habitacion)
+    public function destroy($id)
     {
-        //
+        $habitacion = Habitacion::findOrFail($id);
+        $habitacion->delete();
+        return $habitacion;
     }
 }

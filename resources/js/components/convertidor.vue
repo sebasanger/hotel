@@ -1,25 +1,9 @@
 <template>
   <div class="container-fluid text-white">
     <div class="row row-cols-4" style="height: 40px">
-      <div class="col float-right">
-        Dolar compra
-        {{dolar.compra}}
-      </div>
-
-      <div class="col float-right">
-        Dolar venta
-        <p>{{dolar.venta}}</p>
-      </div>
-
-      <div class="col float-right">
-        Real Compra
-        {{real.compra}}
-      </div>
-
-      <div class="col float-right">
-        Real precio venta
-        {{real.venta}}
-      </div>
+      <div class="col-3 float-right">Dolar: {{dolar.compra}}</div>
+      <hr />
+      <div class="col-3 float-right">Real: {{real.compra}}</div>
     </div>
   </div>
 </template>

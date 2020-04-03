@@ -1,9 +1,11 @@
 
-import ClienteIndex from './components/Clientes/ClienteIndexComponent.vue'
+import Cliente from './components/Clientes/ClienteComponent.vue'
 
-import UserIndex from './components/Users/UserIndexComponent.vue'
+import Habitacion from './components/Habitaciones/HabitacionComponent.vue'
 
-import Factura from './components/FacturaComponent.vue'
+import User from './components/Users/UserComponent.vue'
+
+import Factura from './components/Facturas/FacturaComponent.vue'
 
 import notFound from './components/notFound.vue'
 
@@ -25,13 +27,19 @@ export const routes = [
 
     {
         path: '/clientes',
-        component: ClienteIndex,
+        component: Cliente,
         name: 'ClienteIndex'
     },
 
     {
+        path: '/habitaciones',
+        component: Habitacion,
+        name: 'habitacionIndex'
+    },
+
+    {
         path: '/users',
-        component: UserIndex,
+        component: User,
         name: 'UserIndex'
     },
 

@@ -235,6 +235,7 @@ export default {
       editMode: false,
       clientes: {},
       search: "",
+      facturas: [],
       form: new Form({
         id: "",
         nombre: "",
@@ -247,7 +248,7 @@ export default {
         procedencia: "",
         profecion: ""
       }),
-      facturas: []
+
     };
   },
   created() {
@@ -277,10 +278,10 @@ export default {
         });
     },
     loadClientes() {
-      axios.get("cliente").then(data => (this.clientes = data.data));
+      axios.get("cliente").then(res => (this.clientes = res.data));
     },
     loadFacturas() {
-      axios.get("factura").then(data => (this.facturas = data.data));
+      axios.get("factura").then(res => (this.facturas = res.data.data));
     },
     deleteCliente(id) {
       Swal.fire({

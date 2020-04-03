@@ -16,9 +16,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <link rel="stylesheet" href="/css/app.css">
 
-
-
-
 </head>
 
 <!-- transicion entre componentes -->
@@ -47,6 +44,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <nav class="main-header navbar navbar-expand navbar-dark mb-2">
                 <!-- Left navbar links -->
                 <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+                    </li>
                     <cambio></cambio>
                 </ul>
 
@@ -85,7 +85,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                             <li class="nav-item">
                                 <router-link to="/" class="nav-link">
-                                    <i class="nav-icon fas fa-tachometer-alt blue"></i>
+                                    <i class="nav-icon fas fa-home blue"></i>
                                     <p>
                                         Inicio
                                     </p>
@@ -123,6 +123,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <i class="nav-icon fas fa-paperclip teal"></i>
                                             <p>
                                                 Facturas
+                                            </p>
+                                        </router-link>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <router-link to="/habitaciones" class="nav-link">
+                                            <i class="nav-icon fas fa-door-open orange"></i>
+                                            <p>
+                                                Habitaciones
                                             </p>
                                         </router-link>
                                     </li>
