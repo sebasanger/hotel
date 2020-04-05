@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Habitacion;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class HabitacionController extends Controller
 {
@@ -33,9 +33,9 @@ class HabitacionController extends Controller
             'capacidad' => 'required|numeric',
             'single' => 'nullable|numeric|max:6',
             'doble' => 'nullable|numeric|max:4',
-            'image_path' => 'nullable|mimes:jpeg,bmp,png,jpg',
-            'image_path2' => 'nullable|mimes:jpeg,bmp,png,jpg',
-            'image_path3' => 'nullable|mimes:jpeg,bmp,png,jpg',
+            //'image_path' => 'nullable|mimes:jpeg,bmp,png,jpg',
+            //'image_path2' => 'nullable|mimes:jpeg,bmp,png,jpg',
+            //'image_path3' => 'nullable|mimes:jpeg,bmp,png,jpg',
 
         ]);
 
@@ -84,11 +84,53 @@ class HabitacionController extends Controller
             'capacidad' => 'required|numeric',
             'single' => 'nullable|numeric|max:6',
             'doble' => 'nullable|numeric|max:4',
-
-
         ]);
-
         $habitacion = Habitacion::find($request->id);
+        $currentImage1 = $habitacion->image_path;
+        //se verifica si es que se envio una nueva imagen por el request
+        if ($request->image_path !=  $currentImage1) {
+            //nombre de la foto para que no se pueda duplicar
+            $name1 = time() . '.' . explode('/', explode(':', substr($request->image_path, 0, strpos($request->image_path, ';')))[1])[1];
+
+            //se guarda en public/img/habitaciones con el plugin image mananger
+            Image::make($request->image_path)->save(public_path('img/habitaciones/') . $name1);
+            //se cambia el antiguo nombre del request de la imagen
+            $request->merge(['image_path' => $name1]);
+
+            //se busca la foto anterior
+            $image1 = public_path('img/habitaciones/') . $currentImage1;
+            //se verifica si eiste
+            if (file_exists($image1)) {
+                //se elimina
+                @unlink($image1);
+            }
+        }
+
+        $currentImage2 = $habitacion->image_path2;
+        if ($request->image_path2 !=  $currentImage2) {
+            $name2 = time() . '.' . explode('/', explode(':', substr($request->image_path2, 0, strpos($request->image_path2, ';')))[1])[1];
+            Image::make($request->image_path2)->save(public_path('img/habitaciones/') . $name2);
+            $request->merge(['image_path2' => $name2]);
+            $image2 = public_path('img/habitaciones/') . $currentImage2;
+            if (file_exists($image2)) {
+                @unlink($image2);
+            }
+        }
+
+        $currentImage3 = $habitacion->image_path3;
+        if ($request->image_path3 !=  $currentImage3) {
+            $name3 = time() . '.' . explode('/', explode(':', substr($request->image_path3, 0, strpos($request->image_path3, ';')))[1])[1];
+            Image::make($request->image_path3)->save(public_path('img/habitaciones/') . $name3);
+            $request->merge(['image_path3' => $name3]);
+            $image3 = public_path('img/habitaciones/') . $currentImage3;
+            if (file_exists($image3)) {
+                @unlink($image3);
+            }
+        }
+
+
+
+
         $habitacion->numeroHabitacion = $request->numeroHabitacion;
         $habitacion->piso = $request->piso;
         $habitacion->capacidad = $request->capacidad;

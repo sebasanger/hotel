@@ -2826,10 +2826,82 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       imagenMiniatrua: "",
+      imagenMiniatrua2: "",
+      imagenMiniatrua3: "",
       ocupada: {
         background: "#ffcccc"
       },
@@ -2913,13 +2985,24 @@ __webpack_require__.r(__webpack_exports__);
     },
     newModal: function newModal() {
       this.editMode = false;
+      this.imagenMiniatrua = "";
+      this.imagenMiniatrua2 = "";
+      this.imagenMiniatrua3 = "";
       this.form.reset();
       $("#addNew").modal("show");
     },
     editModal: function editModal(habitacion) {
       this.editMode = true;
       this.form.reset();
+      this.imagenMiniatrua = "";
+      this.imagenMiniatrua2 = "";
+      this.imagenMiniatrua3 = "";
       $("#addNew").modal("show");
+      this.form.fill(habitacion);
+    },
+    galery: function galery(habitacion) {
+      this.form.reset();
+      $("#galery").modal("show");
       this.form.fill(habitacion);
     },
     updateHabitacion: function updateHabitacion() {
@@ -2958,18 +3041,63 @@ __webpack_require__.r(__webpack_exports__);
 
       var file = e.target.files[0];
       var reader = new FileReader();
+      console.log(file);
 
-      reader.onloadend = function (event) {
-        _this6.imagenMiniatrua = event.target.result;
-        _this6.form.image_path = reader.result;
-      };
+      if (file["size"] < 2111775) {
+        reader.onloadend = function (event) {
+          _this6.imagenMiniatrua = event.target.result;
+          _this6.form.image_path = reader.result;
+        };
 
-      reader.readAsDataURL(file);
-    }
-  },
-  computed: {
-    loadImage1: function loadImage1() {
-      return this.imagenMiniatrua;
+        reader.readAsDataURL(file);
+      } else {
+        Swal.fire("Error!", "La imagen 1 no puede tener mas que 2 mb", "error");
+      }
+    },
+    getFoto: function getFoto() {
+      return "img/habitaciones/" + this.form.image_path;
+    },
+    obtenerImagen2: function obtenerImagen2(e) {
+      var _this7 = this;
+
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      console.log(file);
+
+      if (file["size"] < 2111775) {
+        reader.onloadend = function (event) {
+          _this7.imagenMiniatrua2 = event.target.result;
+          _this7.form.image_path2 = reader.result;
+        };
+
+        reader.readAsDataURL(file);
+      } else {
+        Swal.fire("Error!", "La imagen 2 no puede tener mas que 2 mb", "error");
+      }
+    },
+    getFoto2: function getFoto2() {
+      return "img/habitaciones/" + this.form.image_path2;
+    },
+    obtenerImagen3: function obtenerImagen3(e) {
+      var _this8 = this;
+
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      console.log(file);
+
+      if (file["size"] < 2111775) {
+        reader.onloadend = function (event) {
+          _this8.imagenMiniatrua3 = event.target.result;
+          _this8.form.image_path3 = reader.result;
+        };
+
+        reader.readAsDataURL(file);
+      } else {
+        Swal.fire("Error!", "La imagen 3 no puede tener mas que 2 mb", "error");
+      }
+    },
+    getFoto3: function getFoto3() {
+      return "img/habitaciones/" + this.form.image_path3;
     }
   }
 });
@@ -62975,7 +63103,7 @@ var render = function() {
                           staticClass: "btn",
                           on: {
                             click: function($event) {
-                              return _vm.editModal(item)
+                              return _vm.galery(item)
                             }
                           }
                         },
@@ -63514,6 +63642,8 @@ var render = function() {
                       1
                     ),
                     _vm._v(" "),
+                    _c("hr"),
+                    _vm._v(" "),
                     _c(
                       "div",
                       { staticClass: "form-group" },
@@ -63525,7 +63655,11 @@ var render = function() {
                           class: {
                             "is-invalid": _vm.form.errors.has("image_path")
                           },
-                          attrs: { type: "file", name: "image_path" },
+                          attrs: {
+                            type: "file",
+                            accept: "image/*",
+                            name: "image_path"
+                          },
                           on: { change: _vm.obtenerImagen }
                         }),
                         _vm._v(" "),
@@ -63536,50 +63670,51 @@ var render = function() {
                       1
                     ),
                     _vm._v(" "),
-                    _c("figure", [
-                      _c("img", {
-                        attrs: {
-                          src: _vm.loadImage1,
-                          alt: "",
-                          width: "200",
-                          height: "200"
-                        }
-                      })
+                    _c("div", { staticStyle: { "margin-left": "100px" } }, [
+                      _vm.imagenMiniatrua
+                        ? _c("figure", [
+                            _c("img", {
+                              attrs: {
+                                src: _vm.imagenMiniatrua,
+                                width: "250",
+                                height: "150"
+                              }
+                            })
+                          ])
+                        : _vm.form.image_path
+                        ? _c("figure", [
+                            _c("img", {
+                              attrs: {
+                                src: _vm.getFoto(),
+                                width: "250",
+                                height: "150"
+                              }
+                            })
+                          ])
+                        : _vm._e()
                     ]),
+                    _vm._v(" "),
+                    _c("hr"),
                     _vm._v(" "),
                     _c(
                       "div",
                       { staticClass: "form-group" },
                       [
-                        _c("label", [_vm._v("Imagen 2 de la habitacion")]),
+                        _c("label", [
+                          _vm._v("Segunda imagen de la habitacion")
+                        ]),
                         _vm._v(" "),
                         _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.form.image_path2,
-                              expression: "form.image_path2"
-                            }
-                          ],
                           staticClass: "form-control",
                           class: {
                             "is-invalid": _vm.form.errors.has("image_path2")
                           },
-                          attrs: { type: "text", name: "image_path2" },
-                          domProps: { value: _vm.form.image_path2 },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.form,
-                                "image_path2",
-                                $event.target.value
-                              )
-                            }
-                          }
+                          attrs: {
+                            type: "file",
+                            accept: "image/*",
+                            name: "image_path2"
+                          },
+                          on: { change: _vm.obtenerImagen2 }
                         }),
                         _vm._v(" "),
                         _c("has-error", {
@@ -63589,39 +63724,51 @@ var render = function() {
                       1
                     ),
                     _vm._v(" "),
+                    _c("div", { staticStyle: { "margin-left": "100px" } }, [
+                      _vm.imagenMiniatrua2
+                        ? _c("figure", [
+                            _c("img", {
+                              attrs: {
+                                src: _vm.imagenMiniatrua2,
+                                width: "250",
+                                height: "150"
+                              }
+                            })
+                          ])
+                        : _vm.form.image_path2
+                        ? _c("figure", [
+                            _c("img", {
+                              attrs: {
+                                src: _vm.getFoto2(),
+                                width: "250",
+                                height: "150"
+                              }
+                            })
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("hr"),
+                    _vm._v(" "),
                     _c(
                       "div",
                       { staticClass: "form-group" },
                       [
-                        _c("label", [_vm._v("Imagen 3 de la habitacion")]),
+                        _c("label", [
+                          _vm._v("Terecera imagen de la habitacion")
+                        ]),
                         _vm._v(" "),
                         _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.form.image_path3,
-                              expression: "form.image_path3"
-                            }
-                          ],
                           staticClass: "form-control",
                           class: {
                             "is-invalid": _vm.form.errors.has("image_path3")
                           },
-                          attrs: { type: "text", name: "image_path3" },
-                          domProps: { value: _vm.form.image_path3 },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.form,
-                                "image_path3",
-                                $event.target.value
-                              )
-                            }
-                          }
+                          attrs: {
+                            type: "file",
+                            accept: "image/*",
+                            name: "image_path3"
+                          },
+                          on: { change: _vm.obtenerImagen3 }
                         }),
                         _vm._v(" "),
                         _c("has-error", {
@@ -63629,7 +63776,31 @@ var render = function() {
                         })
                       ],
                       1
-                    )
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticStyle: { "margin-left": "100px" } }, [
+                      _vm.imagenMiniatrua3
+                        ? _c("figure", [
+                            _c("img", {
+                              attrs: {
+                                src: _vm.imagenMiniatrua3,
+                                width: "250",
+                                height: "150"
+                              }
+                            })
+                          ])
+                        : _vm.form.image_path3
+                        ? _c("figure", [
+                            _c("img", {
+                              attrs: {
+                                src: _vm.getFoto3(),
+                                width: "250",
+                                height: "150"
+                              }
+                            })
+                          ])
+                        : _vm._e()
+                    ])
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-footer" }, [
@@ -63666,6 +63837,87 @@ var render = function() {
                   ])
                 ]
               )
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "galery",
+          "data-backdrop": "static",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "galery",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-dialog-centered",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h5", {
+                  staticClass: "modal-title",
+                  attrs: { id: "galery" },
+                  domProps: { textContent: _vm._s("Imagenes de la habitacion") }
+                }),
+                _vm._v(" "),
+                _vm._m(2)
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _vm.form.image_path
+                  ? _c("figure", [
+                      _c("img", {
+                        attrs: {
+                          src: _vm.getFoto(),
+                          width: "460",
+                          height: "300"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("hr")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.form.image_path2
+                  ? _c("figure", [
+                      _c("img", {
+                        attrs: {
+                          src: _vm.getFoto2(),
+                          width: "460",
+                          height: "300"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("hr")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.form.image_path3
+                  ? _c("figure", [
+                      _c("img", {
+                        attrs: {
+                          src: _vm.getFoto3(),
+                          width: "460",
+                          height: "300"
+                        }
+                      })
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._m(3)
+              ])
             ])
           ]
         )
@@ -63714,6 +63966,38 @@ var staticRenderFns = [
       },
       [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-success",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Ok")]
+      )
+    ])
   }
 ]
 render._withStripped = true

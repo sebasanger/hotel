@@ -39,7 +39,7 @@
                   >{{ item.estado | estado }}</td>
 
                   <td>
-                    <button @click="editModal(item)" class="btn">
+                    <button @click="galery(item)" class="btn">
                       <i class="fa fa-image orange"></i>
                     </button>
                   </td>
@@ -194,43 +194,72 @@
                 <has-error :form="form" field="estado"></has-error>
               </div>
 
+              <hr />
+
               <div class="form-group">
                 <label>Imagen de la habitacion</label>
                 <input
                   @change="obtenerImagen"
                   type="file"
+                  accept="image/*"
                   name="image_path"
                   class="form-control"
                   :class="{ 'is-invalid': form.errors.has('image_path') }"
                 />
                 <has-error :form="form" field="image_path"></has-error>
               </div>
-              <figure>
-                <img :src="loadImage1" alt width="200" height="200" />
-              </figure>
+              <div style="margin-left : 100px">
+                <figure v-if="imagenMiniatrua">
+                  <img :src="imagenMiniatrua" width="250" height="150" />
+                </figure>
+                <figure v-else-if="form.image_path">
+                  <img :src="getFoto()" width="250" height="150" />
+                </figure>
+              </div>
+              <hr />
 
               <div class="form-group">
-                <label>Imagen 2 de la habitacion</label>
+                <label>Segunda imagen de la habitacion</label>
                 <input
-                  v-model="form.image_path2"
-                  type="text"
+                  @change="obtenerImagen2"
+                  type="file"
+                  accept="image/*"
                   name="image_path2"
                   class="form-control"
                   :class="{ 'is-invalid': form.errors.has('image_path2') }"
                 />
                 <has-error :form="form" field="image_path2"></has-error>
               </div>
+              <div style="margin-left : 100px">
+                <figure v-if="imagenMiniatrua2">
+                  <img :src="imagenMiniatrua2" width="250" height="150" />
+                </figure>
+                <figure v-else-if="form.image_path2">
+                  <img :src="getFoto2()" width="250" height="150" />
+                </figure>
+              </div>
+
+              <hr />
 
               <div class="form-group">
-                <label>Imagen 3 de la habitacion</label>
+                <label>Terecera imagen de la habitacion</label>
                 <input
-                  v-model="form.image_path3"
-                  type="text"
+                  @change="obtenerImagen3"
+                  type="file"
+                  accept="image/*"
                   name="image_path3"
                   class="form-control"
                   :class="{ 'is-invalid': form.errors.has('image_path3') }"
                 />
                 <has-error :form="form" field="image_path3"></has-error>
+              </div>
+              <div style="margin-left : 100px">
+                <figure v-if="imagenMiniatrua3">
+                  <img :src="imagenMiniatrua3" width="250" height="150" />
+                </figure>
+                <figure v-else-if="form.image_path3">
+                  <img :src="getFoto3()" width="250" height="150" />
+                </figure>
               </div>
             </div>
             <div class="modal-footer">
@@ -242,6 +271,47 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal de galeria -->
+    <div
+      class="modal fade"
+      id="galery"
+      data-backdrop="static"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="galery"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="galery" v-text="'Imagenes de la habitacion'"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <figure v-if="form.image_path">
+              <img :src="getFoto()" width="460" height="300" />
+              <hr />
+            </figure>
+
+            <figure v-if="form.image_path2">
+              <img :src="getFoto2()" width="460" height="300" />
+              <hr />
+            </figure>
+
+            <figure v-if="form.image_path3">
+              <img :src="getFoto3()" width="460" height="300" />
+            </figure>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" data-dismiss="modal">Ok</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -250,6 +320,8 @@ export default {
   data() {
     return {
       imagenMiniatrua: "",
+      imagenMiniatrua2: "",
+      imagenMiniatrua3: "",
       ocupada: {
         background: "#ffcccc"
       },
@@ -332,6 +404,9 @@ export default {
     },
     newModal() {
       this.editMode = false;
+      this.imagenMiniatrua = "";
+      this.imagenMiniatrua2 = "";
+      this.imagenMiniatrua3 = "";
       this.form.reset();
       $("#addNew").modal("show");
     },
@@ -339,7 +414,16 @@ export default {
     editModal(habitacion) {
       this.editMode = true;
       this.form.reset();
+      this.imagenMiniatrua = "";
+      this.imagenMiniatrua2 = "";
+      this.imagenMiniatrua3 = "";
       $("#addNew").modal("show");
+      this.form.fill(habitacion);
+    },
+
+    galery(habitacion) {
+      this.form.reset();
+      $("#galery").modal("show");
       this.form.fill(habitacion);
     },
 
@@ -372,19 +456,55 @@ export default {
     obtenerImagen(e) {
       let file = e.target.files[0];
       let reader = new FileReader();
-      reader.onloadend = event => {
-        this.imagenMiniatrua = event.target.result;
-        this.form.image_path = reader.result;
-      };
-      reader.readAsDataURL(file);
+      console.log(file);
+      if (file["size"] < 2111775) {
+        reader.onloadend = event => {
+          this.imagenMiniatrua = event.target.result;
+          this.form.image_path = reader.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        Swal.fire("Error!", "La imagen 1 no puede tener mas que 2 mb", "error");
+      }
+    },
+    getFoto() {
+      return "img/habitaciones/" + this.form.image_path;
+    },
 
+    obtenerImagen2(e) {
+      let file = e.target.files[0];
+      let reader = new FileReader();
+      console.log(file);
+      if (file["size"] < 2111775) {
+        reader.onloadend = event => {
+          this.imagenMiniatrua2 = event.target.result;
+          this.form.image_path2 = reader.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        Swal.fire("Error!", "La imagen 2 no puede tener mas que 2 mb", "error");
+      }
+    },
+    getFoto2() {
+      return "img/habitaciones/" + this.form.image_path2;
+    },
 
-
-    }
-  },
-  computed: {
-    loadImage1() {
-      return this.imagenMiniatrua;
+    obtenerImagen3(e) {
+      let file = e.target.files[0];
+      let reader = new FileReader();
+      console.log(file);
+      if (file["size"] < 2111775) {
+        reader.onloadend = event => {
+          this.imagenMiniatrua3 = event.target.result;
+          this.form.image_path3 = reader.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        Swal.fire("Error!", "La imagen 3 no puede tener mas que 2 mb", "error");
+      }
+    },
+    getFoto3() {
+      return "img/habitaciones/" + this.form.image_path3;
     }
   }
 };
