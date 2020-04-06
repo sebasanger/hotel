@@ -4,8 +4,8 @@
       <div class="col-md-10">
         <div class="card">
           <div class="card-header">
-            <button class="btn-success float-right" @click="newModal">Agregar nueva</button>
-            <h5>Tipos de facturas</h5>
+            <button class="btn-success float-right" @click="newModal">Agregar nuevo</button>
+            <h5>Marcas de productos</h5>
           </div>
           <!-- /.card-header -->
           <div class="card-body table-responsive p-0">
@@ -13,16 +13,16 @@
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Tipo de factura</th>
+                  <th>Marcas</th>
                   <th>Fecha de creacion</th>
                   <th>fecha de modificacion</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in facturas.data" :key="item.id">
+                <tr v-for="item in marcas.data" :key="item.id">
                   <td>{{ item.id }}</td>
-                  <td>{{ item.tipoFactura | capitalize}}</td>
+                  <td>{{ item.marca | capitalize}}</td>
                   <td>{{ item.created_at }}</td>
                   <td>{{ item.updated_at}}</td>
                   <td>
@@ -30,7 +30,7 @@
                       <i class="fa fa-edit blue"></i>
                     </button>
                     |
-                    <button class="btn" @click="deleteFactura(item.id)">
+                    <button class="btn" @click="deleteMarca(item.id)">
                       <i class="fa fa-trash red"></i>
                     </button>
                   </td>
@@ -40,7 +40,7 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-            <pagination :data="facturas" :limit="3" @pagination-change-page="getResults"></pagination>
+            <pagination :data="marcas" :limit="3" @pagination-change-page="getResults"></pagination>
           </div>
         </div>
         <!-- /.card -->
@@ -69,19 +69,19 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form @submit.prevent="editMode ? updateFactura() : createFactura()">
+          <form @submit.prevent="editMode ? updateMarca() : createMarca()">
             <div class="modal-body">
               <div class="form-group">
-                <label>Tipo de factura</label>
+                <label>Marca de producto</label>
                 <input
-                  v-model="form.tipoFactura"
+                  v-model="form.marca"
                   type="text"
-                  name="tipoFactura"
+                  name="marca"
                   required
                   class="form-control"
-                  :class="{ 'is-invalid': form.errors.has('tipoFactura') }"
+                  :class="{ 'is-invalid': form.errors.has('marca') }"
                 />
-                <has-error :form="form" field="tipoFactura"></has-error>
+                <has-error :form="form" field="marca"></has-error>
               </div>
             </div>
             <div class="modal-footer">
@@ -101,29 +101,29 @@ export default {
   data() {
     return {
       editMode: false,
-      facturas: {},
+      marcas: {},
       form: new Form({
         id: "",
-        tipoFactura: "",
+        marca: "",
       }),
     };
   },
   created() {
-    this.loadFacturas();
+    this.loadMarcas();
   },
   methods: {
-    createFactura() {
+    createMarca() {
       this.$Progress.start();
       this.form
-        .post("factura")
+        .post("marca")
         .then(() => {
           $("#addNew").modal("hide");
           Toast.fire({
             icon: "success",
-            title: "Tipo de factura creada correctamente"
+            title: "Marca creada correctamente"
           });
           this.$Progress.finish();
-          this.loadFacturas();
+          this.loadMarcas();
         })
         .catch(() => {
           this.$Progress.fail();
@@ -133,12 +133,12 @@ export default {
           });
         });
     },
-    loadFacturas() {
-      axios.get("factura").then(res => (this.facturas = res.data));
+    loadMarcas() {
+      axios.get("marca").then(res => (this.marcas = res.data));
     },
-    deleteFactura(id) {
+    deleteMarca(id) {
       Swal.fire({
-        title: "¿Esta seguro que desea eliminar este tipo de factura?",
+        title: "¿Esta seguro que desea eliminar esta marca de producto?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -147,9 +147,9 @@ export default {
       }).then(result => {
         if (result.value) {
           axios
-            .delete("factura/" + id)
+            .delete("marca/" + id)
             .then(() => {
-              this.loadFacturas();
+              this.loadMarcas();
               Swal.fire(
                 "Eliminado!",
                 "Se elimino correctamente.",
@@ -168,25 +168,25 @@ export default {
       $("#addNew").modal("show");
     },
 
-    editModal(factura) {
+    editModal(marca) {
       this.editMode = true;
       this.form.reset();
       $("#addNew").modal("show");
-      this.form.fill(factura);
+      this.form.fill(marca);
     },
 
-    updateFactura() {
+    updateMarca() {
       this.$Progress.start();
       this.form
-        .put("factura/" + this.form.id)
+        .put("marca/" + this.form.id)
         .then(res => {
           $("#addNew").modal("hide");
           Toast.fire({
             icon: "success",
-            title: "Tipo de factura actualizada correctamente"
+            title: "Marca actualizada correctamente"
           });
           this.$Progress.finish();
-          this.loadFacturas();
+          this.loadMarcas();
         })
         .catch(() => {
           this.$Progress.fail();
@@ -197,8 +197,8 @@ export default {
         });
     },
     getResults(page = 1) {
-      axios.get("factura?page=" + page).then(res => {
-        this.facturas = res.data;
+      axios.get("marca?page=" + page).then(res => {
+        this.marcas = res.data;
       });
     }
   }

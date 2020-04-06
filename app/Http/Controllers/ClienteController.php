@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Cliente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 
@@ -16,7 +17,13 @@ class ClienteController extends Controller
      */
     public function index(Request $request)
     {
-        return Cliente::latest()->paginate(10);
+        $clientes = DB::table('clientes')
+            ->leftJoin('facturas', 'clientes.facturas_id', '=', 'facturas.id')
+            ->select('clientes.*', 'facturas.tipoFactura')
+            ->latest()
+            ->paginate(10);
+
+        return $clientes;
     }
 
     /**

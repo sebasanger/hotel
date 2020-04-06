@@ -1,4 +1,3 @@
-
 import Cliente from './components/Clientes/ClienteComponent.vue'
 
 import Habitacion from './components/Habitaciones/HabitacionComponent.vue'
@@ -6,6 +5,18 @@ import Habitacion from './components/Habitaciones/HabitacionComponent.vue'
 import User from './components/Users/UserComponent.vue'
 
 import Factura from './components/Facturas/FacturaComponent.vue'
+
+import Motivo from './components/Motivos/MotivoComponent.vue'
+
+import Categoria from './components/Categorias/CategoriaComponent.vue'
+
+import ModoPago from './components/ModosPagos/ModoPagoComponent.vue'
+
+import IngresoProducto from './components/IngresosProductos/IngresoProductoComponent.vue'
+
+import Precio from './components/Precios/PrecioComponent.vue'
+
+import Marca from './components/Marcas/MarcaComponent.vue'
 
 import notFound from './components/notFound.vue'
 
@@ -15,14 +26,43 @@ import Home from './components/home.vue'
 
 
 
-export const routes = [
-    {
+export const routes = [{
         path: '/',
         component: Home
     },
     {
         path: '/facturas',
         component: Factura
+    },
+
+    {
+        path: '/motivos',
+        component: Motivo
+    },
+
+    {
+        path: '/marcas',
+        component: Marca
+    },
+
+    {
+        path: '/precios',
+        component: Precio
+    },
+
+    {
+        path: '/categorias',
+        component: Categoria
+    },
+
+    {
+        path: '/modosPagos',
+        component: ModoPago
+    },
+
+    {
+        path: '/ingresosProductos',
+        component: IngresoProducto
     },
 
     {
@@ -48,9 +88,5 @@ export const routes = [
         component: notFound,
         name: 'notFound'
     },
-
-
-
-
 
 ];

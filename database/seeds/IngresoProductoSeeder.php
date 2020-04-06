@@ -15,6 +15,7 @@ class IngresoProductoSeeder extends Seeder
         $ingresoProducto = new IngresoProducto();
         $ingresoProducto->cantidadIngreso = 5;
         $ingresoProducto->precioCompra = 50;
+        $ingresoProducto->modosPagos_id = 2;
         $ingresoProducto->productos_id = 1;
         $ingresoProducto->users_id = 1;
         $ingresoProducto->created_at = now();
@@ -24,6 +25,7 @@ class IngresoProductoSeeder extends Seeder
         $ingresoProducto = new IngresoProducto();
         $ingresoProducto->cantidadIngreso = 2;
         $ingresoProducto->precioCompra = 70;
+        $ingresoProducto->modosPagos_id = 2;
         $ingresoProducto->productos_id = 2;
         $ingresoProducto->users_id = 2;
         $ingresoProducto->created_at = now();
@@ -39,7 +41,7 @@ class IngresoProductoSeeder extends Seeder
 
         $ingresoProducto->save();
 
-        
+
         $ingresoProducto = new IngresoProducto();
         $ingresoProducto->cantidadIngreso = 4;
         $ingresoProducto->precioCompra = 70;
@@ -49,7 +51,7 @@ class IngresoProductoSeeder extends Seeder
 
         $ingresoProducto->save();
 
-        
+
         $ingresoProducto = new IngresoProducto();
         $ingresoProducto->cantidadIngreso = 2;
         $ingresoProducto->precioCompra = 50;

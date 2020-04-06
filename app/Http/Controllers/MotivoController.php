@@ -14,7 +14,7 @@ class MotivoController extends Controller
      */
     public function index()
     {
-        //
+        return Motivo::paginate(10);
     }
 
     /**
@@ -25,7 +25,15 @@ class MotivoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'motivo' => 'required|string|min:2|max:30|unique:motivos,motivo',
+        ]);
+
+        $motivo = new Motivo();
+        $motivo->motivo = $request->motivo;
+        $motivo->save();
+
+        return $motivo;
     }
 
     /**
@@ -46,9 +54,18 @@ class MotivoController extends Controller
      * @param  \App\Motivo  $motivo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Motivo $motivo)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'id' => 'required',
+            'motivo' => 'required|string|min:2|max:30',
+        ]);
+
+        $motivo = Motivo::find($request->id);
+        $motivo->motivo = $request->motivo;
+        $motivo->save();
+
+        return $motivo;
     }
 
     /**
@@ -57,8 +74,10 @@ class MotivoController extends Controller
      * @param  \App\Motivo  $motivo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Motivo $motivo)
+    public function destroy($id)
     {
-        //
+        $motivo = Motivo::findOrFail($id);
+        $motivo->delete();
+        return $motivo;
     }
 }

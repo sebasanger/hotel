@@ -18,10 +18,6 @@ Auth::routes(["register" => false]);
 
 Route::middleware(['auth'])->group(function () {
 
-  Route::get('/', function () {
-    return view('layouts/master');
-  });
-
   Route::middleware(['role:1'])->group(function () {
 
     Route::apiResource('caja', 'CajaController');
@@ -60,6 +56,8 @@ Route::middleware(['auth'])->group(function () {
   Route::get('findUser/{text?}','UserController@userFilter');
 
   Route::get('findCliente/{text?}','ClienteController@clienteFilter');
+
+  Route::get('findIngreso/{text?}','IngresoProductoController@ingresoFilter');
 
   Route::get('{path}', 'HomeController@index')->where( 'path' , '([A-z\d\-\/_.]+)?' );
 });

@@ -31,7 +31,7 @@ class FacturaController extends Controller
         ]);
 
         $factura = new Factura();
-        $factura->tipoFactura = $request->tipoFactura;
+        $factura->tipoFactura =  $request->tipoFactura;
         $factura->save();
 
         return $factura;

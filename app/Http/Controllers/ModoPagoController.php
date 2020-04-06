@@ -14,7 +14,7 @@ class ModoPagoController extends Controller
      */
     public function index()
     {
-        //
+        return ModoPago::paginate(10);
     }
 
     /**
@@ -25,7 +25,18 @@ class ModoPagoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'modoPago' => 'required|string|min:2|max:30|unique:modosPagos,modoPago',
+            'cantidadPagos' => 'required|numeric',
+        ]);
+
+        $modoPago = new ModoPago();
+        $modoPago->modoPago = $request->modoPago;
+        $modoPago->cantidadPagos = $request->cantidadPagos;
+        $modoPago->descripcion = $request->descripcion;
+        $modoPago->save();
+
+        return $modoPago;
     }
 
     /**
@@ -48,7 +59,19 @@ class ModoPagoController extends Controller
      */
     public function update(Request $request, ModoPago $modoPago)
     {
-        //
+        $request->validate([
+            'id' => 'required',
+            'modoPago' => 'required|string|min:2|max:30',
+            'cantidadPagos' => 'required|numeric',
+        ]);
+
+        $modoPago = ModoPago::find($request->id);
+        $modoPago->modoPago = $request->modoPago;
+        $modoPago->cantidadPagos = $request->cantidadPagos;
+        $modoPago->descripcion = $request->descripcion;
+        $modoPago->save();
+
+        return $modoPago;
     }
 
     /**
@@ -57,8 +80,10 @@ class ModoPagoController extends Controller
      * @param  \App\ModoPago  $modoPago
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ModoPago $modoPago)
+    public function destroy($id)
     {
-        //
+        $modoPago = ModoPago::findOrFail($id);
+        $modoPago->delete();
+        return $modoPago;
     }
 }

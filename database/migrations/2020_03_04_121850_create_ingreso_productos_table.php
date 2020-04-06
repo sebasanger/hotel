@@ -15,20 +15,23 @@ class CreateIngresoProductosTable extends Migration
     {
         Schema::create('ingresosProductos', function (Blueprint $table) {
             $table->id();
-		    $table->smallInteger('cantidadIngreso');
-		    $table->smallInteger('precioCompra')->nullable();
+            $table->smallInteger('cantidadIngreso');
+            $table->smallInteger('precioCompra')->nullable();
             $table->unsignedBigInteger('users_id');
             $table->unsignedBigInteger('productos_id');
-            
+            $table->unsignedInteger('modosPagos_id')->default(1);
+
             $table->foreign('users_id')
-            ->references('id')->on('users');
-    
+                ->references('id')->on('users');
+
             $table->foreign('productos_id')
-            ->references('id')->on('productos');
+                ->references('id')->on('productos');
+
+            $table->foreign('modosPagos_id')
+                ->references('id')->on('modosPagos');
 
             $table->timestamps();
             $table->softDeletes();
-      
         });
     }
 

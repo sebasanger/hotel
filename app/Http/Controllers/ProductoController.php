@@ -14,7 +14,7 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        //
+        return Producto::latest()->paginate(10);
     }
 
     /**

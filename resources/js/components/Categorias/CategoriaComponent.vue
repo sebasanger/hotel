@@ -5,7 +5,7 @@
         <div class="card">
           <div class="card-header">
             <button class="btn-success float-right" @click="newModal">Agregar nueva</button>
-            <h5>Tipos de facturas</h5>
+            <h5>Categorias de productos</h5>
           </div>
           <!-- /.card-header -->
           <div class="card-body table-responsive p-0">
@@ -13,16 +13,16 @@
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Tipo de factura</th>
+                  <th>Categoria</th>
                   <th>Fecha de creacion</th>
                   <th>fecha de modificacion</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in facturas.data" :key="item.id">
+                <tr v-for="item in categorias.data" :key="item.id">
                   <td>{{ item.id }}</td>
-                  <td>{{ item.tipoFactura | capitalize}}</td>
+                  <td>{{ item.categoria | capitalize}}</td>
                   <td>{{ item.created_at }}</td>
                   <td>{{ item.updated_at}}</td>
                   <td>
@@ -30,7 +30,7 @@
                       <i class="fa fa-edit blue"></i>
                     </button>
                     |
-                    <button class="btn" @click="deleteFactura(item.id)">
+                    <button class="btn" @click="deleteCategoria(item.id)">
                       <i class="fa fa-trash red"></i>
                     </button>
                   </td>
@@ -40,7 +40,7 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-            <pagination :data="facturas" :limit="3" @pagination-change-page="getResults"></pagination>
+            <pagination :data="categorias" :limit="3" @pagination-change-page="getResults"></pagination>
           </div>
         </div>
         <!-- /.card -->
@@ -60,28 +60,24 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5
-              class="modal-title"
-              id="addNew"
-              v-text="editMode ? 'Modificar' : 'Agregar'"
-            ></h5>
+            <h5 class="modal-title" id="addNew" v-text="editMode ? 'Modificar' : 'Agregar'"></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form @submit.prevent="editMode ? updateFactura() : createFactura()">
+          <form @submit.prevent="editMode ? updateCategoria() : createCategoria()">
             <div class="modal-body">
               <div class="form-group">
-                <label>Tipo de factura</label>
+                <label>Categoria</label>
                 <input
-                  v-model="form.tipoFactura"
+                  v-model="form.categoria"
                   type="text"
-                  name="tipoFactura"
+                  name="categoria"
                   required
                   class="form-control"
-                  :class="{ 'is-invalid': form.errors.has('tipoFactura') }"
+                  :class="{ 'is-invalid': form.errors.has('categoria') }"
                 />
-                <has-error :form="form" field="tipoFactura"></has-error>
+                <has-error :form="form" field="categoria"></has-error>
               </div>
             </div>
             <div class="modal-footer">
@@ -101,29 +97,29 @@ export default {
   data() {
     return {
       editMode: false,
-      facturas: {},
+      categorias: {},
       form: new Form({
         id: "",
-        tipoFactura: "",
-      }),
+        categoria: ""
+      })
     };
   },
   created() {
-    this.loadFacturas();
+    this.loadCategorias();
   },
   methods: {
-    createFactura() {
+    createCategoria() {
       this.$Progress.start();
       this.form
-        .post("factura")
+        .post("categoria")
         .then(() => {
           $("#addNew").modal("hide");
           Toast.fire({
             icon: "success",
-            title: "Tipo de factura creada correctamente"
+            title: "Categoria creada correctamente"
           });
           this.$Progress.finish();
-          this.loadFacturas();
+          this.loadCategorias();
         })
         .catch(() => {
           this.$Progress.fail();
@@ -133,12 +129,12 @@ export default {
           });
         });
     },
-    loadFacturas() {
-      axios.get("factura").then(res => (this.facturas = res.data));
+    loadCategorias() {
+      axios.get("categoria").then(res => (this.categorias = res.data));
     },
-    deleteFactura(id) {
+    deleteCategoria(id) {
       Swal.fire({
-        title: "¿Esta seguro que desea eliminar este tipo de factura?",
+        title: "¿Esta seguro que desea eliminar esta categoria de producto?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -147,14 +143,10 @@ export default {
       }).then(result => {
         if (result.value) {
           axios
-            .delete("factura/" + id)
+            .delete("categoria/" + id)
             .then(() => {
-              this.loadFacturas();
-              Swal.fire(
-                "Eliminado!",
-                "Se elimino correctamente.",
-                "success"
-              );
+              this.loadCategorias();
+              Swal.fire("Eliminado!", "Se elimino correctamente.", "success");
             })
             .catch(() => {
               Swal.fire("Error!", "No se pudo eliminar", "error");
@@ -168,25 +160,25 @@ export default {
       $("#addNew").modal("show");
     },
 
-    editModal(factura) {
+    editModal(categoria) {
       this.editMode = true;
       this.form.reset();
       $("#addNew").modal("show");
-      this.form.fill(factura);
+      this.form.fill(categoria);
     },
 
-    updateFactura() {
+    updateCategoria() {
       this.$Progress.start();
       this.form
-        .put("factura/" + this.form.id)
+        .put("categoria/" + this.form.id)
         .then(res => {
           $("#addNew").modal("hide");
           Toast.fire({
             icon: "success",
-            title: "Tipo de factura actualizada correctamente"
+            title: "Categoria actualizada correctamente"
           });
           this.$Progress.finish();
-          this.loadFacturas();
+          this.loadCategorias();
         })
         .catch(() => {
           this.$Progress.fail();
@@ -197,8 +189,8 @@ export default {
         });
     },
     getResults(page = 1) {
-      axios.get("factura?page=" + page).then(res => {
-        this.facturas = res.data;
+      axios.get("categoria?page=" + page).then(res => {
+        this.categorias = res.data;
       });
     }
   }

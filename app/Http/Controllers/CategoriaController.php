@@ -14,7 +14,7 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        //
+        return Categoria::paginate(10);
     }
 
     /**
@@ -25,7 +25,15 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'categoria' => 'required|string|min:2|max:30|unique:categorias,categoria',
+        ]);
+
+        $categoria = new Categoria();
+        $categoria->categoria = $request->categoria;
+        $categoria->save();
+
+        return $categoria;
     }
 
     /**
@@ -48,7 +56,16 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, Categoria $categoria)
     {
-        //
+        $request->validate([
+            'id' => 'required',
+            'categoria' => 'required|string|min:2|max:30',
+        ]);
+
+        $categoria = Categoria::find($request->id);
+        $categoria->categoria = $request->categoria;
+        $categoria->save();
+
+        return $categoria;
     }
 
     /**
@@ -57,8 +74,10 @@ class CategoriaController extends Controller
      * @param  \App\Categoria  $categoria
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Categoria $categoria)
+    public function destroy($id)
     {
-        //
+        $categoria = Categoria::findOrFail($id);
+        $categoria->delete();
+        return $categoria;
     }
 }

@@ -4,8 +4,8 @@
       <div class="col-md-10">
         <div class="card">
           <div class="card-header">
-            <button class="btn-success float-right" @click="newModal">Agregar nueva</button>
-            <h5>Tipos de facturas</h5>
+            <button class="btn-success float-right" @click="newModal">Agregar nuevo</button>
+            <h5>Modos de pagos</h5>
           </div>
           <!-- /.card-header -->
           <div class="card-body table-responsive p-0">
@@ -13,16 +13,20 @@
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Tipo de factura</th>
+                  <th>Modo de pago</th>
+                  <th>Cantidad de pagos</th>
+                  <th>Descripcion</th>
                   <th>Fecha de creacion</th>
                   <th>fecha de modificacion</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in facturas.data" :key="item.id">
+                <tr v-for="item in modosPagos.data" :key="item.id">
                   <td>{{ item.id }}</td>
-                  <td>{{ item.tipoFactura | capitalize}}</td>
+                  <td>{{ item.modoPago | capitalize}}</td>
+                  <td>{{ item.cantidadPagos }}</td>
+                  <td>{{ item.descripcion | capitalize}}</td>
                   <td>{{ item.created_at }}</td>
                   <td>{{ item.updated_at}}</td>
                   <td>
@@ -30,7 +34,7 @@
                       <i class="fa fa-edit blue"></i>
                     </button>
                     |
-                    <button class="btn" @click="deleteFactura(item.id)">
+                    <button class="btn" @click="deleteModoPago(item.id)">
                       <i class="fa fa-trash red"></i>
                     </button>
                   </td>
@@ -40,7 +44,7 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-            <pagination :data="facturas" :limit="3" @pagination-change-page="getResults"></pagination>
+            <pagination :data="modosPagos" :limit="3" @pagination-change-page="getResults"></pagination>
           </div>
         </div>
         <!-- /.card -->
@@ -69,19 +73,45 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form @submit.prevent="editMode ? updateFactura() : createFactura()">
+          <form @submit.prevent="editMode ? updateModoPago() : createModoPago()">
             <div class="modal-body">
               <div class="form-group">
-                <label>Tipo de factura</label>
+                <label>Modo de pago</label>
                 <input
-                  v-model="form.tipoFactura"
+                  v-model="form.modoPago"
                   type="text"
-                  name="tipoFactura"
+                  name="modoPago"
                   required
                   class="form-control"
-                  :class="{ 'is-invalid': form.errors.has('tipoFactura') }"
+                  :class="{ 'is-invalid': form.errors.has('modoPago') }"
                 />
-                <has-error :form="form" field="tipoFactura"></has-error>
+                <has-error :form="form" field="modoPago"></has-error>
+              </div>
+
+                <div class="form-group">
+                <label>Cantidad de pagos</label>
+                <input
+                  v-model="form.cantidadPagos"
+                  type="number"
+                  name="cantidadPagos"
+                  required
+                  class="form-control"
+                  :class="{ 'is-invalid': form.errors.has('cantidadPagos') }"
+                />
+                <has-error :form="form" field="cantidadPagos"></has-error>
+              </div>
+
+                <div class="form-group">
+                <label>Descripcion</label>
+                <input
+                  v-model="form.descripcion"
+                  type="text"
+                  name="descripcion"
+                  required
+                  class="form-control"
+                  :class="{ 'is-invalid': form.errors.has('descripcion') }"
+                />
+                <has-error :form="form" field="descripcion"></has-error>
               </div>
             </div>
             <div class="modal-footer">
@@ -101,29 +131,31 @@ export default {
   data() {
     return {
       editMode: false,
-      facturas: {},
+      modosPagos: {},
       form: new Form({
         id: "",
-        tipoFactura: "",
+        modoPago: "",
+        cantidadPagos: "",
+        descripcion: "",
       }),
     };
   },
   created() {
-    this.loadFacturas();
+    this.loadModosPagos();
   },
   methods: {
-    createFactura() {
+    createModoPago() {
       this.$Progress.start();
       this.form
-        .post("factura")
+        .post("modoPago")
         .then(() => {
           $("#addNew").modal("hide");
           Toast.fire({
             icon: "success",
-            title: "Tipo de factura creada correctamente"
+            title: "Modo de pago creado correctamente"
           });
           this.$Progress.finish();
-          this.loadFacturas();
+          this.loadModosPagos();
         })
         .catch(() => {
           this.$Progress.fail();
@@ -133,12 +165,12 @@ export default {
           });
         });
     },
-    loadFacturas() {
-      axios.get("factura").then(res => (this.facturas = res.data));
+    loadModosPagos() {
+      axios.get("modoPago").then(res => (this.modosPagos = res.data));
     },
-    deleteFactura(id) {
+    deleteModoPago(id) {
       Swal.fire({
-        title: "¿Esta seguro que desea eliminar este tipo de factura?",
+        title: "¿Esta seguro que desea eliminar este modo de pago?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -147,9 +179,9 @@ export default {
       }).then(result => {
         if (result.value) {
           axios
-            .delete("factura/" + id)
+            .delete("modoPago/" + id)
             .then(() => {
-              this.loadFacturas();
+              this.loadModosPagos();
               Swal.fire(
                 "Eliminado!",
                 "Se elimino correctamente.",
@@ -168,25 +200,25 @@ export default {
       $("#addNew").modal("show");
     },
 
-    editModal(factura) {
+    editModal(modoPago) {
       this.editMode = true;
       this.form.reset();
       $("#addNew").modal("show");
-      this.form.fill(factura);
+      this.form.fill(modoPago);
     },
 
-    updateFactura() {
+    updateModoPago() {
       this.$Progress.start();
       this.form
-        .put("factura/" + this.form.id)
+        .put("modoPago/" + this.form.id)
         .then(res => {
           $("#addNew").modal("hide");
           Toast.fire({
             icon: "success",
-            title: "Tipo de factura actualizada correctamente"
+            title: "Modo de pago actualizado correctamente"
           });
           this.$Progress.finish();
-          this.loadFacturas();
+          this.loadModosPagos();
         })
         .catch(() => {
           this.$Progress.fail();
@@ -197,8 +229,8 @@ export default {
         });
     },
     getResults(page = 1) {
-      axios.get("factura?page=" + page).then(res => {
-        this.facturas = res.data;
+      axios.get("modoPago?page=" + page).then(res => {
+        this.modosPagos = res.data;
       });
     }
   }

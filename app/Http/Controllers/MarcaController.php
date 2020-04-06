@@ -14,7 +14,7 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        //
+        return Marca::paginate(10);
     }
 
     /**
@@ -25,7 +25,15 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'marca' => 'required|string|min:2|max:30|unique:marcas,marca',
+        ]);
+
+        $marca = new Marca();
+        $marca->marca = $request->marca;
+        $marca->save();
+
+        return $marca;
     }
 
     /**
@@ -48,7 +56,16 @@ class MarcaController extends Controller
      */
     public function update(Request $request, Marca $marca)
     {
-        //
+        $request->validate([
+            'id' => 'required',
+            'marca' => 'required|string|min:2|max:30',
+        ]);
+
+        $marca = Marca::find($request->id);
+        $marca->marca = $request->marca;
+        $marca->save();
+
+        return $marca;
     }
 
     /**
@@ -57,8 +74,10 @@ class MarcaController extends Controller
      * @param  \App\Marca  $marca
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Marca $marca)
+    public function destroy($id)
     {
-        //
+        $marca = Marca::findOrFail($id);
+        $marca->delete();
+        return $marca;
     }
 }

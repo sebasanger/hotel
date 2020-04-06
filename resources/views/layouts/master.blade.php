@@ -118,11 +118,66 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <p>Usuarios</p>
                                         </router-link>
                                     </li>
+
                                     <li class="nav-item">
                                         <router-link to="/facturas" class="nav-link">
                                             <i class="nav-icon fas fa-paperclip teal"></i>
                                             <p>
-                                                Facturas
+                                                Tipos de facturas
+                                            </p>
+                                        </router-link>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <router-link to="/motivos" class="nav-link">
+                                            <i class="nav-icon fas fa-plane green"></i>
+                                            <p>
+                                                Motivos de viaje
+                                            </p>
+                                        </router-link>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <router-link to="/marcas" class="nav-link">
+                                            <i class="nav-icon fab fa-amilia red"></i>
+                                            <p>
+                                                Marcas de productos
+                                            </p>
+                                        </router-link>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <router-link to="/precios" class="nav-link">
+                                            <i class="nav-icon fas fa-dollar-sign cyan"></i>
+                                            <p>
+                                                Precios de la estadia
+                                            </p>
+                                        </router-link>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <router-link to="/categorias" class="nav-link">
+                                            <i class="nav-icon fas fa-tags blue"></i>
+                                            <p>
+                                                Categorias de productos
+                                            </p>
+                                        </router-link>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <router-link to="/modosPagos" class="nav-link">
+                                            <i class="nav-icon fas fa-dollar-sign red"></i>
+                                            <p>
+                                                Modos de pagos
+                                            </p>
+                                        </router-link>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <router-link to="/ingresosProductos" class="nav-link">
+                                            <i class="nav-icon fas fa-box white"></i>
+                                            <p>
+                                                Ingresos de productos
                                             </p>
                                         </router-link>
                                     </li>

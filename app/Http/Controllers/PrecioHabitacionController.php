@@ -14,7 +14,7 @@ class PrecioHabitacionController extends Controller
      */
     public function index()
     {
-        //
+        return PrecioHabitacion::paginate(10);
     }
 
     /**
@@ -25,7 +25,17 @@ class PrecioHabitacionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'precioHabitacion' => 'required|numeric',
+            'descripcion' => 'required|string',
+        ]);
+
+        $precio = new PrecioHabitacion();
+        $precio->precioHabitacion = $request->precioHabitacion;
+        $precio->descripcion = $request->descripcion;
+        $precio->save();
+
+        return $precio;
     }
 
     /**
@@ -48,7 +58,18 @@ class PrecioHabitacionController extends Controller
      */
     public function update(Request $request, PrecioHabitacion $precioHabitacion)
     {
-        //
+        $request->validate([
+            'id' => 'required',
+            'precioHabitacion' => 'required|numeric',
+            'descripcion' => 'required|string'
+        ]);
+
+        $precio = PrecioHabitacion::find($request->id);
+        $precio->precioHabitacion = $request->precioHabitacion;
+        $precio->descripcion = $request->descripcion;
+        $precio->save();
+
+        return $precio;
     }
 
     /**
@@ -57,8 +78,10 @@ class PrecioHabitacionController extends Controller
      * @param  \App\PrecioHabitacion  $precioHabitacion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PrecioHabitacion $precioHabitacion)
+    public function destroy($id)
     {
-        //
+        $precio = PrecioHabitacion::findOrFail($id);
+        $precio->delete();
+        return $precio;
     }
 }

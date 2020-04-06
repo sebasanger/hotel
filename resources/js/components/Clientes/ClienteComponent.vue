@@ -48,7 +48,7 @@
                   <td>{{ item.destino | capitalize}}</td>
                   <td>{{ item.procedencia | capitalize}}</td>
                   <td>{{ item.profecion | capitalize}}</td>
-                  <td v-text="item.facturas_id ? facturas[item.facturas_id-1].tipoFactura : '' "></td>
+                  <td>{{ item.tipoFactura | capitalize}}</td>
                   <td>
                     <button @click="editModal(item)" class="btn">
                       <i class="fa fa-edit blue"></i>
