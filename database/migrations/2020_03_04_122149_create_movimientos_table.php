@@ -20,9 +20,9 @@ class CreateMovimientosTable extends Migration
             $table->boolean('ingreso');
             $table->boolean('egreso');
 
-            $table->unsignedBigInteger('users_id');
+            $table->unsignedSmallInteger('users_id');
             $table->unsignedBigInteger('cajas_id');
-            $table->unsignedInteger('modosPagos_id');
+            $table->unsignedSmallInteger('modosPagos_id');
 
             $table->foreign('modosPagos_id')
             ->references('id')->on('modosPagos');

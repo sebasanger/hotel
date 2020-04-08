@@ -17,9 +17,9 @@ class CreateIngresoProductosTable extends Migration
             $table->id();
             $table->smallInteger('cantidadIngreso');
             $table->smallInteger('precioCompra')->nullable();
-            $table->unsignedBigInteger('users_id');
-            $table->unsignedBigInteger('productos_id');
-            $table->unsignedInteger('modosPagos_id')->default(1);
+            $table->unsignedSmallInteger('users_id');
+            $table->unsignedSmallInteger('productos_id');
+            $table->unsignedSmallInteger('modosPagos_id')->default(1);
 
             $table->foreign('users_id')
                 ->references('id')->on('users');

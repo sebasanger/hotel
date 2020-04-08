@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Motivo extends Model
 {
+    public function reservas()
+    {
+        return $this->hasMany('App\Reserva');
+    }
+
     use SoftDeletes;
 
     protected $table = 'Motivos';

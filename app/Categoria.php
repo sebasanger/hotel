@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Categoria extends Model
 {
+
+    public function productos()
+    {
+        return $this->hasMany('App\Producto');
+    }
+
     use SoftDeletes;
 
     protected $table = 'Categorias';

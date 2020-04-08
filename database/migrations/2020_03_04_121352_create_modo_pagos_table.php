@@ -14,7 +14,7 @@ class CreateModoPagosTable extends Migration
     public function up()
     {
         Schema::create('modosPagos', function (Blueprint $table) {
-            $table->increments('id');
+            $table->smallIncrements('id');
             $table->string('modoPago', 80);
 		    $table->smallInteger('cantidadPagos')->nullable()->default(1);
             $table->string('descripcion', 45)->nullable();

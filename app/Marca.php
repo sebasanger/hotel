@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Marca extends Model
 {
+    public function productos()
+    {
+        return $this->hasMany('App\Producto');
+    }
+
     use SoftDeletes;
 
     protected $table = 'Marcas';

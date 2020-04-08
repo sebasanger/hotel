@@ -26,7 +26,7 @@ class CreateClientesTable extends Migration
             $table->string('domicilio', 60)->nullable();
             $table->string('destino', 60)->nullable();
             $table->string('profecion', 60)->nullable();
-            $table->unsignedInteger('facturas_id')->nullable();
+            $table->unsignedSmallInteger('facturas_id')->nullable();
             $table->foreign('facturas_id')
             ->references('id')->on('facturas');
 

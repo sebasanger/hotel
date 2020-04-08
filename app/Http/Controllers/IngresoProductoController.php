@@ -16,8 +16,7 @@ class IngresoProductoController extends Controller
      */
     public function index()
     {
-        $ingresosProductos = DB::table('ingresosProductos')
-            ->leftJoin('productos', 'ingresosProductos.productos_id', '=', 'productos.id')
+        $ingresosProductos = IngresoProducto::leftJoin('productos', 'ingresosProductos.productos_id', '=', 'productos.id')
             ->leftJoin('users', 'ingresosProductos.users_id', '=', 'users.id')
             ->leftJoin('modosPagos', 'ingresosProductos.modosPagos_id', '=', 'modosPagos.id')
             ->select('ingresosProductos.*', 'modosPagos.modoPago', 'productos.producto', 'users.name')
@@ -48,6 +47,9 @@ class IngresoProductoController extends Controller
         $ingreso->productos_id = $request->productos_id;
         $ingreso->modosPagos_id = $request->modosPagos_id;
         $ingreso->users_id = Auth::user()->id;
+        $stockActual = $ingreso->productos->stock;
+        $stockFinal = $stockActual + $request->cantidadIngreso;
+        $ingreso->productos->update(['stock' => $stockFinal]);
 
         $ingreso->save();
 
@@ -85,12 +87,29 @@ class IngresoProductoController extends Controller
         ]);
 
         $ingreso = IngresoProducto::find($request->id);
-        $ingreso->cantidadIngreso = $request->cantidadIngreso;
         $ingreso->precioCompra = $request->precioCompra;
         $ingreso->productos_id = $request->productos_id;
         $ingreso->modosPagos_id = $request->modosPagos_id;
         $ingreso->users_id = Auth::user()->id;
 
+        //se busca la cantidad anterior de entrada del producto
+        $ingresoAnterior = $ingreso->getOriginal('cantidadIngreso');
+        //se pone en una variable la cantidad de ingreso actual
+        $ingresoActual = $request->cantidadIngreso;
+        //se verifica que sea haya cambiado la cantidad para hacer un cambio en la cantidad de stock del producto
+        if ($ingresoActual != $ingresoAnterior) {
+            //al stock actual se le resta el anterior
+            $stockActual = $ingreso->productos->stock - $ingresoAnterior;
+            //y para sacar el nuevo stock del producto se le suma la nueva cantidad de entrada
+            $stockFinal = $stockActual + $ingresoActual;
+            //se actualiza el stock del producto
+            $ingreso->productos->update(['stock' => $stockFinal]);
+            //se guarda la cantidad en el ingreso de producto
+            $ingreso->cantidadIngreso = $ingresoActual;
+        } else {
+            //si la cantidad no es modificada no se realizan los pasos anteriores y solo se guarda nuevamente
+            $ingreso->cantidadIngreso = $request->cantidadIngreso;
+        }
 
         $ingreso->save();
 
@@ -106,6 +125,8 @@ class IngresoProductoController extends Controller
     public function destroy($id)
     {
         $ingreso = IngresoProducto::findOrFail($id);
+        $nuevoReducido = $ingreso->productos->stock - $ingreso->cantidadIngreso;
+        $ingreso->productos->update(['stock' => $nuevoReducido]);
         $ingreso->delete();
         return $ingreso;
     }
@@ -113,12 +134,22 @@ class IngresoProductoController extends Controller
     public function ingresoFilter($query = null)
     {
         if (!empty($query)) {
-            $filter = trim(strtolower($query));
-            $ingresoProducto = IngresoProducto::where('productos_id', '=', $filter)->orderBy('id', 'DESC');
+            $ingresosProductos = IngresoProducto::leftJoin('productos', 'ingresosProductos.productos_id', '=', 'productos.id')
+                ->leftJoin('users', 'ingresosProductos.users_id', '=', 'users.id')
+                ->leftJoin('modosPagos', 'ingresosProductos.modosPagos_id', '=', 'modosPagos.id')
+                ->select('ingresosProductos.*', 'modosPagos.modoPago', 'productos.producto', 'users.name')
+                ->where('productos_id', '=', $query)
+                ->latest()
+                ->paginate(40);
         } else {
-            $ingresoProducto = IngresoProducto::orderBy('id', 'DESC')->paginate(10);
+            $ingresosProductos = IngresoProducto::leftJoin('productos', 'ingresosProductos.productos_id', '=', 'productos.id')
+                ->leftJoin('users', 'ingresosProductos.users_id', '=', 'users.id')
+                ->leftJoin('modosPagos', 'ingresosProductos.modosPagos_id', '=', 'modosPagos.id')
+                ->select('ingresosProductos.*', 'modosPagos.modoPago', 'productos.producto', 'users.name')
+                ->latest()
+                ->paginate(10);
         }
 
-        return $ingresoProducto;
+        return $ingresosProductos;
     }
 }

@@ -5,20 +5,19 @@
         <div class="card">
           <div class="card-header">
             <button class="btn-success float-right" @click="newModal">Agregar ingreso</button>
-            <div class="input-group input-group-sm" style="width: 200px;">
-              <input
-                autocomplete="off"
-                type="text"
-                name="table_search"
-                class="form-control float-lg-left"
-                placeholder="Nombre, apellido, email..."
-                v-model="search"
-                @keydown="buscar()"
-              />
-              <div class="input-group-append">
-                <button type="submit" class="btn btn-default">
-                  <i class="fas fa-search"></i>
-                </button>
+            <div class="input-group input-group-sm" style="width: 250px;">
+              <div class="form-group">
+                <select
+                  v-model="search"
+                  name="productos_id"
+                  @change="buscar()"
+                  class="form-control"
+                  :class="{ 'is-invalid': form.errors.has('productos_id') }"
+                >
+                  <option value>Filtrar por producto</option>
+                  <option v-for="(p,index) in productos" :key="index" :value="p.id">{{ p.producto}}</option>
+                </select>
+                <has-error :form="form" field="productos_id"></has-error>
               </div>
             </div>
           </div>
@@ -28,6 +27,7 @@
             <table class="table table-hover">
               <thead>
                 <tr>
+                  <th>Id</th>
                   <th>Producto</th>
                   <th>Cantidad de ingreso</th>
                   <th>Precio de compra</th>
@@ -40,6 +40,7 @@
               </thead>
               <tbody>
                 <tr v-for="item in ingresosProductos.data" :key="item.id">
+                  <td>{{ item.id }}</td>
                   <td>{{ item.producto }}</td>
                   <td>{{ item.cantidadIngreso }}</td>
                   <td>{{ item.precioCompra | capitalize}}</td>
@@ -64,9 +65,9 @@
             </table>
           </div>
           <!-- /.card-body -->
-          <!-- <div class="card-footer" v-show="!search">
+          <div class="card-footer">
             <pagination :data="ingresosProductos" :limit="3" @pagination-change-page="getResults"></pagination>
-          </div> -->
+          </div>
         </div>
         <!-- /.card -->
       </div>
@@ -88,7 +89,7 @@
             <h5
               class="modal-title"
               id="addNew"
-              v-text="editMode ? 'Editar ingreso de producto' : 'Crear ingreso de producto'"
+              v-text="editMode ? 'Editar el ingreso de producto id: '+form.id : 'Crear ingreso de producto'"
             ></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -96,7 +97,7 @@
           </div>
           <form @submit.prevent="editMode ? updateIngresoProducto() : createIngresoProducto()">
             <div class="modal-body">
-              <div class="form-group">
+              <div class="form-group" v-if="!editMode">
                 <label>Producto</label>
                 <select
                   v-model="form.productos_id"
@@ -186,7 +187,6 @@ export default {
     this.loadProductos();
     this.loadModosPagos();
     this.loadIngresosProductos();
-    this.loadUsers();
   },
   methods: {
     createIngresoProducto() {
@@ -220,9 +220,6 @@ export default {
     },
     loadModosPagos() {
       axios.get("modoPago").then(res => (this.modosPagos = res.data.data));
-    },
-    loadUsers() {
-      axios.get("user").then(res => (this.users = res.data.data));
     },
     deleteIngresoProducto(id) {
       Swal.fire({
@@ -296,7 +293,7 @@ export default {
 
     filter() {
       let query = this.search;
-      axios.get("findIngresoProducto/" + query).then(res => {
+      axios.get("findIngreso/" + query).then(res => {
         this.ingresosProductos = res.data;
       });
     }

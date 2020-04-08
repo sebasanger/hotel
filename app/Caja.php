@@ -7,6 +7,26 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Caja extends Model
 {
+    public function pagos()
+    {
+        return $this->hasMany('App\PAgo');
+    }
+
+    public function consumos()
+    {
+        return $this->hasMany('App\Consumo');
+    }
+
+    public function movimientos()
+    {
+        return $this->hasMany('App\Movimiento');
+    }
+
+    public function users()
+    {
+        return $this->belongsTo('App\User');
+    }
+
     use SoftDeletes;
 
     protected $table = 'Cajas';

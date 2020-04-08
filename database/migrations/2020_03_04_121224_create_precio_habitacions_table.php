@@ -14,7 +14,7 @@ class CreatePrecioHabitacionsTable extends Migration
     public function up()
     {
         Schema::create('preciosHabitaciones', function (Blueprint $table) {
-            $table->increments('id');
+            $table->smallIncrements('id');
             $table->double('precioHabitacion');
             $table->string('descripcion', 80);
             $table->timestamps();

@@ -14,14 +14,13 @@ class CreateCajasTable extends Migration
     public function up()
     {
         Schema::create('cajas', function (Blueprint $table) {
-            
             $table->id();
             $table->double('montoApertura');
             $table->double('saldo')->nullable();
             $table->dateTime('horaCierre')->nullable();
             $table->double('montoCierre')->nullable();
             $table->boolean('cajaActiva');
-            $table->unsignedBigInteger('users_id');
+            $table->unsignedSmallInteger('users_id');
 
             $table->foreign('users_id')
             ->references('id')->on('users');

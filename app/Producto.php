@@ -7,6 +7,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Producto extends Model
 {
+    public function ingresosProductos()
+    {
+        return $this->hasMany('App\IngresoProducto');
+    }
+
+    public function marcas()
+    {
+        return $this->belongsTo('App\Marca');
+    }
+
+    public function categorias()
+    {
+        return $this->belongsTo('App\Categoria');
+    }
 
     use SoftDeletes;
 
@@ -15,5 +29,9 @@ class Producto extends Model
     protected $casts = [
         'created_at' => 'datetime:d-m-Y',
         'updated_at' => 'datetime:d-m-Y'
+    ];
+
+    protected $fillable = [
+        'stock', 'producto', 'precio', 'codigoProducto', 'categorias_id', 'marcas_id'
     ];
 }

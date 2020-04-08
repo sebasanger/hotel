@@ -18,22 +18,21 @@ class CreateConsumosTable extends Migration
             $table->smallInteger('cantidad')->default(1);
             $table->double('precio');
             $table->boolean('pagado');
+
             $table->unsignedBigInteger('cajas_id');
+            $table->foreign('cajas_id')->references('id')->on('cajas');
+
             $table->unsignedBigInteger('reservas_id');
-            $table->unsignedBigInteger('productos_id');
-            $table->unsignedBigInteger('users_id');
-            
-            $table->foreign('cajas_id')
-		        ->references('id')->on('cajas');
-		
-		    $table->foreign('reservas_id')
-		        ->references('id')->on('reservas');
-		
-		    $table->foreign('productos_id')
-		        ->references('id')->on('productos');
-		
-		    $table->foreign('users_id')
-		        ->references('id')->on('users');
+            $table->foreign('reservas_id')->references('id')->on('reservas');
+
+            $table->unsignedSmallInteger('productos_id');
+            $table->foreign('productos_id')->references('id')->on('productos');
+
+            $table->unsignedSmallInteger('users_id');
+            $table->foreign('users_id')->references('id')->on('users');
+
+            $table->unsignedSmallInteger('modosPagos_id')->default(1);
+            $table->foreign('modospagos_id')->references('id')->on('modospagos');
 
             $table->timestamps();
             $table->softDeletes();

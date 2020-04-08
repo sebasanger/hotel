@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cliente extends Model
 {
+
+    public function reservas()
+    {
+        return $this->hasMany('App\Reserva');
+    }
+
+    public function facturas()
+    {
+        return $this->belongsTo('App\Factura');
+    }
+
     use SoftDeletes;
 
     protected $table = 'Clientes';

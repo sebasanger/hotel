@@ -14,7 +14,7 @@ class CreateHabitacionsTable extends Migration
     public function up()
     {
         Schema::create('habitaciones', function (Blueprint $table) {
-            $table->increments('id');
+            $table->smallIncrements('id');
             $table->smallInteger('numeroHabitacion');
 		    $table->smallInteger('piso');
 		    $table->smallInteger('capacidad');
@@ -26,6 +26,7 @@ class CreateHabitacionsTable extends Migration
 		    $table->smallInteger('estado')->default(1);
             $table->timestamps();
             $table->softDeletes();
+
         });
     }
 

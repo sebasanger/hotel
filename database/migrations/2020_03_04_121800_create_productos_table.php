@@ -14,7 +14,7 @@ class CreateProductosTable extends Migration
     public function up()
     {
         Schema::create('productos', function (Blueprint $table) {
-            $table->id();
+            $table->smallIncrements('id');
             $table->string('producto',120);
             $table->double('precio');
             $table->string('codigoProducto');
@@ -22,11 +22,11 @@ class CreateProductosTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unsignedInteger('categorias_id')->nullable();
+            $table->unsignedSmallInteger('categorias_id')->nullable();
             $table->foreign('categorias_id')
             ->references('id')->on('categorias');
 
-            $table->unsignedInteger('marcas_id')->nullable();
+            $table->unsignedSmallInteger('marcas_id')->nullable();
             $table->foreign('marcas_id')
             ->references('id')->on('marcas');
         });

@@ -25,7 +25,7 @@ class CreateReservasTable extends Migration
             $table->softDeletes();
             $table->timestamps();
 
-            $table->unsignedBigInteger('users_id');
+            $table->unsignedSmallInteger('users_id');
             $table->foreign('users_id')
             ->references('id')->on('users');
 
@@ -33,15 +33,15 @@ class CreateReservasTable extends Migration
             $table->foreign('clientes_id')
             ->references('id')->on('clientes');
 
-            $table->unsignedInteger('motivos_id');
+            $table->unsignedSmallInteger('motivos_id');
             $table->foreign('motivos_id')
             ->references('id')->on('motivos');
 
-            $table->unsignedInteger('preciosHabitaciones_id');
+            $table->unsignedSmallInteger('preciosHabitaciones_id');
             $table->foreign('preciosHabitaciones_id')
             ->references('id')->on('preciosHabitaciones');
 
-            $table->unsignedInteger('habitaciones_id');
+            $table->unsignedSmallInteger('habitaciones_id');
             $table->foreign('habitaciones_id')
             ->references('id')->on('habitaciones');
 

@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'password', 'telefono', 'celular','direccion', 'role'
+        'name', 'email', 'password', 'password', 'telefono', 'celular', 'direccion', 'role'
     ];
 
     /**
@@ -40,4 +40,34 @@ class User extends Authenticatable
         'created_at' => 'datetime:d-m-Y',
         'updated_at' => 'datetime:d-m-Y'
     ];
+
+    public function reservas()
+    {
+        return $this->hasMany('App\Reserva');
+    }
+
+    public function consumos()
+    {
+        return $this->hasMany('App\Consumo');
+    }
+
+    public function pagos()
+    {
+        return $this->hasMany('App\Pago');
+    }
+
+    public function ingresosProductos()
+    {
+        return $this->hasMany('App\IngresoProducto');
+    }
+
+    public function movimientos()
+    {
+        return $this->hasMany('App\Movimiento');
+    }
+
+    public function cajas()
+    {
+        return $this->hasMany('App\Caja');
+    }
 }
