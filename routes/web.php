@@ -57,6 +57,8 @@ Route::middleware(['auth'])->group(function () {
 
   Route::get('findCliente/{text?}','ClienteController@clienteFilter');
 
+  Route::get('findProducto/{categoria?}{marca?}','ProductoController@productoFilter');
+
   Route::get('findIngreso/{text?}','IngresoProductoController@ingresoFilter');
 
   Route::get('{path}', 'HomeController@index')->where( 'path' , '([A-z\d\-\/_.]+)?' );

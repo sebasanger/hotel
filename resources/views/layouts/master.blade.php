@@ -93,6 +93,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </li>
 
                             <li class="nav-item">
+                                <router-link to="/reservas" class="nav-link">
+                                    <i class="nav-icon fas fa-calendar-alt yellow "></i>
+                                    <p>
+                                        Reservas
+                                    </p>
+                                </router-link>
+                            </li>
+
+                            <li class="nav-item">
                                 <router-link to="/clientes" class="nav-link">
                                     <i class="nav-icon fas fa-user-friends orange"></i>
                                     <p>
@@ -175,9 +184,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                                     <li class="nav-item">
                                         <router-link to="/ingresosProductos" class="nav-link">
-                                            <i class="nav-icon fas fa-box white"></i>
+                                            <i class="nav-icon fas fa-shopping-cart pink"></i>
                                             <p>
                                                 Ingresos de productos
+                                            </p>
+                                        </router-link>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <router-link to="/productos" class="nav-link">
+                                            <i class="nav-icon fas fa-box indigo"></i>
+                                            <p>
+                                                Productos
                                             </p>
                                         </router-link>
                                     </li>

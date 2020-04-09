@@ -43,6 +43,10 @@ class Reserva extends Model
         return $this->hasMany('App\Pago');
     }
 
+    protected $fillable = [
+        'huespedes', 'precioDia', 'egreso', 'patenteAuto', 'estado', 'totalPagar','pagado','clientes_id','motivos_id','preciosHabitaciones_id','habitaciones_id','users_id'
+    ];
+
 
     use SoftDeletes;
 

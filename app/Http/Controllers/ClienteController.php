@@ -17,8 +17,7 @@ class ClienteController extends Controller
      */
     public function index(Request $request)
     {
-        $clientes = DB::table('clientes')
-            ->leftJoin('facturas', 'clientes.facturas_id', '=', 'facturas.id')
+        $clientes = Cliente::leftJoin('facturas', 'clientes.facturas_id', '=', 'facturas.id')
             ->select('clientes.*', 'facturas.tipoFactura')
             ->latest()
             ->paginate(10);
@@ -132,14 +131,20 @@ class ClienteController extends Controller
     {
         if (!empty($query)) {
             $filter = trim(strtolower($query));
-            $cliente = Cliente::where('nombre', 'LIKE', "%$filter%")
+            $clientes = Cliente::leftJoin('facturas', 'clientes.facturas_id', '=', 'facturas.id')
+                ->where('nombre', 'LIKE', "%$filter%")
                 ->orWhere('apellido', 'LIKE', "%$filter%")
                 ->orWhere('dni', 'LIKE', "%$filter%")
+                ->select('clientes.*', 'facturas.tipoFactura')
+                ->latest()
                 ->paginate(20);
         } else {
-            $cliente = Cliente::orderBy('id', 'DESC')->paginate(11);
+            $clientes = Cliente::leftJoin('facturas', 'clientes.facturas_id', '=', 'facturas.id')
+                ->select('clientes.*', 'facturas.tipoFactura')
+                ->latest()
+                ->paginate(10);
         }
 
-        return $cliente;
+        return $clientes;
     }
 }

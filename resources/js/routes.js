@@ -1,3 +1,5 @@
+import Reserva from './components/Reservas/ReservaComponent.vue'
+
 import Cliente from './components/Clientes/ClienteComponent.vue'
 
 import Habitacion from './components/Habitaciones/HabitacionComponent.vue'
@@ -14,6 +16,8 @@ import ModoPago from './components/ModosPagos/ModoPagoComponent.vue'
 
 import IngresoProducto from './components/IngresosProductos/IngresoProductoComponent.vue'
 
+import Producto from './components/Productos/ProductoComponent.vue'
+
 import Precio from './components/Precios/PrecioComponent.vue'
 
 import Marca from './components/Marcas/MarcaComponent.vue'
@@ -26,13 +30,27 @@ import Home from './components/home.vue'
 
 
 
+
+
 export const routes = [{
         path: '/',
         component: Home
     },
+
+    {
+        path: '/reservas',
+        component: Reserva,
+    },
+
     {
         path: '/facturas',
         component: Factura
+    },
+
+    {
+        path: '/productos',
+        component: Producto,
+        name: 'producto'
     },
 
     {

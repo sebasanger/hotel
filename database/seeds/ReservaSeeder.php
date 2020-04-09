@@ -18,7 +18,7 @@ class ReservaSeeder extends Seeder
         $reserva->precio = 1200;
         $reserva->egreso = now();
         $reserva->patenteAuto = "ase 125";
-        $reserva->activa = 0;
+        $reserva->estado = 0;
         $reserva->totalPagar = 1250;
         $reserva->clientes_id = 1;
         $reserva->motivos_id = 1;
@@ -36,7 +36,7 @@ class ReservaSeeder extends Seeder
         $reserva->precio = 1500;
         $reserva->egreso = now();
         $reserva->patenteAuto = "sea 115";
-        $reserva->activa = 0;
+        $reserva->estado = 0;
         $reserva->totalPagar = 1700;
         $reserva->clientes_id = 2;
         $reserva->motivos_id = 2;
@@ -53,7 +53,7 @@ class ReservaSeeder extends Seeder
         $reserva->precio = 1700;
         $reserva->egreso = now();
         $reserva->patenteAuto = "afe 125";
-        $reserva->activa = 0;
+        $reserva->estado = 0;
         $reserva->totalPagar = 1700;
         $reserva->clientes_id = 13;
         $reserva->motivos_id = 3;
@@ -69,7 +69,7 @@ class ReservaSeeder extends Seeder
         $reserva->huespedes = 4;
         $reserva->precio = 2400;
         $reserva->egreso = now();
-        $reserva->activa = 0;
+        $reserva->estado = 0;
         $reserva->totalPagar = 2400;
         $reserva->clientes_id = 25;
         $reserva->motivos_id = 1;
@@ -86,7 +86,7 @@ class ReservaSeeder extends Seeder
         $reserva->huespedes = 2;
         $reserva->precio = 1500;
         $reserva->egreso = now();
-        $reserva->activa = 1;
+        $reserva->estado = 1;
         $reserva->totalPagar = 1500;
         $reserva->clientes_id = 19;
         $reserva->motivos_id = 1;
@@ -102,7 +102,7 @@ class ReservaSeeder extends Seeder
         $reserva->huespedes = 3;
         $reserva->precio = 2000;
         $reserva->egreso = now();
-        $reserva->activa = 1;
+        $reserva->estado = 1;
         $reserva->totalPagar = 2100;
         $reserva->clientes_id = 8;
         $reserva->motivos_id = 2;
@@ -118,7 +118,7 @@ class ReservaSeeder extends Seeder
         $reserva->huespedes = 2;
         $reserva->precio = 1500;
         $reserva->egreso = now();
-        $reserva->activa = 1;
+        $reserva->estado = 1;
         $reserva->totalPagar = 1500;
         $reserva->clientes_id = 8;
         $reserva->motivos_id = 2;
@@ -134,7 +134,7 @@ class ReservaSeeder extends Seeder
         $reserva->huespedes = 1 ;
         $reserva->precio = 1200;
         $reserva->egreso = now();
-        $reserva->activa = 1;
+        $reserva->estado = 1;
         $reserva->totalPagar = 1250;
         $reserva->clientes_id = 12;
         $reserva->motivos_id = 1;
@@ -150,7 +150,7 @@ class ReservaSeeder extends Seeder
         $reserva->huespedes = 4;
         $reserva->precio = 2400;
         $reserva->egreso = now();
-        $reserva->activa = 1;
+        $reserva->estado = 1;
         $reserva->totalPagar = 2400;
         $reserva->clientes_id = 17;
         $reserva->motivos_id = 2;
@@ -162,6 +162,6 @@ class ReservaSeeder extends Seeder
 
         $reserva->save();
 
-        
+
     }
 }

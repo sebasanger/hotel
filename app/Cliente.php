@@ -26,4 +26,8 @@ class Cliente extends Model
         'created_at' => 'datetime:d-m-Y',
         'updated_at' => 'datetime:d-m-Y'
     ];
+
+    protected $fillable = [
+        'nombre', 'apellido', 'dni', 'fechaNacimiento', 'celular','facturas_id','cuit'
+    ];
 }

@@ -35,4 +35,8 @@ class Caja extends Model
         'created_at' => 'datetime:d-m-Y',
         'updated_at' => 'datetime:d-m-Y'
     ];
+
+    protected $fillable = [
+        'saldo', 'horaCierre', 'montoCierre', 'cajaActiva', 'users_id'
+    ];
 }

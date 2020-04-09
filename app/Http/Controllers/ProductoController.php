@@ -14,7 +14,13 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        return Producto::latest()->paginate(10);
+        $clientes = Producto::leftJoin('categorias', 'productos.categorias_id', '=', 'categorias.id')
+            ->leftJoin('marcas', 'productos.marcas_id', '=', 'marcas.id')
+            ->select('productos.*', 'marcas.marca', 'categorias.categoria')
+            ->orderBy('id', 'ASC')
+            ->paginate(10);
+
+        return $clientes;
     }
 
     /**
@@ -25,7 +31,27 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'producto' => 'required|string|min:2|max:30',
+            'codigoProducto' => 'required|string|min:2|max:30',
+            'precio' => 'required|numeric',
+            'stock' => 'required|numeric',
+            'categorias_id' => 'required|numeric',
+            'marcas_id' => 'required|numeric',
+
+        ]);
+
+        $producto = new Producto();
+        $producto->producto = $request->producto;
+        $producto->codigoProducto = $request->codigoProducto;
+        $producto->precio = $request->precio;
+        $producto->stock = $request->stock;
+        $producto->categorias_id = $request->categorias_id;
+        $producto->marcas_id = $request->marcas_id;
+
+        $producto->save();
+
+        return $producto;
     }
 
     /**
@@ -48,7 +74,30 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        //
+        $id = $request->id;
+
+        $request->validate([
+            'id' => 'required|numeric',
+            'producto' => 'required|string|min:2|max:30',
+            'codigoProducto' => 'required|string|min:2|max:30',
+            'precio' => 'required|numeric',
+            'stock' => 'required|numeric',
+            'categorias_id' => 'required|numeric',
+            'marcas_id' => 'required|numeric',
+        ]);
+
+        $producto = Producto::find($request->id);
+        $producto->producto = $request->producto;
+        $producto->codigoProducto = $request->codigoProducto;
+        $producto->precio = $request->precio;
+        $producto->stock = $request->stock;
+        $producto->categorias_id = $request->categorias_id;
+        $producto->marcas_id = $request->marcas_id;
+
+
+        $producto->save();
+
+        return $producto;
     }
 
     /**
@@ -57,8 +106,31 @@ class ProductoController extends Controller
      * @param  \App\Producto  $producto
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Producto $producto)
+    public function destroy($id)
     {
-        //
+        $producto = Producto::findOrFail($id);
+        $producto->delete();
+        return $producto;
+    }
+
+    public function productoFilter($query = null)
+    {
+        if (!empty($query)) {
+
+            $productos = Producto::leftJoin('categorias', 'productos.categorias_id', '=', 'categorias.id')
+                ->leftJoin('marcas', 'productos.marcas_id', '=', 'marcas.id')
+                ->where('categorias_id', '=', "$query")
+                ->select('productos.*', 'marcas.marca', 'categorias.categoria')
+                ->orderBy('id', 'ASC')
+                ->paginate(10);
+        } else {
+            $productos = Producto::leftJoin('categorias', 'productos.categorias_id', '=', 'categorias.id')
+                ->leftJoin('marcas', 'productos.marcas_id', '=', 'marcas.id')
+                ->select('productos.*', 'marcas.marca', 'categorias.categoria')
+                ->orderBy('id', 'ASC')
+                ->paginate(10);
+        }
+
+        return $productos;
     }
 }

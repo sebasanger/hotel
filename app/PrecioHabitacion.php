@@ -19,4 +19,5 @@ class PrecioHabitacion extends Model
         'created_at' => 'datetime:d-m-Y',
         'updated_at' => 'datetime:d-m-Y'
     ];
+
 }

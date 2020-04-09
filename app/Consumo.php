@@ -32,6 +32,9 @@ class Consumo extends Model
         return $this->belongsTo('App\ModoPago');
     }
 
+    protected $fillable = [
+        'cantidad', 'precio', 'pagado', 'productos_id', 'cajas_id', 'modosPagos_id','reservas_id'
+    ];
 
 
     use SoftDeletes;

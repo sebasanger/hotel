@@ -1,24 +1,15 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-10">
         <div class="card">
           <div class="card-header">
             <button class="btn-success float-right" @click="newModal">Agregar ingreso</button>
             <div class="input-group input-group-sm" style="width: 250px;">
-              <div class="form-group">
-                <select
-                  v-model="search"
-                  name="productos_id"
-                  @change="buscar()"
-                  class="form-control"
-                  :class="{ 'is-invalid': form.errors.has('productos_id') }"
-                >
-                  <option value>Filtrar por producto</option>
-                  <option v-for="(p,index) in productos" :key="index" :value="p.id">{{ p.producto}}</option>
-                </select>
-                <has-error :form="form" field="productos_id"></has-error>
-              </div>
+              <select v-model="search" name="categorias_id" @change="buscar()" class="form-control">
+                <option value>Filtrar por producto</option>
+                <option v-for="(p,index) in productos" :key="index" :value="p.id">{{ p.producto}}</option>
+              </select>
             </div>
           </div>
 
@@ -171,7 +162,6 @@ export default {
       editMode: false,
       productos: [],
       modosPagos: [],
-      users: [],
       ingresosProductos: {},
       search: "",
       form: new Form({

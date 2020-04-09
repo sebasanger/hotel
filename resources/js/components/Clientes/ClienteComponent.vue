@@ -351,7 +351,7 @@ export default {
     //se busca cada cierto tiempo lo que ponemos en el filtro con la funcion debounce
     buscar: _.debounce(function() {
       this.filter();
-    }, 500),
+    }, 50),
 
     //llama a la ruta find cliente
     filter() {
