@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <GSTC :config="config" @state="onState" />
+    <GSTC :config="config" />
   </div>
 </template>
 
@@ -16,26 +16,35 @@ export default {
   data() {
     return {
       config: {
-        height: 300,
+        height: 800,
+        locale: {
+          name: "es",
+          weekdays: [
+            "Domingo",
+            "Lunes",
+            "Martes",
+            "Miercoles",
+            "Jueves",
+            "Viernes",
+            "Sabado"
+          ],
+          months: [
+            "Enero",
+            "Febrero",
+            "Marzo",
+            "Abril",
+            "Mayo",
+            "Junio",
+            "Julio",
+            "Agosto",
+            "Septiembre",
+            "Ocutubre",
+            "Noviembre",
+            "Diciembre"
+          ]
+        },
         list: {
-          rows: {
-            "1": {
-              id: "1",
-              label: "Row 1"
-            },
-            "2": {
-              id: "2",
-              label: "Row 2"
-            },
-            "3": {
-              id: "3",
-              label: "Row 3"
-            },
-            "4": {
-              id: "4",
-              label: "Row 4"
-            }
-          },
+          rows: {},
           columns: {
             data: {
               id: {
@@ -46,12 +55,20 @@ export default {
                   content: "ID"
                 }
               },
-              label: {
-                id: "label",
-                data: "label",
-                width: 200,
+              numeroHabitacion: {
+                id: "numeroHabitacion",
+                data: "numeroHabitacion",
+                width: 100,
                 header: {
-                  content: "Label"
+                  content: "Habitacion"
+                }
+              },
+              capacidad: {
+                id: "capacidad",
+                data: "capacidad",
+                width: 90,
+                header: {
+                  content: "Capacidad"
                 }
               }
             }
@@ -110,26 +127,31 @@ export default {
     };
   },
   methods: {
-    onState(state) {
-      this.state = state;
-      subs.push(
-        state.subscribe("config.chart.items.1", item => {
-          console.log("item 1 changed", item);
-        })
-      );
-      subs.push(
-        state.subscribe("config.list.rows.1", row => {
-          console.log("row 1 changed", row);
-        })
-      );
+    loadHabitaciones() {
+      axios
+        .get("habitacion")
+        .then(res => (this.config.list.rows = res.data.data));
+    },
+    loadReservas() {
+      axios.get("reserva").then(res => {
+        res.data.forEach(element => {
+          this.config.chart.items[element.id] = {
+            id: element.id.toString(),
+            rowId: element.habitaciones_id.toString(),
+            label: element.nombre + " " + element.numeroHabitacion,
+            time: {
+              start: new Date(element.created_at).getTime(),
+              end: new Date(element.egreso).getTime()
+            }
+          };
+        });
+      });
     }
   },
+
   mounted() {
-    setTimeout(() => {
-      const item1 = this.config.chart.items["1"];
-      item1.label = "label changed dynamically";
-      item1.time.end += 2 * 24 * 60 * 60 * 1000;
-    }, 2000);
+    this.loadReservas();
+    this.loadHabitaciones();
   },
   beforeDestroy() {
     subs.forEach(unsub => unsub());

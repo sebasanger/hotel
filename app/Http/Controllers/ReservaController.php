@@ -14,7 +14,12 @@ class ReservaController extends Controller
      */
     public function index()
     {
+        $reservas = Reserva::leftJoin('clientes', 'reservas.clientes_id', '=', 'clientes.id')
+            ->leftJoin('habitaciones', 'reservas.habitaciones_id', '=', 'habitaciones.id')
+            ->select('reservas.*', 'habitaciones.numeroHabitacion', 'clientes.nombre')
+            ->get();
 
+        return $reservas;
     }
 
     /**

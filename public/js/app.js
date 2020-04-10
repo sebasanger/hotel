@@ -5055,26 +5055,14 @@ var subs = [];
   data: function data() {
     return {
       config: {
-        height: 300,
+        height: 800,
+        locale: {
+          name: "es",
+          weekdays: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"],
+          months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Ocutubre", "Noviembre", "Diciembre"]
+        },
         list: {
-          rows: {
-            "1": {
-              id: "1",
-              label: "Row 1"
-            },
-            "2": {
-              id: "2",
-              label: "Row 2"
-            },
-            "3": {
-              id: "3",
-              label: "Row 3"
-            },
-            "4": {
-              id: "4",
-              label: "Row 4"
-            }
-          },
+          rows: {},
           columns: {
             data: {
               id: {
@@ -5085,12 +5073,20 @@ var subs = [];
                   content: "ID"
                 }
               },
-              label: {
-                id: "label",
-                data: "label",
-                width: 200,
+              numeroHabitacion: {
+                id: "numeroHabitacion",
+                data: "numeroHabitacion",
+                width: 100,
                 header: {
-                  content: "Label"
+                  content: "Habitacion"
+                }
+              },
+              capacidad: {
+                id: "capacidad",
+                data: "capacidad",
+                width: 90,
+                header: {
+                  content: "Capacidad"
                 }
               }
             }
@@ -5149,24 +5145,34 @@ var subs = [];
     };
   },
   methods: {
-    onState: function onState(state) {
-      this.state = state;
-      subs.push(state.subscribe("config.chart.items.1", function (item) {
-        console.log("item 1 changed", item);
-      }));
-      subs.push(state.subscribe("config.list.rows.1", function (row) {
-        console.log("row 1 changed", row);
-      }));
+    loadHabitaciones: function loadHabitaciones() {
+      var _this = this;
+
+      axios.get("habitacion").then(function (res) {
+        return _this.config.list.rows = res.data.data;
+      });
+    },
+    loadReservas: function loadReservas() {
+      var _this2 = this;
+
+      axios.get("reserva").then(function (res) {
+        res.data.forEach(function (element) {
+          _this2.config.chart.items[element.id] = {
+            id: element.id.toString(),
+            rowId: element.habitaciones_id.toString(),
+            label: element.nombre + " " + element.numeroHabitacion,
+            time: {
+              start: new Date(element.created_at).getTime(),
+              end: new Date(element.egreso).getTime()
+            }
+          };
+        });
+      });
     }
   },
   mounted: function mounted() {
-    var _this = this;
-
-    setTimeout(function () {
-      var item1 = _this.config.chart.items["1"];
-      item1.label = "label changed dynamically";
-      item1.time.end += 2 * 24 * 60 * 60 * 1000;
-    }, 2000);
+    this.loadReservas();
+    this.loadHabitaciones();
   },
   beforeDestroy: function beforeDestroy() {
     subs.forEach(function (unsub) {
@@ -78574,7 +78580,7 @@ var render = function() {
   return _c(
     "div",
     { attrs: { id: "app" } },
-    [_c("GSTC", { attrs: { config: _vm.config }, on: { state: _vm.onState } })],
+    [_c("GSTC", { attrs: { config: _vm.config } })],
     1
   )
 }

@@ -53,7 +53,7 @@ class Reserva extends Model
     protected $table = 'Reservas';
 
     protected $casts = [
-        'created_at' => 'datetime:d-m-Y',
+        'created_at' => 'datetime:Y-m-d',
         'updated_at' => 'datetime:d-m-Y'
     ];
 }
