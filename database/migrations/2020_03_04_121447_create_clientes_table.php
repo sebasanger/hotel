@@ -22,10 +22,10 @@ class CreateClientesTable extends Migration
 		    $table->string('celular', 40)->nullable();
 		    $table->string('email', 60)->nullable();
             $table->string('cuit', 40)->nullable();
-            $table->string('procedencia', 60)->nullable();
-            $table->string('domicilio', 60)->nullable();
-            $table->string('destino', 60)->nullable();
-            $table->string('profecion', 60)->nullable();
+            $table->string('procedencia', 80)->nullable();
+            $table->string('domicilio', 80)->nullable();
+            $table->string('destino', 80)->nullable();
+            $table->string('profecion', 80)->nullable();
             $table->unsignedSmallInteger('facturas_id')->nullable();
             $table->foreign('facturas_id')
             ->references('id')->on('facturas');

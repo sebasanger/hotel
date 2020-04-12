@@ -13,6 +13,17 @@ class HabitacionSeeder extends Seeder
     public function run()
     {
         $habitacion = new Habitacion();
+        $habitacion->numeroHabitacion = 100;
+        $habitacion->piso = 1;
+        $habitacion->capacidad = 1;
+        $habitacion->single = 1;
+        $habitacion->doble = 0;
+        $habitacion->estado = 1;
+        $habitacion->created_at = now();
+
+        $habitacion->save();
+
+        $habitacion = new Habitacion();
         $habitacion->numeroHabitacion = 101;
         $habitacion->piso = 1;
         $habitacion->capacidad = 1;

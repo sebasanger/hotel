@@ -1,11 +1,13 @@
 <template>
   <div id="app">
-    <GSTC :config="config" />
+    <GSTC :config="config" @state="onState" />
   </div>
 </template>
 
 <script>
 import GSTC from "vue-gantt-schedule-timeline-calendar";
+import CalendarScroll from "gantt-schedule-timeline-calendar/dist/CalendarScroll.plugin.js";
+
 let subs = [];
 
 export default {
@@ -16,6 +18,12 @@ export default {
   data() {
     return {
       config: {
+        plugins: [
+          CalendarScroll({
+            speed: 0.05,
+            hideScroll: true
+          })
+        ],
         height: 800,
         locale: {
           name: "es",
@@ -47,14 +55,6 @@ export default {
           rows: {},
           columns: {
             data: {
-              id: {
-                id: "id",
-                data: "id",
-                width: 50,
-                header: {
-                  content: "ID"
-                }
-              },
               numeroHabitacion: {
                 id: "numeroHabitacion",
                 data: "numeroHabitacion",
@@ -127,6 +127,12 @@ export default {
     };
   },
   methods: {
+    onState(state) {
+      this.state = state;
+      subs.push(state.subscribe("config.chart.items", item => {}));
+      subs.push(state.subscribe("config.list.rows", row => {}));
+    },
+
     loadHabitaciones() {
       axios
         .get("habitacion")
@@ -138,7 +144,16 @@ export default {
           this.config.chart.items[element.id] = {
             id: element.id.toString(),
             rowId: element.habitaciones_id.toString(),
-            label: element.nombre + " " + element.numeroHabitacion,
+            label:
+              element.nombre +
+              " " +
+              element.apellido +
+              " " +
+              element.numeroHabitacion,
+
+            style: {
+              background: element.color
+            },
             time: {
               start: new Date(element.created_at).getTime(),
               end: new Date(element.egreso).getTime()
@@ -150,6 +165,7 @@ export default {
   },
 
   mounted() {
+
     this.loadReservas();
     this.loadHabitaciones();
   },
@@ -158,3 +174,4 @@ export default {
   }
 };
 </script>
+
