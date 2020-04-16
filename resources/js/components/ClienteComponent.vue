@@ -8,7 +8,7 @@
                             class="btn-success float-right"
                             @click="newModal"
                         >
-                            Agregar usuario
+                            Agregar cliente
                         </button>
                         <div
                             class="input-group input-group-sm"
@@ -19,7 +19,7 @@
                                 type="text"
                                 name="table_search"
                                 class="form-control float-lg-left"
-                                placeholder="Buscar por nombre o email"
+                                placeholder="Nombre, apellido, email..."
                                 v-model="search"
                                 @keydown="buscar()"
                             />
@@ -36,36 +36,46 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Nombre</th>
-                                    <th>Email</th>
-                                    <th>Rol</th>
-                                    <th>Telefono</th>
+                                    <th>DNI</th>
+                                    <th>Nombre y apellido</th>
                                     <th>Celular</th>
-                                    <th>Direccion</th>
+                                    <th>Domicio</th>
+                                    <th>Destino</th>
+                                    <th>Procedencia</th>
+                                    <th>Profecion</th>
+                                    <th>Factura</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="item in users.data" :key="item.id">
-                                    <td>{{ item.id }}</td>
-                                    <td>{{ item.name | capitalize }}</td>
-                                    <td>{{ item.email }}</td>
-                                    <td>{{ item.role | roleText }}</td>
-                                    <td>{{ item.telefono }}</td>
+                                <tr
+                                    v-for="item in clientes.data"
+                                    :key="item.id"
+                                >
+                                    <td>{{ item.dni }}</td>
+                                    <td>
+                                        {{
+                                            (item.nombre + " " + item.apellido)
+                                                | capitalize
+                                        }}
+                                    </td>
                                     <td>{{ item.celular }}</td>
-                                    <td>{{ item.direccion | capitalize }}</td>
+                                    <td>{{ item.domicilio | capitalize }}</td>
+                                    <td>{{ item.destino | capitalize }}</td>
+                                    <td>{{ item.procedencia | capitalize }}</td>
+                                    <td>{{ item.profecion | capitalize }}</td>
+                                    <td>{{ item.tipoFactura | capitalize }}</td>
                                     <td>
                                         <button
                                             @click="editModal(item)"
-                                            class="btn "
+                                            class="btn"
                                         >
                                             <i class="fa fa-edit blue"></i>
                                         </button>
                                         |
                                         <button
-                                            class="btn "
-                                            @click="deleteUser(item.id)"
+                                            class="btn"
+                                            @click="deleteCliente(item.id)"
                                         >
                                             <i class="fa fa-trash red"></i>
                                         </button>
@@ -77,7 +87,7 @@
                     <!-- /.card-body -->
                     <div class="card-footer">
                         <pagination
-                            :data="users"
+                            :data="clientes"
                             :limit="3"
                             @pagination-change-page="getResults"
                         ></pagination>
@@ -104,7 +114,7 @@
                             class="modal-title"
                             id="addNew"
                             v-text="
-                                editMode ? 'Editar usuario' : 'Crear usuario'
+                                editMode ? 'Editar cliente' : 'Crear cliente'
                             "
                         ></h5>
                         <button
@@ -117,105 +127,64 @@
                         </button>
                     </div>
                     <form
-                        @submit.prevent="editMode ? updateUser() : createUser()"
+                        @submit.prevent="
+                            editMode ? updateCliente() : createCliente()
+                        "
                     >
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Nombre</label>
                                 <input
-                                    v-model="form.name"
+                                    v-model="form.nombre"
                                     type="text"
-                                    name="name"
+                                    name="nombre"
                                     required
                                     placeholder="Nombre"
                                     class="form-control"
                                     :class="{
-                                        'is-invalid': form.errors.has('name')
+                                        'is-invalid': form.errors.has('nombre')
                                     }"
                                 />
                                 <has-error
                                     :form="form"
-                                    field="name"
+                                    field="nombre"
                                 ></has-error>
                             </div>
 
                             <div class="form-group">
-                                <label>Email</label>
+                                <label>Apellido</label>
                                 <input
-                                    v-model="form.email"
-                                    type="email"
-                                    name="email"
+                                    v-model="form.apellido"
+                                    type="text"
+                                    name="apellido"
                                     required
-                                    placeholder="Email"
-                                    class="form-control"
-                                    :class="{
-                                        'is-invalid': form.errors.has('email')
-                                    }"
-                                />
-                                <has-error
-                                    :form="form"
-                                    field="email"
-                                ></has-error>
-                            </div>
-
-                            <div class="form-group" v-if="editMode">
-                                <label>Contraseña</label>
-                                <input
-                                    v-model="form.password"
-                                    type="password"
-                                    name="password"
+                                    placeholder="Apellido"
                                     class="form-control"
                                     :class="{
                                         'is-invalid': form.errors.has(
-                                            'password'
+                                            'apellido'
                                         )
                                     }"
                                 />
                                 <has-error
                                     :form="form"
-                                    field="password"
-                                ></has-error>
-                            </div>
-
-                            <div class="form-group" v-if="!editMode">
-                                <label>Contraseña</label>
-                                <input
-                                    v-model="form.password"
-                                    type="password"
-                                    name="password"
-                                    required
-                                    class="form-control"
-                                    :class="{
-                                        'is-invalid': form.errors.has(
-                                            'password'
-                                        )
-                                    }"
-                                />
-                                <has-error
-                                    :form="form"
-                                    field="password"
+                                    field="apellido"
                                 ></has-error>
                             </div>
 
                             <div class="form-group">
-                                <label>Rol</label>
-                                <select
-                                    v-model="form.role"
-                                    name="role"
-                                    required
+                                <label>DNI</label>
+                                <input
+                                    v-model="form.dni"
+                                    type="number"
+                                    name="dni"
+                                    placeholder="dni"
                                     class="form-control"
                                     :class="{
-                                        'is-invalid': form.errors.has('role')
+                                        'is-invalid': form.errors.has('dni')
                                     }"
-                                >
-                                    <option value>Seleccionar un rol</option>
-                                    <option value="1">Administrador</option>
-                                    <option value="2">Usuario</option>
-                                </select>
-                                <has-error
-                                    :form="form"
-                                    field="role"
-                                ></has-error>
+                                />
+                                <has-error :form="form" field="dni"></has-error>
                             </div>
 
                             <div class="form-group">
@@ -237,42 +206,108 @@
                             </div>
 
                             <div class="form-group">
-                                <label>Telefono</label>
+                                <label>Domicilio</label>
                                 <input
-                                    v-model="form.telefono"
-                                    type="number"
-                                    name="telefono"
-                                    placeholder="Telefono"
+                                    v-model="form.domicilio"
+                                    type="text"
+                                    name="domicilio"
+                                    placeholder="Domicilio"
                                     class="form-control"
                                     :class="{
                                         'is-invalid': form.errors.has(
-                                            'telefono'
+                                            'domicilio'
                                         )
                                     }"
                                 />
                                 <has-error
                                     :form="form"
-                                    field="telefono"
+                                    field="domicilio"
                                 ></has-error>
                             </div>
 
                             <div class="form-group">
-                                <label>Direccion</label>
+                                <label>Destino</label>
                                 <input
-                                    v-model="form.direccion"
+                                    v-model="form.destino"
                                     type="text"
-                                    name="direccion"
-                                    placeholder="Direccion"
+                                    name="destino"
+                                    placeholder="Destino"
+                                    class="form-control"
+                                    :class="{
+                                        'is-invalid': form.errors.has('destino')
+                                    }"
+                                />
+                                <has-error
+                                    :form="form"
+                                    field="destino"
+                                ></has-error>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Procedencia</label>
+                                <input
+                                    v-model="form.procedencia"
+                                    type="text"
+                                    name="procedencia"
+                                    placeholder="Procedencia"
                                     class="form-control"
                                     :class="{
                                         'is-invalid': form.errors.has(
-                                            'direccion'
+                                            'procedencia'
                                         )
                                     }"
                                 />
                                 <has-error
                                     :form="form"
-                                    field="direccion"
+                                    field="procedencia"
+                                ></has-error>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Profecion</label>
+                                <input
+                                    v-model="form.profecion"
+                                    type="text"
+                                    name="profecion"
+                                    placeholder="Profecion"
+                                    class="form-control"
+                                    :class="{
+                                        'is-invalid': form.errors.has(
+                                            'profecion'
+                                        )
+                                    }"
+                                />
+                                <has-error
+                                    :form="form"
+                                    field="profecion"
+                                ></has-error>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Factura</label>
+                                <select
+                                    v-model="form.facturas_id"
+                                    name="facturas_id"
+                                    class="form-control"
+                                    :class="{
+                                        'is-invalid': form.errors.has(
+                                            'facturas_id'
+                                        )
+                                    }"
+                                >
+                                    <option value
+                                        >Seleccionar una factura</option
+                                    >
+                                    <option
+                                        v-for="(f, index) in facturas"
+                                        :key="index"
+                                        :value="f.id"
+                                        >{{ f.tipoFactura }}</option
+                                    >
+                                </select>
+                                <has-error
+                                    :form="form"
+                                    field="facturas_id"
                                 ></has-error>
                             </div>
                         </div>
@@ -311,44 +346,40 @@ export default {
     data() {
         return {
             editMode: false,
-            users: {},
+            clientes: {},
             search: "",
+            facturas: [],
             form: new Form({
                 id: "",
-                name: "",
-                email: "",
-                password: "",
-                role: "",
+                nombre: "",
+                apellido: "",
+                dni: "",
+                facturas_id: "",
                 celular: "",
-                telefono: "",
-                direccion: ""
+                domicilio: "",
+                destino: "",
+                procedencia: "",
+                profecion: ""
             })
         };
     },
     created() {
-        this.loadUsers();
-        // Fire.$on("AfterCreate", () => {
-        //   this.loadUsers();
-        // });
-
-        // setInterval(() => {
-        //   this.loadUsers();
-        // }, 5000);
+        this.loadClientes();
+        this.loadFacturas();
     },
     methods: {
-        createUser() {
+        createCliente() {
             this.$Progress.start();
             this.form
-                .post("user")
+                .post("cliente")
                 .then(() => {
                     $("#addNew").modal("hide");
                     Toast.fire({
                         icon: "success",
-                        title: "Creado correctamente"
+                        title: "Cliente creado correctamente"
                     });
-                    //Fire.$emit("AfterCreate");
                     this.$Progress.finish();
-                    this.loadUsers();
+                    this.loadClientes();
                 })
                 .catch(() => {
                     this.$Progress.fail();
@@ -358,12 +389,15 @@ export default {
                     });
                 });
         },
-        loadUsers() {
-            axios.get("user").then(data => (this.users = data.data));
+        loadClientes() {
+            axios.get("cliente").then(res => (this.clientes = res.data));
         },
-        deleteUser(id) {
+        loadFacturas() {
+            axios.get("factura").then(res => (this.facturas = res.data.data));
+        },
+        deleteCliente(id) {
             Swal.fire({
-                title: "¿Esta seguro que desea eliminar este usuario?",
+                title: "¿Esta seguro que desea eliminar este cliente?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -372,19 +406,19 @@ export default {
             }).then(result => {
                 if (result.value) {
                     axios
-                        .delete("user/" + id)
+                        .delete("cliente/" + id)
                         .then(() => {
-                            this.loadUsers();
+                            this.loadClientes();
                             Swal.fire(
                                 "Eliminado!",
-                                "El usuario se elimino correctamente.",
+                                "El cliente se elimino correctamente.",
                                 "success"
                             );
                         })
                         .catch(() => {
                             Swal.fire(
                                 "Error!",
-                                "No se pudo eliminar el usuario",
+                                "No se pudo eliminar el cliente",
                                 "error"
                             );
                         });
@@ -397,25 +431,25 @@ export default {
             $("#addNew").modal("show");
         },
 
-        editModal(user) {
+        editModal(cliente) {
             this.editMode = true;
             this.form.reset();
             $("#addNew").modal("show");
-            this.form.fill(user);
+            this.form.fill(cliente);
         },
 
-        updateUser() {
+        updateCliente() {
             this.$Progress.start();
             this.form
-                .put("user/" + this.form.id)
+                .put("cliente/" + this.form.id)
                 .then(res => {
                     $("#addNew").modal("hide");
                     Toast.fire({
                         icon: "success",
-                        title: "Actualizado correctamente"
+                        title: "Cliente actualizado correctamente"
                     });
                     this.$Progress.finish();
-                    this.loadUsers();
+                    this.loadClientes();
                 })
                 .catch(() => {
                     this.$Progress.fail();
@@ -427,20 +461,20 @@ export default {
         },
         getResults(page = 1) {
             let query = this.search;
-            axios.get("user/" + query + "?page=" + page).then(res => {
-                this.users = res.data;
+            axios.get("cliente/" + query + "?page=" + page).then(res => {
+                this.clientes = res.data;
             });
         },
         //se busca cada cierto tiempo lo que ponemos en el filtro con la funcion debounce
         buscar: _.debounce(function() {
             this.filter();
-        }, 500),
+        }, 50),
 
-        //llama a la ruta find user
+        //llama a la ruta find cliente
         filter() {
             let query = this.search;
-            axios.get("user/" + query).then(res => {
-                this.users = res.data;
+            axios.get("cliente/" + query).then(res => {
+                this.clientes = res.data;
             });
         }
     }

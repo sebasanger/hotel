@@ -6,15 +6,24 @@ use App\Http\Controllers\Controller;
 use App\User;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
 
-    public function index()
+    public function index($query = null)
     {
-        return User::orderBy('id', 'DESC')->paginate(11);
+        if (empty($query)) {
+            $users = User::orderBy('id', 'DESC')->paginate(11);
+        } else {
+            $filter = trim(strtolower($query));
+            $users = User::where('name', 'LIKE', "%$filter%")
+                ->orWhere('email', 'LIKE', "%$filter%")
+                ->paginate(20);
+        }
+        return $users;
     }
 
     public function store(Request $request)
@@ -41,7 +50,7 @@ class UserController extends Controller
 
     public function show($id)
     {
-        //
+        return User::find($id);
     }
 
     public function update(Request $request, $id)
@@ -72,17 +81,8 @@ class UserController extends Controller
         $user->delete();
     }
 
-    public function userFilter($query = null)
+    public function userFind()
     {
-        if (!empty($query)) {
-            $filter = trim(strtolower($query));
-            $users = User::where('name', 'LIKE', "%$filter%")
-                ->orWhere('email', 'LIKE', "%$filter%")
-                ->paginate(20);
-        } else {
-            $users = User::orderBy('id', 'DESC')->paginate(11);
-        }
-
-        return $users;
+        return Auth::user();
     }
 }

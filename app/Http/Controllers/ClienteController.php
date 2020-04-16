@@ -15,13 +15,23 @@ class ClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index($query = null)
     {
-        $clientes = Cliente::leftJoin('facturas', 'clientes.facturas_id', '=', 'facturas.id')
-            ->select('clientes.*', 'facturas.tipoFactura')
-            ->latest()
-            ->paginate(10);
-
+        if (empty($query)) {
+            $clientes = Cliente::leftJoin('facturas', 'clientes.facturas_id', '=', 'facturas.id')
+                ->select('clientes.*', 'facturas.tipoFactura')
+                ->latest()
+                ->paginate(10);
+        } else {
+            $filter = trim($query);
+            $clientes = Cliente::leftJoin('facturas', 'clientes.facturas_id', '=', 'facturas.id')
+                ->where('nombre', 'LIKE', "%$filter%")
+                ->orWhere('apellido', 'LIKE', "%$filter%")
+                ->orWhere('dni', 'LIKE', "%$filter%")
+                ->select('clientes.*', 'facturas.tipoFactura')
+                ->latest()
+                ->paginate(10);
+        }
         return $clientes;
     }
 
@@ -126,25 +136,4 @@ class ClienteController extends Controller
         return $cliente;
     }
 
-
-    public function clienteFilter($query = null)
-    {
-        if (!empty($query)) {
-            $filter = trim(strtolower($query));
-            $clientes = Cliente::leftJoin('facturas', 'clientes.facturas_id', '=', 'facturas.id')
-                ->where('nombre', 'LIKE', "%$filter%")
-                ->orWhere('apellido', 'LIKE', "%$filter%")
-                ->orWhere('dni', 'LIKE', "%$filter%")
-                ->select('clientes.*', 'facturas.tipoFactura')
-                ->latest()
-                ->paginate(20);
-        } else {
-            $clientes = Cliente::leftJoin('facturas', 'clientes.facturas_id', '=', 'facturas.id')
-                ->select('clientes.*', 'facturas.tipoFactura')
-                ->latest()
-                ->paginate(10);
-        }
-
-        return $clientes;
-    }
 }

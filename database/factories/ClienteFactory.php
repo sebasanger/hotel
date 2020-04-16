@@ -15,7 +15,7 @@ $factory->define(Cliente::class, function (Faker $faker) {
         'procedencia' => $faker->country,
         'destino' => $faker->country,
         'domicilio' => $faker->country,
-        'profecion' => $faker->jobTitle,
+        'profecion' => "programador",
         'email' => $faker->unique()->safeEmail,
         'cuit' => $faker->numberBetween(400000, 409999),
         'created_at' => now(),

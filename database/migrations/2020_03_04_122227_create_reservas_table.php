@@ -17,7 +17,8 @@ class CreateReservasTable extends Migration
             $table->id();
             $table->smallInteger('huespedes')->nullable();
             $table->double('precio');
-            $table->date('egreso')->nullable();
+            $table->date('egreso');
+            $table->date('ingreso');
             $table->string('patenteAuto',20)->nullable();
             $table->string('color',40)->default('blue');
             $table->tinyInteger('estado')->default(1);

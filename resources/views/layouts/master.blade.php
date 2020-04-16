@@ -93,7 +93,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </li>
 
                             <li class="nav-item">
-                                <router-link to="/reservas" class="nav-link">
+                                <router-link :to="{ name : 'reserva'}" class="nav-link">
                                     <i class="nav-icon fas fa-calendar-alt yellow "></i>
                                     <p>
                                         Reservas
@@ -102,7 +102,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </li>
 
                             <li class="nav-item">
-                                <router-link to="/clientes" class="nav-link">
+                                <router-link :to="{ name : 'cliente'}" class="nav-link">
                                     <i class="nav-icon fas fa-user-friends orange"></i>
                                     <p>
                                         Clientes
@@ -122,14 +122,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <router-link to="/users" class="nav-link">
+                                        <router-link :to="{ name : 'user'}" class="nav-link">
                                             <i class="far fa-circle nav-icon fas fa-user yellow"></i>
                                             <p>Usuarios</p>
                                         </router-link>
                                     </li>
 
                                     <li class="nav-item">
-                                        <router-link to="/facturas" class="nav-link">
+                                        <router-link :to="{ name : 'tipoFactura'}" class="nav-link">
                                             <i class="nav-icon fas fa-paperclip teal"></i>
                                             <p>
                                                 Tipos de facturas
@@ -138,7 +138,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </li>
 
                                     <li class="nav-item">
-                                        <router-link to="/motivos" class="nav-link">
+                                        <router-link :to="{ name : 'motivo'}" class="nav-link">
                                             <i class="nav-icon fas fa-plane green"></i>
                                             <p>
                                                 Motivos de viaje
@@ -147,7 +147,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </li>
 
                                     <li class="nav-item">
-                                        <router-link to="/marcas" class="nav-link">
+                                        <router-link :to="{ name : 'marca'}" class="nav-link">
                                             <i class="nav-icon fab fa-amilia red"></i>
                                             <p>
                                                 Marcas de productos
@@ -156,7 +156,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </li>
 
                                     <li class="nav-item">
-                                        <router-link to="/precios" class="nav-link">
+                                        <router-link :to="{ name : 'precio'}" class="nav-link">
                                             <i class="nav-icon fas fa-dollar-sign cyan"></i>
                                             <p>
                                                 Precios de la estadia
@@ -165,7 +165,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </li>
 
                                     <li class="nav-item">
-                                        <router-link to="/categorias" class="nav-link">
+                                        <router-link :to="{ name : 'categoria'}" class="nav-link">
                                             <i class="nav-icon fas fa-tags blue"></i>
                                             <p>
                                                 Categorias de productos
@@ -174,7 +174,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </li>
 
                                     <li class="nav-item">
-                                        <router-link to="/modosPagos" class="nav-link">
+                                        <router-link :to="{ name : 'modoPago'}" class="nav-link">
                                             <i class="nav-icon fas fa-dollar-sign red"></i>
                                             <p>
                                                 Modos de pagos
@@ -183,7 +183,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </li>
 
                                     <li class="nav-item">
-                                        <router-link to="/ingresosProductos" class="nav-link">
+                                        <router-link :to="{ name : 'ingresoProducto'}" class="nav-link">
                                             <i class="nav-icon fas fa-shopping-cart pink"></i>
                                             <p>
                                                 Ingresos de productos
@@ -192,7 +192,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </li>
 
                                     <li class="nav-item">
-                                        <router-link to="/productos" class="nav-link">
+                                        <router-link :to="{ name : 'producto'}" class="nav-link">
                                             <i class="nav-icon fas fa-box indigo"></i>
                                             <p>
                                                 Productos
@@ -201,7 +201,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </li>
 
                                     <li class="nav-item">
-                                        <router-link to="/habitaciones" class="nav-link">
+                                        <router-link :to="{ name : 'habitacion'}" class="nav-link">
                                             <i class="nav-icon fas fa-door-open orange"></i>
                                             <p>
                                                 Habitaciones
@@ -237,10 +237,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- content -->
             <div class="content-wrapper">
                 <div class="container-fluid">
-
                     <vue-progress-bar></vue-progress-bar>
                     <transition name="component-fade" mode="out-in">
-                        <router-view></router-view>
+                        <router-view :key="$route.fullPath"></router-view>
                     </transition>
                     <app></app>
                 </div>
@@ -264,7 +263,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- REQUIRED SCRIPTS -->
     <script src="/js/app.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/gantt-schedule-timeline-calendar"></script>
 
 
 </body>

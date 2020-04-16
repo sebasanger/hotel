@@ -12,15 +12,24 @@ class ProductoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($query = null)
     {
-        $clientes = Producto::leftJoin('categorias', 'productos.categorias_id', '=', 'categorias.id')
-            ->leftJoin('marcas', 'productos.marcas_id', '=', 'marcas.id')
-            ->select('productos.*', 'marcas.marca', 'categorias.categoria')
-            ->orderBy('id', 'ASC')
-            ->paginate(10);
+        if (empty($query)) {
+            $productos = Producto::leftJoin('categorias', 'productos.categorias_id', '=', 'categorias.id')
+                ->leftJoin('marcas', 'productos.marcas_id', '=', 'marcas.id')
+                ->select('productos.*', 'marcas.marca', 'categorias.categoria')
+                ->orderBy('id', 'ASC')
+                ->paginate(10);
+        } else {
+            $productos = Producto::leftJoin('categorias', 'productos.categorias_id', '=', 'categorias.id')
+                ->leftJoin('marcas', 'productos.marcas_id', '=', 'marcas.id')
+                ->where('categorias_id', '=', "$query")
+                ->select('productos.*', 'marcas.marca', 'categorias.categoria')
+                ->orderBy('id', 'ASC')
+                ->paginate(10);
+        }
 
-        return $clientes;
+        return $productos;
     }
 
     /**
@@ -113,24 +122,5 @@ class ProductoController extends Controller
         return $producto;
     }
 
-    public function productoFilter($query = null)
-    {
-        if (!empty($query)) {
 
-            $productos = Producto::leftJoin('categorias', 'productos.categorias_id', '=', 'categorias.id')
-                ->leftJoin('marcas', 'productos.marcas_id', '=', 'marcas.id')
-                ->where('categorias_id', '=', "$query")
-                ->select('productos.*', 'marcas.marca', 'categorias.categoria')
-                ->orderBy('id', 'ASC')
-                ->paginate(10);
-        } else {
-            $productos = Producto::leftJoin('categorias', 'productos.categorias_id', '=', 'categorias.id')
-                ->leftJoin('marcas', 'productos.marcas_id', '=', 'marcas.id')
-                ->select('productos.*', 'marcas.marca', 'categorias.categoria')
-                ->orderBy('id', 'ASC')
-                ->paginate(10);
-        }
-
-        return $productos;
-    }
 }

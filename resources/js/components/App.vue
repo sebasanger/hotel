@@ -1,35 +1,45 @@
 <template>
-  <div>
+    <div>
+     <NotificationContainer/>
 
-  </div>
+    </div>
 </template>
 <script>
+import { mapState, mapActions } from "vuex";
+import NotificationContainer from './NotificationContainer.vue'
 export default {
-  mounted() {
-    //  [App.vue specific] When App.vue is finish loading finish the progress bar
-    this.$Progress.finish();
-  },
-  created() {
-    //  [App.vue specific] When App.vue is first loaded start the progress bar
-    this.$Progress.start();
-    //  hook the progress bar to start before we move router-view
-    this.$router.beforeEach((to, from, next) => {
-      //  does the page we want to go to have a meta.progress object
-      if (to.meta.progress !== undefined) {
-        let meta = to.meta.progress;
-        // parse meta tags
-        this.$Progress.parseMeta(meta);
-      }
-      //  start the progress bar
-      this.$Progress.start();
-      //  continue to next page
-      next();
-    });
-    //  hook the progress bar to finish after we've finished moving router-view
-    this.$router.afterEach((to, from) => {
-      //  finish the progress bar
-      this.$Progress.finish();
-    });
-  }
+    components:{
+        NotificationContainer
+    },
+    mounted() {
+        //  [App.vue specific] When App.vue is finish loading finish the progress bar
+        this.$Progress.finish();
+    },
+    computed: {},
+    created() {
+        this.$store.dispatch("fetchReservas");
+        this.$store.dispatch("user/fetchUser");
+
+        //  [App.vue specific] When App.vue is first loaded start the progress bar
+        this.$Progress.start();
+        //  hook the progress bar to start before we move router-view
+        this.$router.beforeEach((to, from, next) => {
+            //  does the page we want to go to have a meta.progress object
+            if (to.meta.progress !== undefined) {
+                let meta = to.meta.progress;
+                // parse meta tags
+                this.$Progress.parseMeta(meta);
+            }
+            //  start the progress bar
+            this.$Progress.start();
+            //  continue to next page
+            next();
+        });
+        //  hook the progress bar to finish after we've finished moving router-view
+        this.$router.afterEach((to, from) => {
+            //  finish the progress bar
+            this.$Progress.finish();
+        });
+    }
 };
 </script>

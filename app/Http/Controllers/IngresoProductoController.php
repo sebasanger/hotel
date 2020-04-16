@@ -14,14 +14,24 @@ class IngresoProductoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($query = null)
     {
-        $ingresosProductos = IngresoProducto::leftJoin('productos', 'ingresosProductos.productos_id', '=', 'productos.id')
-            ->leftJoin('users', 'ingresosProductos.users_id', '=', 'users.id')
-            ->leftJoin('modosPagos', 'ingresosProductos.modosPagos_id', '=', 'modosPagos.id')
-            ->select('ingresosProductos.*', 'modosPagos.modoPago', 'productos.producto', 'users.name')
-            ->latest()
-            ->paginate(10);
+        if (empty($query)) {
+            $ingresosProductos = IngresoProducto::leftJoin('productos', 'ingresosProductos.productos_id', '=', 'productos.id')
+                ->leftJoin('users', 'ingresosProductos.users_id', '=', 'users.id')
+                ->leftJoin('modosPagos', 'ingresosProductos.modosPagos_id', '=', 'modosPagos.id')
+                ->select('ingresosProductos.*', 'modosPagos.modoPago', 'productos.producto', 'users.name')
+                ->latest()
+                ->paginate(10);
+        } else {
+            $ingresosProductos = IngresoProducto::leftJoin('productos', 'ingresosProductos.productos_id', '=', 'productos.id')
+                ->leftJoin('users', 'ingresosProductos.users_id', '=', 'users.id')
+                ->leftJoin('modosPagos', 'ingresosProductos.modosPagos_id', '=', 'modosPagos.id')
+                ->select('ingresosProductos.*', 'modosPagos.modoPago', 'productos.producto', 'users.name')
+                ->where('productos_id', '=', $query)
+                ->latest()
+                ->paginate(10);
+        }
 
         return $ingresosProductos;
     }

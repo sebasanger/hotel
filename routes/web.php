@@ -18,50 +18,51 @@ Auth::routes(["register" => false]);
 
 Route::middleware(['auth'])->group(function () {
 
-  Route::middleware(['role:1'])->group(function () {
+    Route::middleware(['role:1'])->group(function () {
+        Route::apiResource('caja', 'CajaController');
 
-    Route::apiResource('caja', 'CajaController');
+        Route::apiResource('categoria', 'CategoriaController');
 
-    Route::apiResource('categoria', 'CategoriaController');
+        Route::apiResource('factura', 'FacturaController');
 
-    Route::apiResource('factura', 'FacturaController');
+        Route::apiResource('habitacion', 'HabitacionController');
 
-    Route::apiResource('habitacion', 'HabitacionController');
+        Route::get('ingresoProducto/{filtro?}', 'IngresoProductoController@index');
 
-    Route::apiResource('ingresoProducto', 'IngresoProductoController');
+        Route::apiResource('ingresoProducto', 'IngresoProductoController');
 
-    Route::apiResource('marca', 'MarcaController');
+        Route::apiResource('marca', 'MarcaController');
 
-    Route::apiResource('modoPago', 'ModoPagoController');
+        Route::apiResource('modoPago', 'ModoPagoController');
 
-    Route::apiResource('motivo', 'MotivoController');
+        Route::apiResource('motivo', 'MotivoController');
 
-    Route::apiResource('precioHabitacion', 'PrecioHabitacionController');
+        Route::apiResource('precioHabitacion', 'PrecioHabitacionController');
 
-    Route::apiResource('producto', 'ProductoController');
+        Route::get('producto/{filtro?}', 'ProductoController@index');
 
-    Route::apiResource('user', 'UserController');
-  });
+        Route::apiResource('producto', 'ProductoController');
 
-  Route::apiResource('cliente', 'ClienteController');
+        Route::get('user/{filtro?}', 'UserController@index');
 
-  Route::apiResource('consumo', 'ConsumoController');
+        Route::get('userFind', 'UserController@userFind');
 
-  Route::apiResource('movimiento', 'MovimientoController');
+        Route::apiResource('user', 'UserController')->except([
+            'index'
+        ]);
+    });
 
-  Route::apiResource('pago', 'PagoController');
+    Route::get('cliente/{filtro?}', 'ClienteController@index');
 
-  Route::apiResource('reserva', 'ReservaController');
+    Route::apiResource('cliente', 'ClienteController');
 
-  Route::get('findUser/{text?}','UserController@userFilter');
+    Route::apiResource('consumo', 'ConsumoController');
 
-  Route::get('findCliente/{text?}','ClienteController@clienteFilter');
+    Route::apiResource('movimiento', 'MovimientoController');
 
-  Route::get('findProducto/{categoria?}{marca?}','ProductoController@productoFilter');
+    Route::apiResource('pago', 'PagoController');
 
-  Route::get('findIngreso/{text?}','IngresoProductoController@ingresoFilter');
+    Route::apiResource('reserva', 'ReservaController');
 
-  Route::get('{path}', 'HomeController@index')->where( 'path' , '([A-z\d\-\/_.]+)?' );
+    Route::get('{path}', 'HomeController@index')->where('path', '([A-z\d\-\/_.]+)?');
 });
-
-

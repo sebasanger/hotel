@@ -1,33 +1,33 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
                         <button
                             class="btn-success float-right"
                             @click="newModal"
                         >
-                            Agregar usuario
+                            Agregar ingreso
                         </button>
                         <div
                             class="input-group input-group-sm"
-                            style="width: 200px;"
+                            style="width: 250px;"
                         >
-                            <input
-                                autocomplete="off"
-                                type="text"
-                                name="table_search"
-                                class="form-control float-lg-left"
-                                placeholder="Buscar por nombre o email"
+                            <select
                                 v-model="search"
-                                @keydown="buscar()"
-                            />
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
+                                name="categorias_id"
+                                @change="buscar()"
+                                class="form-control"
+                            >
+                                <option value>Filtrar por producto</option>
+                                <option
+                                    v-for="(p, index) in productos"
+                                    :key="index"
+                                    :value="p.id"
+                                    >{{ p.producto }}</option
+                                >
+                            </select>
                         </div>
                     </div>
 
@@ -36,36 +36,45 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Nombre</th>
-                                    <th>Email</th>
-                                    <th>Rol</th>
-                                    <th>Telefono</th>
-                                    <th>Celular</th>
-                                    <th>Direccion</th>
+                                    <th>Id</th>
+                                    <th>Producto</th>
+                                    <th>Cantidad de ingreso</th>
+                                    <th>Precio de compra</th>
+                                    <th>Modo de pago</th>
+                                    <th>Encargado</th>
+                                    <th>Fecha</th>
+                                    <th>Modificado</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="item in users.data" :key="item.id">
+                                <tr
+                                    v-for="item in ingresosProductos.data"
+                                    :key="item.id"
+                                >
                                     <td>{{ item.id }}</td>
-                                    <td>{{ item.name | capitalize }}</td>
-                                    <td>{{ item.email }}</td>
-                                    <td>{{ item.role | roleText }}</td>
-                                    <td>{{ item.telefono }}</td>
-                                    <td>{{ item.celular }}</td>
-                                    <td>{{ item.direccion | capitalize }}</td>
+                                    <td>{{ item.producto }}</td>
+                                    <td>{{ item.cantidadIngreso }}</td>
+                                    <td>
+                                        {{ item.precioCompra | capitalize }}
+                                    </td>
+                                    <td>{{ item.modoPago }}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.created_at }}</td>
+                                    <td>{{ item.updated_at }}</td>
                                     <td>
                                         <button
                                             @click="editModal(item)"
-                                            class="btn "
+                                            class="btn"
                                         >
                                             <i class="fa fa-edit blue"></i>
                                         </button>
                                         |
                                         <button
-                                            class="btn "
-                                            @click="deleteUser(item.id)"
+                                            class="btn"
+                                            @click="
+                                                deleteIngresoProducto(item.id)
+                                            "
                                         >
                                             <i class="fa fa-trash red"></i>
                                         </button>
@@ -77,7 +86,7 @@
                     <!-- /.card-body -->
                     <div class="card-footer">
                         <pagination
-                            :data="users"
+                            :data="ingresosProductos"
                             :limit="3"
                             @pagination-change-page="getResults"
                         ></pagination>
@@ -104,7 +113,10 @@
                             class="modal-title"
                             id="addNew"
                             v-text="
-                                editMode ? 'Editar usuario' : 'Crear usuario'
+                                editMode
+                                    ? 'Editar el ingreso de producto id: ' +
+                                      form.id
+                                    : 'Crear ingreso de producto'
                             "
                         ></h5>
                         <button
@@ -117,162 +129,107 @@
                         </button>
                     </div>
                     <form
-                        @submit.prevent="editMode ? updateUser() : createUser()"
+                        @submit.prevent="
+                            editMode
+                                ? updateIngresoProducto()
+                                : createIngresoProducto()
+                        "
                     >
                         <div class="modal-body">
-                            <div class="form-group">
-                                <label>Nombre</label>
-                                <input
-                                    v-model="form.name"
-                                    type="text"
-                                    name="name"
-                                    required
-                                    placeholder="Nombre"
-                                    class="form-control"
-                                    :class="{
-                                        'is-invalid': form.errors.has('name')
-                                    }"
-                                />
-                                <has-error
-                                    :form="form"
-                                    field="name"
-                                ></has-error>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input
-                                    v-model="form.email"
-                                    type="email"
-                                    name="email"
-                                    required
-                                    placeholder="Email"
-                                    class="form-control"
-                                    :class="{
-                                        'is-invalid': form.errors.has('email')
-                                    }"
-                                />
-                                <has-error
-                                    :form="form"
-                                    field="email"
-                                ></has-error>
-                            </div>
-
-                            <div class="form-group" v-if="editMode">
-                                <label>Contraseña</label>
-                                <input
-                                    v-model="form.password"
-                                    type="password"
-                                    name="password"
-                                    class="form-control"
-                                    :class="{
-                                        'is-invalid': form.errors.has(
-                                            'password'
-                                        )
-                                    }"
-                                />
-                                <has-error
-                                    :form="form"
-                                    field="password"
-                                ></has-error>
-                            </div>
-
                             <div class="form-group" v-if="!editMode">
-                                <label>Contraseña</label>
-                                <input
-                                    v-model="form.password"
-                                    type="password"
-                                    name="password"
-                                    required
+                                <label>Producto</label>
+                                <select
+                                    v-model="form.productos_id"
+                                    name="productos_id"
                                     class="form-control"
                                     :class="{
                                         'is-invalid': form.errors.has(
-                                            'password'
+                                            'productos_id'
                                         )
-                                    }"
-                                />
-                                <has-error
-                                    :form="form"
-                                    field="password"
-                                ></has-error>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Rol</label>
-                                <select
-                                    v-model="form.role"
-                                    name="role"
-                                    required
-                                    class="form-control"
-                                    :class="{
-                                        'is-invalid': form.errors.has('role')
                                     }"
                                 >
-                                    <option value>Seleccionar un rol</option>
-                                    <option value="1">Administrador</option>
-                                    <option value="2">Usuario</option>
+                                    <option value
+                                        >Seleccionar un producto</option
+                                    >
+                                    <option
+                                        v-for="(p, index) in productos"
+                                        :key="index"
+                                        :value="p.id"
+                                        >{{ p.producto }}</option
+                                    >
                                 </select>
                                 <has-error
                                     :form="form"
-                                    field="role"
+                                    field="productos_id"
                                 ></has-error>
                             </div>
 
                             <div class="form-group">
-                                <label>Celular</label>
+                                <label>Precio de compra</label>
                                 <input
-                                    v-model="form.celular"
+                                    v-model="form.precioCompra"
                                     type="number"
-                                    name="celular"
-                                    placeholder="Celular"
-                                    class="form-control"
-                                    :class="{
-                                        'is-invalid': form.errors.has('celular')
-                                    }"
-                                />
-                                <has-error
-                                    :form="form"
-                                    field="celular"
-                                ></has-error>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Telefono</label>
-                                <input
-                                    v-model="form.telefono"
-                                    type="number"
-                                    name="telefono"
-                                    placeholder="Telefono"
+                                    name="precioCompra"
+                                    required
+                                    placeholder="Precio de compra"
                                     class="form-control"
                                     :class="{
                                         'is-invalid': form.errors.has(
-                                            'telefono'
+                                            'precioCompra'
                                         )
                                     }"
                                 />
                                 <has-error
                                     :form="form"
-                                    field="telefono"
+                                    field="precioCompra"
                                 ></has-error>
                             </div>
 
                             <div class="form-group">
-                                <label>Direccion</label>
+                                <label>Cantidad</label>
                                 <input
-                                    v-model="form.direccion"
-                                    type="text"
-                                    name="direccion"
-                                    placeholder="Direccion"
+                                    v-model="form.cantidadIngreso"
+                                    type="number"
+                                    name="cantidadIngreso"
+                                    placeholder="Cantidad de productos que ingresan"
                                     class="form-control"
                                     :class="{
                                         'is-invalid': form.errors.has(
-                                            'direccion'
+                                            'cantidadIngreso'
                                         )
                                     }"
                                 />
                                 <has-error
                                     :form="form"
-                                    field="direccion"
+                                    field="cantidadIngreso"
+                                ></has-error>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Modo de pago</label>
+                                <select
+                                    v-model="form.modosPagos_id"
+                                    name="modosPagos_id"
+                                    class="form-control"
+                                    :class="{
+                                        'is-invalid': form.errors.has(
+                                            'modosPagos_id'
+                                        )
+                                    }"
+                                >
+                                    <option value
+                                        >Seleccionar un modo de pago</option
+                                    >
+                                    <option
+                                        v-for="(m, index) in modosPagos"
+                                        :key="index"
+                                        :value="m.id"
+                                        >{{ m.modoPago }}</option
+                                    >
+                                </select>
+                                <has-error
+                                    :form="form"
+                                    field="modosPagos_id"
                                 ></has-error>
                             </div>
                         </div>
@@ -311,44 +268,37 @@ export default {
     data() {
         return {
             editMode: false,
-            users: {},
+            productos: [],
+            modosPagos: [],
+            ingresosProductos: {},
             search: "",
             form: new Form({
                 id: "",
-                name: "",
-                email: "",
-                password: "",
-                role: "",
-                celular: "",
-                telefono: "",
-                direccion: ""
+                cantidadIngreso: "",
+                modosPagos_id: "",
+                productos_id: "",
+                precioCompra: ""
             })
         };
     },
     created() {
-        this.loadUsers();
-        // Fire.$on("AfterCreate", () => {
-        //   this.loadUsers();
-        // });
-
-        // setInterval(() => {
-        //   this.loadUsers();
-        // }, 5000);
+        this.loadProductos();
+        this.loadModosPagos();
+        this.loadIngresosProductos();
     },
     methods: {
-        createUser() {
+        createIngresoProducto() {
             this.$Progress.start();
             this.form
-                .post("user")
+                .post("ingresoProducto")
                 .then(() => {
                     $("#addNew").modal("hide");
                     Toast.fire({
                         icon: "success",
-                        title: "Creado correctamente"
+                        title: "Ingreso de producto creado correctamente"
                     });
-                    //Fire.$emit("AfterCreate");
                     this.$Progress.finish();
-                    this.loadUsers();
+                    this.loadIngresosProductos();
                 })
                 .catch(() => {
                     this.$Progress.fail();
@@ -358,12 +308,23 @@ export default {
                     });
                 });
         },
-        loadUsers() {
-            axios.get("user").then(data => (this.users = data.data));
+        loadIngresosProductos() {
+            axios
+                .get("ingresoProducto")
+                .then(res => (this.ingresosProductos = res.data));
         },
-        deleteUser(id) {
+        loadProductos() {
+            axios.get("producto").then(res => (this.productos = res.data.data));
+        },
+        loadModosPagos() {
+            axios
+                .get("modoPago")
+                .then(res => (this.modosPagos = res.data.data));
+        },
+        deleteIngresoProducto(id) {
             Swal.fire({
-                title: "¿Esta seguro que desea eliminar este usuario?",
+                title:
+                    "¿Esta seguro que desea eliminar este ingreso de producto?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -372,19 +333,19 @@ export default {
             }).then(result => {
                 if (result.value) {
                     axios
-                        .delete("user/" + id)
+                        .delete("ingresoProducto/" + id)
                         .then(() => {
-                            this.loadUsers();
+                            this.loadIngresosProductos();
                             Swal.fire(
                                 "Eliminado!",
-                                "El usuario se elimino correctamente.",
+                                "El ingreso de producto se elimino correctamente.",
                                 "success"
                             );
                         })
                         .catch(() => {
                             Swal.fire(
                                 "Error!",
-                                "No se pudo eliminar el usuario",
+                                "No se pudo eliminar el ingreso",
                                 "error"
                             );
                         });
@@ -397,25 +358,25 @@ export default {
             $("#addNew").modal("show");
         },
 
-        editModal(user) {
+        editModal(ingresoProducto) {
             this.editMode = true;
             this.form.reset();
             $("#addNew").modal("show");
-            this.form.fill(user);
+            this.form.fill(ingresoProducto);
         },
 
-        updateUser() {
+        updateIngresoProducto() {
             this.$Progress.start();
             this.form
-                .put("user/" + this.form.id)
+                .put("ingresoProducto/" + this.form.id)
                 .then(res => {
                     $("#addNew").modal("hide");
                     Toast.fire({
                         icon: "success",
-                        title: "Actualizado correctamente"
+                        title: "Ingreso de producto actualizado correctamente"
                     });
                     this.$Progress.finish();
-                    this.loadUsers();
+                    this.loadIngresosProductos();
                 })
                 .catch(() => {
                     this.$Progress.fail();
@@ -427,20 +388,19 @@ export default {
         },
         getResults(page = 1) {
             let query = this.search;
-            axios.get("user/" + query + "?page=" + page).then(res => {
-                this.users = res.data;
+            axios.get("ingresoProducto" + query + "?page=" + page).then(res => {
+                this.ingresosProductos = res.data;
             });
         },
-        //se busca cada cierto tiempo lo que ponemos en el filtro con la funcion debounce
+
         buscar: _.debounce(function() {
             this.filter();
         }, 500),
 
-        //llama a la ruta find user
         filter() {
             let query = this.search;
-            axios.get("user/" + query).then(res => {
-                this.users = res.data;
+            axios.get("ingresoProducto/" + query).then(res => {
+                this.ingresosProductos = res.data;
             });
         }
     }
