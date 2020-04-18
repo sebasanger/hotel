@@ -31,6 +31,7 @@
         "animate.css": "^3.7.2",
         "laravel-vue-pagination": "^2.3.1",
         "moment": "^2.24.0",
+        "moment-timezone": "^0.5.28",
         "sweetalert2": "^9.10.11",
         "vform": "^1.0.1",
         "vue-gantt-schedule-timeline-calendar": "^1.0.33",

@@ -33,7 +33,9 @@
 
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-0">
-                        <table class="table table-hover">
+                        <table
+                            class="table table-bordered table-hover dataTable"
+                        >
                             <thead>
                                 <tr>
                                     <th>Id</th>
@@ -311,7 +313,15 @@ export default {
         loadIngresosProductos() {
             axios
                 .get("ingresoProducto")
-                .then(res => (this.ingresosProductos = res.data));
+                .then(res => {
+                    this.ingresosProductos = res.data;
+                    this.$Progress.finish();
+                })
+                .catch(() => {
+                    this.$router.push({
+                        name: "500"
+                    });
+                });
         },
         loadProductos() {
             axios.get("producto").then(res => (this.productos = res.data.data));

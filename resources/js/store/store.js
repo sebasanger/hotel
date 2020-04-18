@@ -38,19 +38,15 @@ export default new Vuex.Store({
             if (reserva) {
                 commit("SET_RESERVA", reserva);
             } else {
-                Axios.get("/reserva/" + id)
-                    .then(res => {
-                        commit("SET_RESERVA", res.data);
-                    })
-                    .catch(err => {
-                        console.log("error al cargar la reserva");
-                    });
+                Axios.get("/reserva/" + id).then(res => {
+                    commit("SET_RESERVA", res.data);
+                });
             }
         }
     },
     getters: {
         getReservaById: state => id => {
-            return state.reservas.find(reserva => reserva.id === id);
+            return state.reservas.find(reserva => reserva.id == id);
         }
     }
 });

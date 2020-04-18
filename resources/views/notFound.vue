@@ -551,5 +551,12 @@
     </div>
 </template>
 <script>
-export default {};
+export default {
+    created() {
+        this.$Progress.start();
+    },
+    mounted() {
+        this.$Progress.fail();
+    }
+};
 </script>

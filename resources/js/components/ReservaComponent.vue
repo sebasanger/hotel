@@ -53,7 +53,7 @@
 import GSTC from "vue-gantt-schedule-timeline-calendar";
 import CalendarScroll from "gantt-schedule-timeline-calendar/dist/CalendarScroll.plugin.js";
 
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 let router;
 let selectionApi;
@@ -74,8 +74,7 @@ export default {
                     CalendarScroll({
                         speed: 0.05,
                         hideScroll: true
-                    }),
-
+                    })
                 ],
 
                 height: 800,
@@ -207,7 +206,7 @@ export default {
     },
     computed: {
         ...mapState(["reservas"]),
-        loadReservas() {
+        loadItems() {
             this.reservas.forEach(element => {
                 this.config.chart.items[element.id] = {
                     id: element.id.toString(),
@@ -264,18 +263,26 @@ export default {
         loadHabitaciones() {
             axios
                 .get("habitacion")
-                .then(res => (this.config.list.rows = res.data.data));
+                .then(res => {
+                    this.config.list.rows = res.data.data;
+                    this.$Progress.finish();
+                })
+                .catch(() => {
+                    router.push({
+                        name: "500"
+                    });
+                });
         }
     },
 
     created() {
         router = this.$router;
-
     },
     mounted() {
+        this.loadItems;
         this.loadHabitaciones();
-        this.loadReservas;
     },
+
     beforeDestroy() {
         subs.forEach(unsub => unsub());
     }

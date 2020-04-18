@@ -1,14 +1,13 @@
 <template>
     <div>
-     <NotificationContainer/>
-
+        <NotificationContainer />
     </div>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
-import NotificationContainer from './NotificationContainer.vue'
+import NotificationContainer from "./NotificationContainer.vue";
 export default {
-    components:{
+    components: {
         NotificationContainer
     },
     mounted() {
@@ -38,7 +37,6 @@ export default {
         //  hook the progress bar to finish after we've finished moving router-view
         this.$router.afterEach((to, from) => {
             //  finish the progress bar
-            this.$Progress.finish();
         });
     }
 };

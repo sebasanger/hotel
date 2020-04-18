@@ -41,7 +41,12 @@ class ReservaController extends Controller
      */
     public function show($id)
     {
-        return Reserva::find($id);
+        $reservas = Reserva::leftJoin('clientes', 'reservas.clientes_id', '=', 'clientes.id')
+            ->leftJoin('habitaciones', 'reservas.habitaciones_id', '=', 'habitaciones.id')
+            ->select('reservas.*', 'habitaciones.numeroHabitacion', 'clientes.apellido', 'clientes.nombre')
+            ->where('reservas.id',"=", $id)->get();
+
+        return $reservas;
     }
 
     /**

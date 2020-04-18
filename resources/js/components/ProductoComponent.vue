@@ -33,7 +33,9 @@
 
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-0">
-                        <table class="table table-hover">
+                        <table
+                            class="table table-bordered table-hover dataTable"
+                        >
                             <thead>
                                 <tr>
                                     <th>Id</th>
@@ -485,7 +487,17 @@ export default {
                 });
         },
         loadProductos() {
-            axios.get("producto").then(res => (this.productos = res.data));
+            axios
+                .get("producto")
+                .then(res => {
+                    this.productos = res.data;
+                    this.$Progress.finish();
+                })
+                .catch(() => {
+                    this.$router.push({
+                        name: "500"
+                    });
+                });
         },
         loadCategorias() {
             axios
@@ -560,7 +572,6 @@ export default {
                 });
         },
         getResults(page = 1) {
-
             axios.get("producto/" + query + "?page=" + page).then(res => {
                 this.productos = res.data;
             });

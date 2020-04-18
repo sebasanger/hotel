@@ -33,7 +33,7 @@
 
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-0">
-                        <table class="table table-hover">
+                        <table class="table table-bordered table-hover dataTable">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -359,7 +359,17 @@ export default {
                 });
         },
         loadUsers() {
-            axios.get("user").then(data => (this.users = data.data));
+            axios
+                .get("user")
+                .then(res => {
+                    this.users = res.data;
+                    this.$Progress.finish();
+                })
+                .catch(() => {
+                     this.$router.push({
+                        name: "500"
+                    });
+                });
         },
         deleteUser(id) {
             Swal.fire({

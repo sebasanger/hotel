@@ -33,7 +33,9 @@
 
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-0">
-                        <table class="table table-hover">
+                        <table
+                            class="table table-bordered table-hover dataTable"
+                        >
                             <thead>
                                 <tr>
                                     <th>DNI</th>
@@ -367,6 +369,7 @@ export default {
         this.loadClientes();
         this.loadFacturas();
     },
+
     methods: {
         createCliente() {
             this.$Progress.start();
@@ -390,7 +393,17 @@ export default {
                 });
         },
         loadClientes() {
-            axios.get("cliente").then(res => (this.clientes = res.data));
+            axios
+                .get("cliente")
+                .then(res => {
+                    this.clientes = res.data;
+                    this.$Progress.finish();
+                })
+                .catch(() => {
+                    this.$router.push({
+                        name: "500"
+                    });
+                });
         },
         loadFacturas() {
             axios.get("factura").then(res => (this.facturas = res.data.data));
@@ -460,13 +473,21 @@ export default {
                 });
         },
         getResults(page = 1) {
+            this.$Progress.start();
             let query = this.search;
-            axios.get("cliente/" + query + "?page=" + page).then(res => {
-                this.clientes = res.data;
-            });
+            axios
+                .get("cliente/" + query + "?page=" + page)
+                .then(res => {
+                    this.clientes = res.data;
+                    this.$Progress.finish();
+                })
+                .catch(err => {
+                    this.$Progress.fail();
+                });
         },
         //se busca cada cierto tiempo lo que ponemos en el filtro con la funcion debounce
         buscar: _.debounce(function() {
+            this.$Progress.start();
             this.filter();
         }, 50),
 
@@ -475,6 +496,7 @@ export default {
             let query = this.search;
             axios.get("cliente/" + query).then(res => {
                 this.clientes = res.data;
+                this.$Progress.finish();
             });
         }
     }

@@ -5,15 +5,6 @@ window.Vue = require("vue");
 //iport lodash para el debounce
 import _ from "lodash";
 
-//iportacion de componente de la paginacion
-Vue.component("pagination", require("laravel-vue-pagination"));
-
-//componente para el cambio de monedas
-Vue.component("cambio", require("./components/convertidor.vue").default);
-
-//componente para el cambio de monedas
-Vue.component("App", require("./components/App.vue").default);
-
 //Import View Router
 import router from "./router";
 
@@ -22,6 +13,9 @@ import store from "./store/store";
 
 //import vform
 require("./vform");
+
+//import components
+require("./importComponents");
 
 //Import Vue Filter
 require("./filter");

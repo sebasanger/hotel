@@ -2,13 +2,13 @@ import Vue from "vue";
 
 import Router from "vue-router";
 
-import Reserva from "./components/Reservas/ReservaComponent.vue";
+import Reserva from "./components/ReservaComponent.vue";
 
 import Cliente from "./components/ClienteComponent.vue";
 
 import Habitacion from "./components/HabitacionComponent.vue";
 
-import User from "./components/Users/UserComponent.vue";
+import User from "./components/UserComponent.vue";
 
 import Factura from "./components/FacturaComponent.vue";
 
@@ -26,11 +26,15 @@ import Precio from "./components/PrecioComponent.vue";
 
 import Marca from "./components/MarcaComponent.vue";
 
-import NotFound from "./components/notFound.vue";
-
 import Home from "./components/home.vue";
 
 import reservashow from "./components/reservaShow.vue";
+
+import NotFound from "../views/notFound.vue";
+
+import network from "../views/NetworkIssue.vue";
+
+import store from "./store/store";
 
 Vue.use(Router);
 
@@ -122,9 +126,20 @@ export default new Router({
         },
 
         {
-            path: "/*",
+            path: "/404",
             component: NotFound,
-            name: "notFound"
+            name: "404"
+        },
+
+        {
+            path: "/500",
+            component: network,
+            name: "500"
+        },
+
+        {
+            path: "/*",
+            redirect: { name: "404" }
         }
     ]
 });
