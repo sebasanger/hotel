@@ -1,51 +1,6 @@
 <template>
     <div id="app">
         <GSTC :config="config" @state="onState" @click="console.log(config)" />
-
-        <!-- Modal -->
-        <div
-            class="modal fade"
-            id="modalInfo"
-            data-backdrop="static"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="modalInfo"
-            aria-hidden="true"
-        >
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5
-                            class="modal-title"
-                            id="modalInfo"
-                            v-text="'Informacion'"
-                        ></h5>
-                        <button
-                            type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                        >
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
-                    <div class="modal-body">
-                        <div id="miId"></div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button
-                            type="button"
-                            class="btn btn-danger"
-                            data-dismiss="modal"
-                        >
-                            Cancelar
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
 
@@ -205,36 +160,10 @@ export default {
         };
     },
     computed: {
-        ...mapState(["reservas"]),
-        loadItems() {
-            this.reservas.forEach(element => {
-                this.config.chart.items[element.id] = {
-                    id: element.id.toString(),
-                    rowId: element.habitaciones_id.toString(),
-                    label:
-                        element.nombre +
-                        " " +
-                        element.apellido +
-                        " " +
-                        element.numeroHabitacion,
-                    pagado: element.pagado,
-                    huespedes: element.huespedes,
-                    patenteAuto: element.patenteAuto,
-                    nombre: element.nombre,
-                    apellido: element.apellido,
-                    numeroHabitacion: element.numeroHabitacion,
-                    precio: element.precio,
-                    totalPagar: element.totalPagar,
-                    created_at: element.created_at,
-                    style: {
-                        background: element.color
-                    },
-                    time: {
-                        start: new Date(element.ingreso).getTime(),
-                        end: new Date(element.egreso).getTime()
-                    }
-                };
-            });
+        ...mapState(["reservas", "elementos", "habitaciones"]),
+        cargar() {
+            this.config.chart.items = this.elementos;
+            this.config.list.rows = this.habitaciones;
         }
     },
 
@@ -259,19 +188,6 @@ export default {
         },
         onState(state) {
             this.state = state;
-        },
-        loadHabitaciones() {
-            axios
-                .get("habitacion")
-                .then(res => {
-                    this.config.list.rows = res.data.data;
-                    this.$Progress.finish();
-                })
-                .catch(() => {
-                    router.push({
-                        name: "500"
-                    });
-                });
         }
     },
 
@@ -279,8 +195,8 @@ export default {
         router = this.$router;
     },
     mounted() {
-        this.loadItems;
-        this.loadHabitaciones();
+        this.cargar;
+        this.$Progress.finish();
     },
 
     beforeDestroy() {

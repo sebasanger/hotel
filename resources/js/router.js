@@ -56,7 +56,8 @@ export default new Router({
         {
             path: "/reservas",
             component: Reserva,
-            name: "reserva"
+            name: "reserva",
+            children: []
         },
 
         {

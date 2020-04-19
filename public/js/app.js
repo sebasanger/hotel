@@ -1946,6 +1946,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
+    this.$store.dispatch("fetchHabitaciones");
     this.$store.dispatch("fetchReservas");
     this.$store.dispatch("user/fetchUser"); //  [App.vue specific] When App.vue is first loaded start the progress bar
 
@@ -6116,51 +6117,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -6271,33 +6227,10 @@ var subs = [];
       }
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["reservas"]), {
-    loadItems: function loadItems() {
-      var _this = this;
-
-      this.reservas.forEach(function (element) {
-        _this.config.chart.items[element.id] = {
-          id: element.id.toString(),
-          rowId: element.habitaciones_id.toString(),
-          label: element.nombre + " " + element.apellido + " " + element.numeroHabitacion,
-          pagado: element.pagado,
-          huespedes: element.huespedes,
-          patenteAuto: element.patenteAuto,
-          nombre: element.nombre,
-          apellido: element.apellido,
-          numeroHabitacion: element.numeroHabitacion,
-          precio: element.precio,
-          totalPagar: element.totalPagar,
-          created_at: element.created_at,
-          style: {
-            background: element.color
-          },
-          time: {
-            start: new Date(element.ingreso).getTime(),
-            end: new Date(element.egreso).getTime()
-          }
-        };
-      });
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["reservas", "elementos", "habitaciones"]), {
+    cargar: function cargar() {
+      this.config.chart.items = this.elementos;
+      this.config.list.rows = this.habitaciones;
     }
   }),
   methods: {
@@ -6323,27 +6256,14 @@ var subs = [];
     },
     onState: function onState(state) {
       this.state = state;
-    },
-    loadHabitaciones: function loadHabitaciones() {
-      var _this2 = this;
-
-      axios.get("habitacion").then(function (res) {
-        _this2.config.list.rows = res.data.data;
-
-        _this2.$Progress.finish();
-      })["catch"](function () {
-        router.push({
-          name: "500"
-        });
-      });
     }
   },
   created: function created() {
     router = this.$router;
   },
   mounted: function mounted() {
-    this.loadItems;
-    this.loadHabitaciones();
+    this.cargar;
+    this.$Progress.finish();
   },
   beforeDestroy: function beforeDestroy() {
     subs.forEach(function (unsub) {
@@ -81912,94 +81832,12 @@ var render = function() {
             return _vm.console.log(_vm.config)
           }
         }
-      }),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "modal fade",
-          attrs: {
-            id: "modalInfo",
-            "data-backdrop": "static",
-            tabindex: "-1",
-            role: "dialog",
-            "aria-labelledby": "modalInfo",
-            "aria-hidden": "true"
-          }
-        },
-        [
-          _c(
-            "div",
-            {
-              staticClass: "modal-dialog modal-dialog-centered",
-              attrs: { role: "document" }
-            },
-            [
-              _c("div", { staticClass: "modal-content" }, [
-                _c("div", { staticClass: "modal-header" }, [
-                  _c("h5", {
-                    staticClass: "modal-title",
-                    attrs: { id: "modalInfo" },
-                    domProps: { textContent: _vm._s("Informacion") }
-                  }),
-                  _vm._v(" "),
-                  _vm._m(0)
-                ]),
-                _vm._v(" "),
-                _vm._m(1),
-                _vm._v(" "),
-                _vm._m(2)
-              ])
-            ]
-          )
-        ]
-      )
+      })
     ],
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "close",
-        attrs: {
-          type: "button",
-          "data-dismiss": "modal",
-          "aria-label": "Close"
-        }
-      },
-      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-body" }, [
-      _c("div", { attrs: { id: "miId" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-danger",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("\n                        Cancelar\n                    ")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -101626,7 +101464,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   }, {
     path: "/reservas",
     component: _components_ReservaComponent_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    name: "reserva"
+    name: "reserva",
+    children: []
   }, {
     path: "/facturas",
     component: _components_FacturaComponent_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
@@ -101819,7 +101658,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   },
   state: {
     reservas: [],
-    reserva: {}
+    reserva: {},
+    elementos: [],
+    habitaciones: []
   },
   mutations: {
     SET_RESERVAS: function SET_RESERVAS(state, reservas) {
@@ -101827,15 +101668,44 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     SET_RESERVA: function SET_RESERVA(state, reserva) {
       state.reserva = reserva;
+    },
+    SET_ELEMENTOS: function SET_ELEMENTOS(state, elementos) {
+      state.elementos = elementos;
+    },
+    SET_HABITACIONES: function SET_HABITACIONES(state, habitaciones) {
+      state.habitaciones = habitaciones;
     }
   },
   actions: {
     fetchReservas: function fetchReservas(_ref) {
       var commit = _ref.commit;
+      var elementos = [];
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/reserva").then(function (res) {
         commit("SET_RESERVAS", res.data);
-      })["catch"](function (error) {
-        console.log("no se pudo cargar las reservas");
+        res.data.forEach(function (element) {
+          elementos.push({
+            id: element.id.toString(),
+            rowId: element.habitaciones_id.toString(),
+            label: element.nombre + " " + element.apellido + " " + element.numeroHabitacion,
+            pagado: element.pagado,
+            huespedes: element.huespedes,
+            patenteAuto: element.patenteAuto,
+            nombre: element.nombre,
+            apellido: element.apellido,
+            numeroHabitacion: element.numeroHabitacion,
+            precio: element.precio,
+            totalPagar: element.totalPagar,
+            created_at: element.created_at,
+            style: {
+              background: element.color
+            },
+            time: {
+              start: new Date(element.ingreso).getTime(),
+              end: new Date(element.egreso).getTime()
+            }
+          });
+        });
+        commit("SET_ELEMENTOS", elementos);
       });
     },
     fetchReserva: function fetchReserva(_ref2, id) {
@@ -101850,6 +101720,12 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
           commit("SET_RESERVA", res.data);
         });
       }
+    },
+    fetchHabitaciones: function fetchHabitaciones(_ref3) {
+      var commit = _ref3.commit;
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/habitacion").then(function (res) {
+        commit("SET_HABITACIONES", res.data.data);
+      });
     }
   },
   getters: {

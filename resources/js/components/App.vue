@@ -16,6 +16,7 @@ export default {
     },
     computed: {},
     created() {
+        this.$store.dispatch("fetchHabitaciones");
         this.$store.dispatch("fetchReservas");
         this.$store.dispatch("user/fetchUser");
 
