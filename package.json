@@ -33,6 +33,7 @@
         "moment": "^2.24.0",
         "moment-timezone": "^0.5.28",
         "sweetalert2": "^9.10.11",
+        "velocity-animate": "^1.5.2",
         "vform": "^1.0.1",
         "vue-gantt-schedule-timeline-calendar": "^1.0.33",
         "vue-progressbar": "^0.7.5",

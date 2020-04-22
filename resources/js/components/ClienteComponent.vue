@@ -49,10 +49,12 @@
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <transition-group tag="tbody" name="fade-list">
                                 <tr
-                                    v-for="item in clientes.data"
+                                    v-for="(item, index) in cliente.clientes
+                                        .data"
                                     :key="item.id"
+                                    class="list-complete-item"
                                 >
                                     <td>{{ item.dni }}</td>
                                     <td>
@@ -62,14 +64,22 @@
                                         }}
                                     </td>
                                     <td>{{ item.celular }}</td>
-                                    <td>{{ item.domicilio | capitalize }}</td>
+                                    <td>
+                                        {{ item.domicilio | capitalize }}
+                                    </td>
                                     <td>{{ item.destino | capitalize }}</td>
-                                    <td>{{ item.procedencia | capitalize }}</td>
-                                    <td>{{ item.profecion | capitalize }}</td>
-                                    <td>{{ item.tipoFactura | capitalize }}</td>
+                                    <td>
+                                        {{ item.procedencia | capitalize }}
+                                    </td>
+                                    <td>
+                                        {{ item.profecion | capitalize }}
+                                    </td>
+                                    <td>
+                                        {{ item.tipoFactura | capitalize }}
+                                    </td>
                                     <td>
                                         <button
-                                            @click="editModal(item)"
+                                            @click="editModal(item, index)"
                                             class="btn"
                                         >
                                             <i class="fa fa-edit blue"></i>
@@ -77,24 +87,27 @@
                                         |
                                         <button
                                             class="btn"
-                                            @click="deleteCliente(item.id)"
+                                            @click="
+                                                deleteCliente(item.id, index)
+                                            "
                                         >
                                             <i class="fa fa-trash red"></i>
                                         </button>
                                     </td>
                                 </tr>
-                            </tbody>
+                            </transition-group>
                         </table>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
                         <pagination
-                            :data="clientes"
+                            :data="cliente.clientes"
                             :limit="3"
                             @pagination-change-page="getResults"
                         ></pagination>
                     </div>
                 </div>
+
                 <!-- /.card -->
             </div>
         </div>
@@ -344,11 +357,13 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from "vuex";
 export default {
     data() {
         return {
+            //sirtve para mantener la pagina que se esta viendo al realizar las consultas
+            paginaActual: 1,
             editMode: false,
-            clientes: {},
             search: "",
             facturas: [],
             form: new Form({
@@ -366,8 +381,11 @@ export default {
         };
     },
     created() {
-        this.loadClientes();
+        this.getResults(this.paginaActual);
         this.loadFacturas();
+    },
+    computed: {
+        ...mapState(["cliente"])
     },
 
     methods: {
@@ -376,32 +394,25 @@ export default {
             this.form
                 .post("cliente")
                 .then(() => {
+                    //se limpia posibles filtros para que devuelva a la pagina 1 y se vea la agregacion del usuario
+                    this.search = "";
+                    //carga los clientes nuevamente pero nos devuelve a la pagina 1
+                    this.getResults(1);
+                    //se cierra el modal
                     $("#addNew").modal("hide");
+                    //se da el aviso de que fue todo correcto
                     Toast.fire({
                         icon: "success",
                         title: "Cliente creado correctamente"
                     });
                     this.$Progress.finish();
-                    this.loadClientes();
                 })
                 .catch(() => {
+                    //sino se avisa de un error pero se mantiene el modal hasta que se haga correctamente
                     this.$Progress.fail();
                     Toast.fire({
                         icon: "error",
                         title: "Error"
-                    });
-                });
-        },
-        loadClientes() {
-            axios
-                .get("cliente")
-                .then(res => {
-                    this.clientes = res.data;
-                    this.$Progress.finish();
-                })
-                .catch(() => {
-                    this.$router.push({
-                        name: "500"
                     });
                 });
         },
@@ -418,33 +429,27 @@ export default {
                 confirmButtonText: "Si, eliminar!"
             }).then(result => {
                 if (result.value) {
-                    axios
-                        .delete("cliente/" + id)
-                        .then(() => {
-                            this.loadClientes();
-                            Swal.fire(
-                                "Eliminado!",
-                                "El cliente se elimino correctamente.",
-                                "success"
-                            );
-                        })
-                        .catch(() => {
-                            Swal.fire(
-                                "Error!",
-                                "No se pudo eliminar el cliente",
-                                "error"
-                            );
-                        });
+                    axios.delete("cliente/" + id).then(() => {
+                        //se elimina el usuario y se cargan los datos nuevmanete manteniendo el filtro y la pagina
+                        this.getResults(this.paginaActual);
+                        Swal.fire(
+                            "Eliminado!",
+                            "El cliente se elimino correctamente.",
+                            "success"
+                        );
+                    });
                 }
             });
         },
         newModal() {
+            //abre el modal, lo limpia y saca el modo de edicion si es que estaba activo
             this.editMode = false;
             this.form.reset();
             $("#addNew").modal("show");
         },
 
         editModal(cliente) {
+            //abre el mismo modal pero con la opcion de edit modal en true lo que cambia a que metodo pasamos la info y rellena el modal
             this.editMode = true;
             this.form.reset();
             $("#addNew").modal("show");
@@ -456,13 +461,14 @@ export default {
             this.form
                 .put("cliente/" + this.form.id)
                 .then(res => {
+                    //actualiza los clientes manteniendo la pagina y filtros actuales
+                    this.getResults(this.paginaActual);
                     $("#addNew").modal("hide");
                     Toast.fire({
                         icon: "success",
                         title: "Cliente actualizado correctamente"
                     });
                     this.$Progress.finish();
-                    this.loadClientes();
                 })
                 .catch(() => {
                     this.$Progress.fail();
@@ -472,35 +478,20 @@ export default {
                     });
                 });
         },
-        getResults(page = 1) {
-            this.$Progress.start();
+        //busca los clientes por pagina y por filtrado
+        getResults(page) {
+            //busca cualquier filtro que estemos usando y lo mantiene
             let query = this.search;
-            axios
-                .get("cliente/" + query + "?page=" + page)
-                .then(res => {
-                    this.clientes = res.data;
-                    this.$Progress.finish();
-                })
-                .catch(err => {
-                    this.$Progress.fail();
-                });
+            //se actualiza la pagina actual con lo que nos da el metodo del componente de la paginacion
+            this.paginaActual = page;
+            //es la manera de pasar dos parametros al misma action
+            let payload = { query: query, pagina: this.paginaActual };
+            this.$store.dispatch("cliente/fetchCliente", payload);
         },
-        //se busca cada cierto tiempo lo que ponemos en el filtro con la funcion debounce
+        //busca cada 50ms cada vez qeu se escribe una tecla
         buscar: _.debounce(function() {
-            this.$Progress.start();
-            this.filter();
-        }, 50),
-
-        //llama a la ruta find cliente
-        filter() {
-            let query = this.search;
-            axios.get("cliente/" + query).then(res => {
-                this.clientes = res.data;
-                this.$Progress.finish();
-            });
-        }
+            this.getResults();
+        }, 50)
     }
 };
 </script>
-
-<style lang="stylus" scoped></style>

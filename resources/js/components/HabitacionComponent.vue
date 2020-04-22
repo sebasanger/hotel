@@ -287,8 +287,6 @@
                                 ></has-error>
                             </div>
 
-                            <hr />
-
                             <div class="form-group">
                                 <label>Imagen de la habitacion</label>
                                 <input
@@ -308,7 +306,7 @@
                                     field="image_path"
                                 ></has-error>
                             </div>
-                            <div style="margin-left : 100px">
+                            <div class="imagenes">
                                 <figure v-if="imagenMiniatrua">
                                     <img
                                         :src="imagenMiniatrua"
@@ -323,8 +321,12 @@
                                         height="150"
                                     />
                                 </figure>
+                                <div v-else class="preview">
+                                    <p>
+                                        No hay ninguna imagen aún
+                                    </p>
+                                </div>
                             </div>
-                            <hr />
 
                             <div class="form-group">
                                 <label>Segunda imagen de la habitacion</label>
@@ -345,7 +347,7 @@
                                     field="image_path2"
                                 ></has-error>
                             </div>
-                            <div style="margin-left : 100px">
+                            <div class="imagenes">
                                 <figure v-if="imagenMiniatrua2">
                                     <img
                                         :src="imagenMiniatrua2"
@@ -360,9 +362,12 @@
                                         height="150"
                                     />
                                 </figure>
+                                <div v-else class="preview">
+                                    <p>
+                                        No hay ninguna imagen aún
+                                    </p>
+                                </div>
                             </div>
-
-                            <hr />
 
                             <div class="form-group">
                                 <label>Terecera imagen de la habitacion</label>
@@ -383,7 +388,7 @@
                                     field="image_path3"
                                 ></has-error>
                             </div>
-                            <div style="margin-left : 100px">
+                            <div class="imagenes">
                                 <figure v-if="imagenMiniatrua3">
                                     <img
                                         :src="imagenMiniatrua3"
@@ -398,6 +403,11 @@
                                         height="150"
                                     />
                                 </figure>
+                                <div v-else class="preview">
+                                    <p>
+                                        No hay ninguna imagen aún
+                                    </p>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -438,7 +448,7 @@
             aria-labelledby="galery"
             aria-hidden="true"
         >
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-dialog-centered modal-xl" role="img">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5
@@ -457,19 +467,84 @@
                     </div>
 
                     <div class="modal-body">
-                        <figure v-if="form.image_path">
-                            <img :src="getFoto()" width="460" height="300" />
-                            <hr />
-                        </figure>
+                        <div
+                            id="carouselExampleIndicators"
+                            class="carousel slide"
+                            data-ride="carousel"
+                        >
+                            <ol class="carousel-indicators">
+                                <li
+                                    data-target="#carouselExampleIndicators"
+                                    data-slide-to="0"
+                                    class="active"
+                                ></li>
+                                <li
+                                    data-target="#carouselExampleIndicators"
+                                    data-slide-to="1"
+                                ></li>
+                                <li
+                                    data-target="#carouselExampleIndicators"
+                                    data-slide-to="2"
+                                ></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div
+                                    class="carousel-item active"
+                                    v-if="form.image_path"
+                                >
+                                    <img
+                                        :src="getFoto()"
+                                        class="d-block w-100"
+                                        height="650"
+                                    />
+                                </div>
+                                <div
+                                    class="carousel-item"
+                                    v-if="form.image_path2"
+                                >
+                                    <img
+                                        :src="getFoto2()"
+                                        class="d-block w-100"
+                                        height="650"
+                                    />
+                                </div>
+                                <div
+                                    class="carousel-item"
+                                    v-if="form.image_path3"
+                                >
+                                    <img
+                                        :src="getFoto3()"
+                                        class="d-block w-100"
+                                        height="650"
+                                    />
+                                </div>
+                            </div>
+                            <a
+                                class="carousel-control-prev"
+                                href="#carouselExampleIndicators"
+                                role="button"
+                                data-slide="prev"
+                            >
+                                <span
+                                    class="carousel-control-prev-icon"
+                                    aria-hidden="true"
+                                ></span>
+                                <span class="sr-only black">Previous</span>
+                            </a>
+                            <a
+                                class="carousel-control-next"
+                                href="#carouselExampleIndicators"
+                                role="button"
+                                data-slide="next"
+                            >
+                                <span
+                                    class="carousel-control-next-icon"
+                                    aria-hidden="true"
+                                ></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
 
-                        <figure v-if="form.image_path2">
-                            <img :src="getFoto2()" width="460" height="300" />
-                            <hr />
-                        </figure>
-
-                        <figure v-if="form.image_path3">
-                            <img :src="getFoto3()" width="460" height="300" />
-                        </figure>
                         <div class="modal-footer">
                             <button
                                 type="button"
@@ -607,7 +682,7 @@ export default {
         },
 
         galery(habitacion) {
-            this.form.reset();
+
             $("#galery").modal("show");
             this.form.fill(habitacion);
         },
@@ -707,4 +782,12 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped></style>
+<style scoped>
+.imagenes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 5px;
+}
+</style>

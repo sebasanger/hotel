@@ -42,3 +42,15 @@ export default {
     }
 };
 </script>
+
+<style>
+.fade-list-enter {
+    transform: translateX(-15px);
+    opacity: 0.05;
+}
+.fade-list-enter-active {
+    transition: all 0.7s ease-in;
+}
+
+
+</style>

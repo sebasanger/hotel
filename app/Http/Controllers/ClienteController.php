@@ -135,5 +135,4 @@ class ClienteController extends Controller
         $cliente->delete();
         return $cliente;
     }
-
 }

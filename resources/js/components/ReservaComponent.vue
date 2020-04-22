@@ -162,8 +162,8 @@ export default {
     computed: {
         ...mapState(["reservas", "elementos", "habitaciones"]),
         cargar() {
-            this.config.chart.items = this.elementos;
             this.config.list.rows = this.habitaciones;
+            this.config.chart.items = this.elementos;
         }
     },
 
@@ -194,11 +194,11 @@ export default {
     created() {
         router = this.$router;
     },
+
     mounted() {
         this.cargar;
         this.$Progress.finish();
     },
-
     beforeDestroy() {
         subs.forEach(unsub => unsub());
     }
