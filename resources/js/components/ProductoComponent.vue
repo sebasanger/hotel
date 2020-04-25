@@ -73,16 +73,16 @@
                                             <i class="fa fa-plus cyan"></i>
                                         </button>
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         <button
                                             @click="editModal(item)"
                                             class="btn"
                                         >
                                             <i class="fa fa-edit blue"></i>
                                         </button>
-                                        |
+
                                         <button
-                                            class="btn"
+                                            class="btn mb-2"
                                             @click="deleteProducto(item.id)"
                                         >
                                             <i class="fa fa-trash red"></i>

@@ -1,117 +1,5 @@
 <template>
     <div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <button
-                            class="btn-success float-right"
-                            @click="newModal"
-                        >
-                            Agregar cliente
-                        </button>
-                        <div
-                            class="input-group input-group-sm"
-                            style="width: 200px;"
-                        >
-                            <input
-                                autocomplete="off"
-                                type="text"
-                                name="table_search"
-                                class="form-control float-lg-left"
-                                placeholder="Nombre, apellido, email..."
-                                v-model="search"
-                                @keydown="buscar()"
-                            />
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- /.card-header -->
-                    <div class="card-body table-responsive p-0">
-                        <table
-                            class="table table-bordered table-hover dataTable"
-                        >
-                            <thead>
-                                <tr>
-                                    <th>DNI</th>
-                                    <th>Nombre y apellido</th>
-                                    <th>Celular</th>
-                                    <th>Domicio</th>
-                                    <th>Destino</th>
-                                    <th>Procedencia</th>
-                                    <th>Profecion</th>
-                                    <th>Factura</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <transition-group tag="tbody" name="fade-list">
-                                <tr
-                                    v-for="(item, index) in cliente.clientes
-                                        .data"
-                                    :key="item.id"
-                                    class="list-complete-item"
-                                >
-                                    <td>{{ item.dni }}</td>
-                                    <td>
-                                        {{
-                                            (item.nombre + " " + item.apellido)
-                                                | capitalize
-                                        }}
-                                    </td>
-                                    <td>{{ item.celular }}</td>
-                                    <td>
-                                        {{ item.domicilio | capitalize }}
-                                    </td>
-                                    <td>{{ item.destino | capitalize }}</td>
-                                    <td>
-                                        {{ item.procedencia | capitalize }}
-                                    </td>
-                                    <td>
-                                        {{ item.profecion | capitalize }}
-                                    </td>
-                                    <td>
-                                        {{ item.tipoFactura | capitalize }}
-                                    </td>
-                                    <td>
-                                        <button
-                                            @click="editModal(item, index)"
-                                            class="btn"
-                                        >
-                                            <i class="fa fa-edit blue"></i>
-                                        </button>
-                                        |
-                                        <button
-                                            class="btn"
-                                            @click="
-                                                deleteCliente(item.id, index)
-                                            "
-                                        >
-                                            <i class="fa fa-trash red"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </transition-group>
-                        </table>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                        <pagination
-                            :data="cliente.clientes"
-                            :limit="3"
-                            @pagination-change-page="getResults"
-                        ></pagination>
-                    </div>
-                </div>
-
-                <!-- /.card -->
-            </div>
-        </div>
-
         <!-- Modal -->
         <div
             class="modal fade"
@@ -148,7 +36,7 @@
                     >
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>Nombre</label>
+                                <label class="col-form-label">Nombre</label>
                                 <input
                                     v-model="form.nombre"
                                     type="text"
@@ -357,38 +245,43 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
 export default {
-    data() {
-        return {
-            //sirtve para mantener la pagina que se esta viendo al realizar las consultas
-            paginaActual: 1,
-            editMode: false,
-            search: "",
-            facturas: [],
-            form: new Form({
-                id: "",
-                nombre: "",
-                apellido: "",
-                dni: "",
-                facturas_id: "",
-                celular: "",
-                domicilio: "",
-                destino: "",
-                procedencia: "",
-                profecion: ""
-            })
-        };
-    },
-    created() {
-        this.getResults(this.paginaActual);
-        this.loadFacturas();
-    },
-    computed: {
-        ...mapState(["cliente"])
-    },
-
+    props: [
+        "index",
+        "item",
+        "search",
+        "paginaActual",
+        "form",
+        "editMode",
+        "facturas"
+    ],
     methods: {
+        updateCliente() {
+            this.$Progress.start();
+            this.form
+                .put("cliente/" + this.form.id)
+                .then(res => {
+                    //actualiza los clientes manteniendo la pagina y filtros actuales
+                    this.getResults(this.paginaActual, this.search);
+                    $("#addNew").modal("hide");
+                    Toast.fire({
+                        icon: "success",
+                        title: "Cliente actualizado correctamente"
+                    });
+                    this.$Progress.finish();
+                })
+                .catch(() => {
+                    this.$Progress.fail();
+                    Toast.fire({
+                        icon: "error",
+                        title: "Error"
+                    });
+                });
+        },
+        getResults(pagina, filtro) {
+            let payload = { query: filtro, pagina: pagina };
+            this.$store.dispatch("cliente/fetchCliente", payload);
+        },
         createCliente() {
             this.$Progress.start();
             this.form
@@ -397,7 +290,7 @@ export default {
                     //se limpia posibles filtros para que devuelva a la pagina 1 y se vea la agregacion del usuario
                     this.search = "";
                     //carga los clientes nuevamente pero nos devuelve a la pagina 1
-                    this.getResults(1);
+                    this.getResults(1, "");
                     //se cierra el modal
                     $("#addNew").modal("hide");
                     //se da el aviso de que fue todo correcto
@@ -415,83 +308,7 @@ export default {
                         title: "Error"
                     });
                 });
-        },
-        loadFacturas() {
-            axios.get("factura").then(res => (this.facturas = res.data.data));
-        },
-        deleteCliente(id) {
-            Swal.fire({
-                title: "¿Esta seguro que desea eliminar este cliente?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, eliminar!"
-            }).then(result => {
-                if (result.value) {
-                    axios.delete("cliente/" + id).then(() => {
-                        //se elimina el usuario y se cargan los datos nuevmanete manteniendo el filtro y la pagina
-                        this.getResults(this.paginaActual);
-                        Swal.fire(
-                            "Eliminado!",
-                            "El cliente se elimino correctamente.",
-                            "success"
-                        );
-                    });
-                }
-            });
-        },
-        newModal() {
-            //abre el modal, lo limpia y saca el modo de edicion si es que estaba activo
-            this.editMode = false;
-            this.form.reset();
-            $("#addNew").modal("show");
-        },
-
-        editModal(cliente) {
-            //abre el mismo modal pero con la opcion de edit modal en true lo que cambia a que metodo pasamos la info y rellena el modal
-            this.editMode = true;
-            this.form.reset();
-            $("#addNew").modal("show");
-            this.form.fill(cliente);
-        },
-
-        updateCliente() {
-            this.$Progress.start();
-            this.form
-                .put("cliente/" + this.form.id)
-                .then(res => {
-                    //actualiza los clientes manteniendo la pagina y filtros actuales
-                    this.getResults(this.paginaActual);
-                    $("#addNew").modal("hide");
-                    Toast.fire({
-                        icon: "success",
-                        title: "Cliente actualizado correctamente"
-                    });
-                    this.$Progress.finish();
-                })
-                .catch(() => {
-                    this.$Progress.fail();
-                    Toast.fire({
-                        icon: "error",
-                        title: "Error"
-                    });
-                });
-        },
-        //busca los clientes por pagina y por filtrado
-        getResults(page) {
-            //busca cualquier filtro que estemos usando y lo mantiene
-            let query = this.search;
-            //se actualiza la pagina actual con lo que nos da el metodo del componente de la paginacion
-            this.paginaActual = page;
-            //es la manera de pasar dos parametros al misma action
-            let payload = { query: query, pagina: this.paginaActual };
-            this.$store.dispatch("cliente/fetchCliente", payload);
-        },
-        //busca cada 50ms cada vez qeu se escribe una tecla
-        buscar: _.debounce(function() {
-            this.getResults();
-        }, 50)
+        }
     }
 };
 </script>

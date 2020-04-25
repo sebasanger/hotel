@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import Axios from "axios";
 import * as user from "./modules/user.js";
 import * as cliente from "./modules/cliente.js";
+import * as habitacion from "./modules/habitacion.js";
 import * as notification from "./modules/notification.js";
 
 Vue.use(Vuex);
@@ -11,13 +12,13 @@ export default new Vuex.Store({
     modules: {
         user,
         notification,
-        cliente
+        cliente,
+        habitacion
     },
     state: {
         reservas: [],
         reserva: {},
-        elementos: [],
-        habitaciones: []
+        elementos: []
     },
     mutations: {
         SET_RESERVAS(state, reservas) {
@@ -28,16 +29,12 @@ export default new Vuex.Store({
         },
         SET_ELEMENTOS(state, elementos) {
             state.elementos = elementos;
-        },
-        SET_HABITACIONES(state, habitaciones) {
-            state.habitaciones = habitaciones;
         }
     },
     actions: {
         fetchReservas({ commit }) {
             var elementos = [];
             Axios.get("/reserva").then(res => {
-                commit("SET_RESERVAS", res.data);
                 res.data.forEach(element => {
                     elementos.push({
                         id: element.id.toString(),
@@ -66,6 +63,7 @@ export default new Vuex.Store({
                         }
                     });
                 });
+                commit("SET_RESERVAS", res.data);
                 commit("SET_ELEMENTOS", elementos);
             });
         },
@@ -78,11 +76,6 @@ export default new Vuex.Store({
                     commit("SET_RESERVA", res.data);
                 });
             }
-        },
-        fetchHabitaciones({ commit }) {
-            Axios.get("/habitacion").then(res => {
-                commit("SET_HABITACIONES", res.data.data);
-            });
         }
     },
     getters: {

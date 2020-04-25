@@ -33,7 +33,9 @@
 
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-0">
-                        <table class="table table-bordered table-hover dataTable">
+                        <table
+                            class="table table-bordered table-hover dataTable"
+                        >
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -55,16 +57,16 @@
                                     <td>{{ item.telefono }}</td>
                                     <td>{{ item.celular }}</td>
                                     <td>{{ item.direccion | capitalize }}</td>
-                                    <td>
+                                    <td class="text-center">
                                         <button
                                             @click="editModal(item)"
                                             class="btn "
                                         >
                                             <i class="fa fa-edit blue"></i>
                                         </button>
-                                        |
+
                                         <button
-                                            class="btn "
+                                            class="btn ml-2"
                                             @click="deleteUser(item.id)"
                                         >
                                             <i class="fa fa-trash red"></i>
@@ -366,7 +368,7 @@ export default {
                     this.$Progress.finish();
                 })
                 .catch(() => {
-                     this.$router.push({
+                    this.$router.push({
                         name: "500"
                     });
                 });

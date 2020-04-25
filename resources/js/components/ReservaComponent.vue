@@ -1,13 +1,37 @@
 <template>
-    <div id="app">
-        <GSTC :config="config" @state="onState" @click="console.log(config)" />
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header"></div>
+
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <GSTC
+                            :config="config"
+                            @state="onState"
+                            @click="console.log(config)"
+                        />
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <button
+                            class="btn-success float-right"
+                            @click="newModal"
+                        >
+                            Agregar reserva
+                        </button>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import GSTC from "vue-gantt-schedule-timeline-calendar";
 import CalendarScroll from "gantt-schedule-timeline-calendar/dist/CalendarScroll.plugin.js";
-
 import { mapState, mapGetters } from "vuex";
 
 let router;
@@ -15,7 +39,7 @@ let selectionApi;
 let subs = [];
 
 export default {
-    name: "app",
+    name: "reservas",
     components: {
         GSTC
     },
@@ -32,7 +56,7 @@ export default {
                     })
                 ],
 
-                height: 800,
+                height: 700,
                 locale: {
                     name: "es",
                     weekdays: [
@@ -63,29 +87,37 @@ export default {
                     rows: {},
                     columns: {
                         data: {
-                            id: {
-                                id: "id",
-                                data: "id",
-                                width: 0,
-                                header: {
-                                    content: "ID"
-                                }
-                            },
-
                             numeroHabitacion: {
                                 id: "numeroHabitacion",
                                 data: "numeroHabitacion",
-                                width: 100,
+                                width: 60,
                                 header: {
-                                    content: "Habitacion"
+                                    content: "Numero"
                                 }
                             },
-                            capacidad: {
-                                id: "capacidad",
-                                data: "capacidad",
-                                width: 90,
+
+                            piso: {
+                                id: "piso",
+                                data: "piso",
+                                width: 50,
                                 header: {
-                                    content: "Capacidad"
+                                    content: "Piso"
+                                }
+                            },
+                            single: {
+                                id: "single",
+                                data: "single",
+                                width: 50,
+                                header: {
+                                    content: "Single"
+                                }
+                            },
+                            doble: {
+                                id: "doble",
+                                data: "doble",
+                                width: 100,
+                                header: {
+                                    content: "Matrimoñales"
                                 }
                             }
                         }
@@ -160,14 +192,17 @@ export default {
         };
     },
     computed: {
-        ...mapState(["reservas", "elementos", "habitaciones"]),
+        ...mapState(["reservas", "elementos", "habitacion"]),
         cargar() {
-            this.config.list.rows = this.habitaciones;
+            this.config.list.rows = this.habitacion.habitaciones;
             this.config.chart.items = this.elementos;
         }
     },
 
     methods: {
+        newModal() {
+            $("#addNew").modal("show");
+        },
         itemClickAction(element, data) {
             function onClick(event) {
                 router.push({
@@ -196,7 +231,7 @@ export default {
     },
 
     mounted() {
-        this.cargar;
+        setTimeout(() => this.cargar, 1200);
         this.$Progress.finish();
     },
     beforeDestroy() {

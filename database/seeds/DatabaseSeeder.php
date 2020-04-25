@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(UserTableSeeder::class);
 
-        factory(User::class, 500)->create();
+        factory(User::class, 20)->create();
 
         $this->call(PrecioHabitacionSeeder::class);
 
@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(HabitacionSeeder::class);
 
-        factory(Cliente::class, 10000)->create();
+        factory(Cliente::class, 500)->create();
 
         $this->call(ProductoSeeder::class);
 

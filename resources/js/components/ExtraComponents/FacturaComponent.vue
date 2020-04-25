@@ -35,16 +35,16 @@
                                     <td>{{ item.tipoFactura | capitalize }}</td>
                                     <td>{{ item.created_at }}</td>
                                     <td>{{ item.updated_at }}</td>
-                                    <td>
+                                    <td class="text-center">
                                         <button
                                             @click="editModal(item)"
                                             class="btn"
                                         >
                                             <i class="fa fa-edit blue"></i>
                                         </button>
-                                        |
+
                                         <button
-                                            class="btn"
+                                            class="btn ml-2"
                                             @click="deleteFactura(item.id)"
                                         >
                                             <i class="fa fa-trash red"></i>

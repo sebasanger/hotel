@@ -1,107 +1,5 @@
 <template>
     <div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <button
-                            class="btn-success float-right"
-                            @click="newModal"
-                        >
-                            Agregar habitacion
-                        </button>
-                        <h5>Listado de habitaciones</h5>
-                    </div>
-
-                    <!-- /.card-header -->
-                    <div class="card-body table-responsive p-0">
-                        <table
-                            class="table table-bordered table-hover dataTable"
-                        >
-                            <thead>
-                                <tr>
-                                    <th>N° Habitacion</th>
-                                    <th>Piso</th>
-                                    <th>Capacidad maxima</th>
-                                    <th>Camas Singles</th>
-                                    <th>Camas Matrimoñales</th>
-                                    <th>Estado</th>
-                                    <th>Fotos</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr
-                                    v-for="item in habitaciones.data"
-                                    :key="item.id"
-                                >
-                                    <td>{{ item.numeroHabitacion }}</td>
-                                    <td>{{ item.piso | piso }}</td>
-                                    <td>{{ item.capacidad | capacidad }}</td>
-                                    <td>
-                                        <i
-                                            v-for="(cs, index) in item.single"
-                                            :key="index"
-                                            class="fa fa-bed red ml-1"
-                                        ></i>
-                                    </td>
-                                    <td>
-                                        <i
-                                            v-for="(cd, index) in item.doble"
-                                            :key="index"
-                                            class="fa fa-bed blue ml-1"
-                                        ></i>
-                                    </td>
-                                    <td
-                                        :style="[
-                                            item.estado == 2 ? ocupada : '',
-                                            item.estado == 1 ? disponible : '',
-                                            item.estado == 3 ? limpieza : ''
-                                        ]"
-                                    >
-                                        {{ item.estado | estado }}
-                                    </td>
-
-                                    <td>
-                                        <button
-                                            @click="galery(item)"
-                                            class="btn"
-                                        >
-                                            <i class="fa fa-image orange"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button
-                                            @click="editModal(item)"
-                                            class="btn"
-                                        >
-                                            <i class="fa fa-edit blue"></i>
-                                        </button>
-                                        |
-                                        <button
-                                            class="btn"
-                                            @click="deleteHabitacion(item.id)"
-                                        >
-                                            <i class="fa fa-trash red"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                        <pagination
-                            :data="habitaciones"
-                            :limit="3"
-                            @pagination-change-page="getResults"
-                        ></pagination>
-                    </div>
-                </div>
-                <!-- /.card -->
-            </div>
-        </div>
-
         <!-- Modal -->
         <div
             class="modal fade"
@@ -437,168 +335,49 @@
                 </div>
             </div>
         </div>
-
-        <!-- Modal de galeria -->
-        <div
-            class="modal fade"
-            id="galery"
-            data-backdrop="static"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="galery"
-            aria-hidden="true"
-        >
-            <div class="modal-dialog modal-dialog-centered modal-xl" role="img">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5
-                            class="modal-title"
-                            id="galery"
-                            v-text="'Imagenes de la habitacion'"
-                        ></h5>
-                        <button
-                            type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                        >
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
-                    <div class="modal-body">
-                        <div
-                            id="carouselExampleIndicators"
-                            class="carousel slide"
-                            data-ride="carousel"
-                        >
-                            <ol class="carousel-indicators">
-                                <li
-                                    data-target="#carouselExampleIndicators"
-                                    data-slide-to="0"
-                                    class="active"
-                                ></li>
-                                <li
-                                    data-target="#carouselExampleIndicators"
-                                    data-slide-to="1"
-                                ></li>
-                                <li
-                                    data-target="#carouselExampleIndicators"
-                                    data-slide-to="2"
-                                ></li>
-                            </ol>
-                            <div class="carousel-inner">
-                                <div
-                                    class="carousel-item active"
-                                    v-if="form.image_path"
-                                >
-                                    <img
-                                        :src="getFoto()"
-                                        class="d-block w-100"
-                                        height="650"
-                                    />
-                                </div>
-                                <div
-                                    class="carousel-item"
-                                    v-if="form.image_path2"
-                                >
-                                    <img
-                                        :src="getFoto2()"
-                                        class="d-block w-100"
-                                        height="650"
-                                    />
-                                </div>
-                                <div
-                                    class="carousel-item"
-                                    v-if="form.image_path3"
-                                >
-                                    <img
-                                        :src="getFoto3()"
-                                        class="d-block w-100"
-                                        height="650"
-                                    />
-                                </div>
-                            </div>
-                            <a
-                                class="carousel-control-prev"
-                                href="#carouselExampleIndicators"
-                                role="button"
-                                data-slide="prev"
-                            >
-                                <span
-                                    class="carousel-control-prev-icon"
-                                    aria-hidden="true"
-                                ></span>
-                                <span class="sr-only black">Previous</span>
-                            </a>
-                            <a
-                                class="carousel-control-next"
-                                href="#carouselExampleIndicators"
-                                role="button"
-                                data-slide="next"
-                            >
-                                <span
-                                    class="carousel-control-next-icon"
-                                    aria-hidden="true"
-                                ></span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button
-                                type="button"
-                                class="btn btn-success"
-                                data-dismiss="modal"
-                            >
-                                Ok
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
-
 <script>
 export default {
+    props: ["form", "editMode"],
     data() {
         return {
             imagenMiniatrua: "",
             imagenMiniatrua2: "",
-            imagenMiniatrua3: "",
-            ocupada: {
-                background: "#ffcccc"
-            },
-            disponible: {
-                background: "#ccffcc"
-            },
-            limpieza: {
-                background: "#ffffcc"
-            },
-            editMode: false,
-            habitaciones: {},
-            form: new Form({
-                id: "",
-                numeroHabitacion: "",
-                capacidad: "",
-                piso: "",
-                single: "",
-                doble: "",
-                image_path: "",
-                image_path2: "",
-                image_path3: "",
-                estado: ""
-            })
+            imagenMiniatrua3: ""
         };
     },
-    created() {
-        this.loadHabitaciones();
-    },
+
     methods: {
+        updateHabitacion() {
+            this.$Progress.start();
+            this.form
+                .put("habitacion/" + this.form.id)
+                .then(res => {
+                    this.imagenMiniatrua = "";
+                    this.imagenMiniatrua2 = "";
+                    this.imagenMiniatrua3 = "";
+                    $("#addNew").modal("hide");
+                    Toast.fire({
+                        icon: "success",
+                        title: "Habitacion actualizada correctamente"
+                    });
+                    this.$Progress.finish();
+                    this.getResults();
+                })
+                .catch(() => {
+                    this.$Progress.fail();
+                    Toast.fire({
+                        icon: "error",
+                        title: "Error"
+                    });
+                });
+        },
         createHabitacion() {
             this.$Progress.start();
+            this.imagenMiniatrua = "";
+            this.imagenMiniatrua2 = "";
+            this.imagenMiniatrua3 = "";
             this.form
                 .post("habitacion")
                 .then(() => {
@@ -608,7 +387,7 @@ export default {
                         title: "habitacion creada correctamente"
                     });
                     this.$Progress.finish();
-                    this.loadHabitaciones();
+                    this.getResults();
                 })
                 .catch(() => {
                     this.$Progress.fail();
@@ -618,105 +397,14 @@ export default {
                     });
                 });
         },
-        loadHabitaciones() {
-            axios
-                .get("habitacion")
-                .then(res => {
-                    this.habitaciones = res.data;
-                    this.$Progress.finish();
-                })
-                .catch(() => {
-                    this.$router.push({
-                        name: "500"
-                    });
-                });
+        getResults() {
+            this.$store.dispatch("habitacion/fetchHabitaciones");
         },
 
-        deleteHabitacion(id) {
-            Swal.fire({
-                title: "¿Esta seguro que desea eliminar esta habitacion?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, eliminar!"
-            }).then(result => {
-                if (result.value) {
-                    axios
-                        .delete("habitacion/" + id)
-                        .then(() => {
-                            this.loadHabitaciones();
-                            Swal.fire(
-                                "Eliminado!",
-                                "La habitacion se elimino correctamente.",
-                                "success"
-                            );
-                        })
-                        .catch(() => {
-                            Swal.fire(
-                                "Error!",
-                                "No se pudo eliminar la habitacion",
-                                "error"
-                            );
-                        });
-                }
-            });
-        },
-        newModal() {
-            this.editMode = false;
-            this.imagenMiniatrua = "";
-            this.imagenMiniatrua2 = "";
-            this.imagenMiniatrua3 = "";
-            this.form.reset();
-            $("#addNew").modal("show");
-        },
-
-        editModal(habitacion) {
-            this.editMode = true;
-            this.form.reset();
-            this.imagenMiniatrua = "";
-            this.imagenMiniatrua2 = "";
-            this.imagenMiniatrua3 = "";
-            $("#addNew").modal("show");
-            this.form.fill(habitacion);
-        },
-
-        galery(habitacion) {
-
-            $("#galery").modal("show");
-            this.form.fill(habitacion);
-        },
-
-        updateHabitacion() {
-            this.$Progress.start();
-            this.form
-                .put("habitacion/" + this.form.id)
-                .then(res => {
-                    $("#addNew").modal("hide");
-                    Toast.fire({
-                        icon: "success",
-                        title: "Habitacion actualizada correctamente"
-                    });
-                    this.$Progress.finish();
-                    this.loadHabitaciones();
-                })
-                .catch(() => {
-                    this.$Progress.fail();
-                    Toast.fire({
-                        icon: "error",
-                        title: "Error"
-                    });
-                });
-        },
-        getResults(page = 1) {
-            axios.get("habitacion?page=" + page).then(res => {
-                this.habitaciones = res.data;
-            });
-        },
         obtenerImagen(e) {
             let file = e.target.files[0];
             let reader = new FileReader();
-            console.log(file);
+
             if (file["size"] < 2111775) {
                 reader.onloadend = event => {
                     this.imagenMiniatrua = event.target.result;
@@ -732,13 +420,15 @@ export default {
             }
         },
         getFoto() {
-            return "img/habitaciones/" + this.form.image_path;
+            if (this.form.image_path) {
+                return "img/habitaciones/" + this.form.image_path;
+            }
         },
 
         obtenerImagen2(e) {
             let file = e.target.files[0];
             let reader = new FileReader();
-            console.log(file);
+
             if (file["size"] < 2111775) {
                 reader.onloadend = event => {
                     this.imagenMiniatrua2 = event.target.result;
@@ -754,13 +444,15 @@ export default {
             }
         },
         getFoto2() {
-            return "img/habitaciones/" + this.form.image_path2;
+            if (this.form.image_path2) {
+                return "img/habitaciones/" + this.form.image_path2;
+            }
         },
 
         obtenerImagen3(e) {
             let file = e.target.files[0];
             let reader = new FileReader();
-            console.log(file);
+
             if (file["size"] < 2111775) {
                 reader.onloadend = event => {
                     this.imagenMiniatrua3 = event.target.result;
@@ -776,7 +468,9 @@ export default {
             }
         },
         getFoto3() {
-            return "img/habitaciones/" + this.form.image_path3;
+            if (this.form.image_path3) {
+                return "img/habitaciones/" + this.form.image_path3;
+            }
         }
     }
 };

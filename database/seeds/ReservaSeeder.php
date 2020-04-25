@@ -46,7 +46,7 @@ class ReservaSeeder extends Seeder
         $reserva->pagado = 1500;
         $reserva->habitaciones_id = 3;
         $reserva->users_id  = 2;
-        $reserva->color = 'blue';
+        $reserva->color = 'green';
         $reserva->created_at = now()->subDay(10);
         $reserva->ingreso = now()->subDay(10);
 
@@ -101,7 +101,7 @@ class ReservaSeeder extends Seeder
         $reserva->pagado = 2400;
         $reserva->habitaciones_id = 9;
         $reserva->users_id  = 1;
-        $reserva->color = 'blue';
+        $reserva->color = 'green';
         $reserva->ingreso = now()->addDays(1);
         $reserva->created_at = now()->addDays(1);
 
@@ -120,7 +120,7 @@ class ReservaSeeder extends Seeder
         $reserva->pagado = 1000;
         $reserva->habitaciones_id = 1;
         $reserva->users_id  = 1;
-        $reserva->color = 'orange';
+        $reserva->color = 'red';
         $reserva->ingreso = now()->addDays(2);
         $reserva->created_at = now()->addDays(2);
 
@@ -129,7 +129,7 @@ class ReservaSeeder extends Seeder
         $reserva = new Reserva();
         $reserva->huespedes = 3;
         $reserva->precio = 2000;
-        $reserva->egreso = now()->addDays(3);
+        $reserva->egreso = now()->addDays(1);
         $reserva->estado = 1;
         $reserva->totalPagar = 2100;
         $reserva->clientes_id = 8;
@@ -138,8 +138,8 @@ class ReservaSeeder extends Seeder
         $reserva->pagado = 2100;
         $reserva->habitaciones_id = 13;
         $reserva->users_id  = 4;
-        $reserva->color = 'brown';
-        $reserva->ingreso = now()->addDays(1);
+        $reserva->color = 'green';
+        $reserva->ingreso = now();
         $reserva->created_at = now()->addDays(1);
 
         $reserva->save();
@@ -156,9 +156,9 @@ class ReservaSeeder extends Seeder
         $reserva->pagado = 0;
         $reserva->habitaciones_id = 12;
         $reserva->users_id  = 1;
-        $reserva->color = 'cyan';
-        $reserva->ingreso = now()->addDays(1);
-        $reserva->created_at = now()->addDays(1);
+        $reserva->color = 'green';
+        $reserva->ingreso = now();
+        $reserva->created_at = now();
 
         $reserva->save();
 
@@ -174,7 +174,7 @@ class ReservaSeeder extends Seeder
         $reserva->pagado = 0;
         $reserva->habitaciones_id = 15;
         $reserva->users_id  = 4;
-        $reserva->color = 'black';
+        $reserva->color = 'green';
         $reserva->ingreso = now()->addDays(1);
         $reserva->created_at = now(1);
 
@@ -192,8 +192,8 @@ class ReservaSeeder extends Seeder
         $reserva->pagado = 0;
         $reserva->habitaciones_id = 14;
         $reserva->users_id  = 5;
-        $reserva->color = 'cyan';
-        $reserva->ingreso = now()->addDays(1);
+        $reserva->color = 'red';
+        $reserva->ingreso = now();
         $reserva->created_at = now()->addDays(1);
 
         $reserva->save();
@@ -210,6 +210,7 @@ class ReservaSeeder extends Seeder
         $reserva->pagado = 0;
         $reserva->habitaciones_id = 14;
         $reserva->users_id  = 2;
+        $reserva->color = 'red';
         $reserva->ingreso = now()->addDays(3);
         $reserva->created_at = now()->addDays(3);
 

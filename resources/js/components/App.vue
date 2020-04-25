@@ -5,7 +5,7 @@
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
-import NotificationContainer from "./NotificationContainer.vue";
+import NotificationContainer from "./ExtraComponents/NotificationContainer.vue";
 export default {
     components: {
         NotificationContainer
@@ -16,8 +16,6 @@ export default {
     },
     computed: {},
     created() {
-        this.$store.dispatch("fetchHabitaciones");
-        this.$store.dispatch("fetchReservas");
         this.$store.dispatch("user/fetchUser");
 
         //  [App.vue specific] When App.vue is first loaded start the progress bar
@@ -39,18 +37,23 @@ export default {
         this.$router.afterEach((to, from) => {
             //  finish the progress bar
         });
+    },
+    beforeCreate() {
+        this.$store.dispatch("habitacion/fetchHabitaciones");
+        this.$store.dispatch("fetchReservas");
     }
 };
 </script>
 
 <style>
 .fade-list-enter {
-    transform: translateX(-15px);
     opacity: 0.05;
 }
 .fade-list-enter-active {
     transition: all 0.7s ease-in;
 }
-
-
+table th {
+    text-align: center;
+    color:  darkblue;
+}
 </style>

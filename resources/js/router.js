@@ -4,27 +4,29 @@ import Router from "vue-router";
 
 import Reserva from "./components/ReservaComponent.vue";
 
-import Cliente from "./components/ClienteComponent.vue";
+import Cliente from "./components/Cliente/ClienteComponent.vue";
 
-import Habitacion from "./components/HabitacionComponent.vue";
+import Habitacion from "./components/Habitacion/HabitacionComponent.vue";
 
-import User from "./components/UserComponent.vue";
+import HabitacionShow from "./components/Habitacion/HabitacionShow.vue";
 
-import Factura from "./components/FacturaComponent.vue";
+import User from "./components/ExtraComponents/UserComponent.vue";
 
-import Motivo from "./components/MotivoComponent.vue";
+import Factura from "./components/ExtraComponents/FacturaComponent.vue";
 
-import Categoria from "./components/CategoriaComponent.vue";
+import Motivo from "./components/ExtraComponents/MotivoComponent.vue";
 
-import ModoPago from "./components/ModoPagoComponent.vue";
+import Categoria from "./components/ExtraComponents/CategoriaComponent.vue";
 
-import IngresoProducto from "./components/IngresoProductoComponent.vue";
+import ModoPago from "./components/ExtraComponents/ModoPagoComponent.vue";
+
+import IngresoProducto from "./components/ExtraComponents/IngresoProductoComponent.vue";
 
 import Producto from "./components/ProductoComponent.vue";
 
-import Precio from "./components/PrecioComponent.vue";
+import Precio from "./components/ExtraComponents/PrecioComponent.vue";
 
-import Marca from "./components/MarcaComponent.vue";
+import Marca from "./components/ExtraComponents/MarcaComponent.vue";
 
 import Home from "./components/home.vue";
 
@@ -56,8 +58,7 @@ export default new Router({
         {
             path: "/reservas",
             component: Reserva,
-            name: "reserva",
-            children: []
+            name: "reserva"
         },
 
         {
@@ -118,6 +119,13 @@ export default new Router({
             path: "/habitaciones",
             component: Habitacion,
             name: "habitacion"
+        },
+
+        {
+            path: "/habitacion/:id",
+            component: HabitacionShow,
+            name: "habitacionShow",
+            props: true
         },
 
         {
