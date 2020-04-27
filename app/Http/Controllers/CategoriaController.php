@@ -80,4 +80,9 @@ class CategoriaController extends Controller
         $categoria->delete();
         return $categoria;
     }
+
+    public function getAllCategorias()
+    {
+        return Categoria::all();
+    }
 }

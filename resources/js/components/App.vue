@@ -41,6 +41,7 @@ export default {
     beforeCreate() {
         this.$store.dispatch("habitacion/fetchHabitaciones");
         this.$store.dispatch("fetchReservas");
+        this.$store.dispatch("cliente/fetchClientes", 1);
     }
 };
 </script>

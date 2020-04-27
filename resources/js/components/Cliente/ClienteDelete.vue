@@ -31,7 +31,7 @@ export default {
         },
         getResults(page) {
             let payload = { query: this.search, pagina: this.paginaActual };
-            this.$store.dispatch("cliente/fetchCliente", payload);
+            this.$store.dispatch("cliente/fetchClientes", payload);
         }
     }
 };

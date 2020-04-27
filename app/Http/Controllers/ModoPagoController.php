@@ -86,4 +86,9 @@ class ModoPagoController extends Controller
         $modoPago->delete();
         return $modoPago;
     }
+
+    public function getAllModosPagos()
+    {
+        return ModoPago::all();
+    }
 }

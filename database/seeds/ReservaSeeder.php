@@ -2,6 +2,7 @@
 
 use App\Reserva;
 use Illuminate\Database\Seeder;
+use Faker\Generator as Faker;
 
 
 class ReservaSeeder extends Seeder
@@ -14,6 +15,8 @@ class ReservaSeeder extends Seeder
     public function run()
     {
         $reserva = new Reserva();
+        $reserva->procedencia = "brasil";
+        $reserva->destino = "argentina";
         $reserva->huespedes = 1;
         $reserva->precio = 1200;
         $reserva->egreso = now()->addDays(2);
@@ -34,6 +37,8 @@ class ReservaSeeder extends Seeder
 
 
         $reserva = new Reserva();
+        $reserva->procedencia = "brasil";
+        $reserva->destino = "paraguay";
         $reserva->huespedes = 2;
         $reserva->precio = 1500;
         $reserva->egreso = now()->addDays(3);
@@ -53,6 +58,8 @@ class ReservaSeeder extends Seeder
         $reserva->save();
 
         $reserva = new Reserva();
+        $reserva->procedencia = "bolivia";
+        $reserva->destino = "argentina";
         $reserva->huespedes = 2;
         $reserva->precio = 1500;
         $reserva->egreso = now()->addDays(10);
@@ -71,6 +78,8 @@ class ReservaSeeder extends Seeder
         $reserva->save();
 
         $reserva = new Reserva();
+        $reserva->procedencia = "chile";
+        $reserva->destino = "rosario";
         $reserva->huespedes = 3;
         $reserva->precio = 1700;
         $reserva->egreso = now()->addDays(5);
@@ -90,6 +99,8 @@ class ReservaSeeder extends Seeder
         $reserva->save();
 
         $reserva = new Reserva();
+        $reserva->procedencia = "cordoba";
+        $reserva->destino = "santa fe";
         $reserva->huespedes = 4;
         $reserva->precio = 2400;
         $reserva->egreso = now()->addDays(3);
@@ -109,6 +120,8 @@ class ReservaSeeder extends Seeder
 
 
         $reserva = new Reserva();
+        $reserva->procedencia = "chaco";
+        $reserva->destino = "bs as";
         $reserva->huespedes = 2;
         $reserva->precio = 1500;
         $reserva->egreso = now()->addDays(4);
@@ -127,6 +140,8 @@ class ReservaSeeder extends Seeder
         $reserva->save();
 
         $reserva = new Reserva();
+        $reserva->procedencia = "brasil";
+        $reserva->destino = "corrientes";
         $reserva->huespedes = 3;
         $reserva->precio = 2000;
         $reserva->egreso = now()->addDays(1);
@@ -145,6 +160,8 @@ class ReservaSeeder extends Seeder
         $reserva->save();
 
         $reserva = new Reserva();
+        $reserva->procedencia = "iguazu";
+        $reserva->destino = "bolovia";
         $reserva->huespedes = 2;
         $reserva->precio = 1500;
         $reserva->egreso = now()->addDays(5);
@@ -163,6 +180,8 @@ class ReservaSeeder extends Seeder
         $reserva->save();
 
         $reserva = new Reserva();
+        $reserva->procedencia = "iguazu";
+        $reserva->destino = "formosa";
         $reserva->huespedes = 1;
         $reserva->precio = 1200;
         $reserva->egreso = now()->addDays(5);
@@ -181,6 +200,8 @@ class ReservaSeeder extends Seeder
         $reserva->save();
 
         $reserva = new Reserva();
+        $reserva->procedencia = "neuquen";
+        $reserva->destino = "tierra del fuego";
         $reserva->huespedes = 4;
         $reserva->precio = 2400;
         $reserva->egreso = now()->addDays(3);
@@ -199,6 +220,8 @@ class ReservaSeeder extends Seeder
         $reserva->save();
 
         $reserva = new Reserva();
+        $reserva->procedencia = "canada";
+        $reserva->destino = "eeuu";
         $reserva->huespedes = 4;
         $reserva->precio = 2400;
         $reserva->egreso = now()->addDays(8);

@@ -129,44 +129,6 @@
                             </div>
 
                             <div class="form-group">
-                                <label>Destino</label>
-                                <input
-                                    v-model="form.destino"
-                                    type="text"
-                                    name="destino"
-                                    placeholder="Destino"
-                                    class="form-control"
-                                    :class="{
-                                        'is-invalid': form.errors.has('destino')
-                                    }"
-                                />
-                                <has-error
-                                    :form="form"
-                                    field="destino"
-                                ></has-error>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Procedencia</label>
-                                <input
-                                    v-model="form.procedencia"
-                                    type="text"
-                                    name="procedencia"
-                                    placeholder="Procedencia"
-                                    class="form-control"
-                                    :class="{
-                                        'is-invalid': form.errors.has(
-                                            'procedencia'
-                                        )
-                                    }"
-                                />
-                                <has-error
-                                    :form="form"
-                                    field="procedencia"
-                                ></has-error>
-                            </div>
-
-                            <div class="form-group">
                                 <label>Profecion</label>
                                 <input
                                     v-model="form.profecion"
@@ -202,8 +164,8 @@
                                         >Seleccionar una factura</option
                                     >
                                     <option
-                                        v-for="(f, index) in facturas"
-                                        :key="index"
+                                        v-for="f in facturas"
+                                        :key="f.id"
                                         :value="f.id"
                                         >{{ f.tipoFactura }}</option
                                     >
@@ -280,7 +242,7 @@ export default {
         },
         getResults(pagina, filtro) {
             let payload = { query: filtro, pagina: pagina };
-            this.$store.dispatch("cliente/fetchCliente", payload);
+            this.$store.dispatch("cliente/fetchClientes", payload);
         },
         createCliente() {
             this.$Progress.start();

@@ -135,4 +135,10 @@ class ClienteController extends Controller
         $cliente->delete();
         return $cliente;
     }
+
+    public function getAllClientes()
+    {
+        $clientes = Cliente::all();
+        return $clientes;
+    }
 }

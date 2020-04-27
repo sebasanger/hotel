@@ -80,4 +80,9 @@ class MarcaController extends Controller
         $marca->delete();
         return $marca;
     }
+
+    public function getAllMarcas()
+    {
+        return Marca::all();
+    }
 }

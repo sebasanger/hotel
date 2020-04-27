@@ -84,4 +84,8 @@ class PrecioHabitacionController extends Controller
         $precio->delete();
         return $precio;
     }
+    public function getAllPreciosHabitaciones()
+    {
+        return PrecioHabitacion::all();
+    }
 }

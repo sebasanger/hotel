@@ -2,9 +2,13 @@ import Vue from "vue";
 
 import Router from "vue-router";
 
-import Reserva from "./components/ReservaComponent.vue";
+import reservashow from "./components/Reserva/reservaShow.vue";
+
+import Reserva from "./components/Reserva/ReservaComponent.vue";
 
 import Cliente from "./components/Cliente/ClienteComponent.vue";
+
+import clienteShow from "./components/Cliente/ClienteShow.vue";
 
 import Habitacion from "./components/Habitacion/HabitacionComponent.vue";
 
@@ -29,8 +33,6 @@ import Precio from "./components/ExtraComponents/PrecioComponent.vue";
 import Marca from "./components/ExtraComponents/MarcaComponent.vue";
 
 import Home from "./components/home.vue";
-
-import reservashow from "./components/reservaShow.vue";
 
 import NotFound from "../views/notFound.vue";
 
@@ -113,6 +115,13 @@ export default new Router({
             path: "/clientes",
             component: Cliente,
             name: "cliente"
+        },
+
+        {
+            path: "/cliente/:id",
+            component: clienteShow,
+            name: "clienteShow",
+            props: true
         },
 
         {

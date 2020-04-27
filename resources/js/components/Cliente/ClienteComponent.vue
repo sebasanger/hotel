@@ -43,8 +43,6 @@
                                     <th>Nombre y apellido</th>
                                     <th>Celular</th>
                                     <th>Domicio</th>
-                                    <th>Destino</th>
-                                    <th>Procedencia</th>
                                     <th>Profecion</th>
                                     <th>Factura</th>
                                     <th>Acciones</th>
@@ -57,20 +55,34 @@
                                     :key="item.id"
                                     class="list-complete-item"
                                 >
-                                    <td>{{ item.dni }}</td>
                                     <td>
-                                        {{
-                                            (item.nombre + " " + item.apellido)
-                                                | capitalize
-                                        }}
+                                        <router-link
+                                            :to="{
+                                                name: 'clienteShow',
+                                                params: { id: item.id }
+                                            }"
+                                            >{{ item.dni }}
+                                        </router-link>
+                                    </td>
+
+                                    <td>
+                                        <router-link
+                                            :to="{
+                                                name: 'clienteShow',
+                                                params: { id: item.id }
+                                            }"
+                                        >
+                                            {{
+                                                (item.nombre +
+                                                    " " +
+                                                    item.apellido)
+                                                    | capitalize
+                                            }}
+                                        </router-link>
                                     </td>
                                     <td>{{ item.celular }}</td>
                                     <td>
                                         {{ item.domicilio | capitalize }}
-                                    </td>
-                                    <td>{{ item.destino | capitalize }}</td>
-                                    <td>
-                                        {{ item.procedencia | capitalize }}
                                     </td>
                                     <td>
                                         {{ item.profecion | capitalize }}
@@ -142,8 +154,6 @@ export default {
                 facturas_id: "",
                 celular: "",
                 domicilio: "",
-                destino: "",
-                procedencia: "",
                 profecion: ""
             })
         };
@@ -169,7 +179,7 @@ export default {
         },
 
         loadFacturas() {
-            axios.get("factura").then(res => (this.facturas = res.data.data));
+            axios.get("getAllFacturas").then(res => (this.facturas = res.data));
         },
 
         newModal() {
@@ -187,9 +197,9 @@ export default {
             this.paginaActual = page;
             //es la manera de pasar dos parametros al misma action
             let payload = { query: query, pagina: this.paginaActual };
-            this.$store.dispatch("cliente/fetchCliente", payload);
+            this.$store.dispatch("cliente/fetchClientes", payload);
         },
-        //busca cada 50ms cada vez qeu se escribe una tecla
+        //busca cada 50ms cada vez que se escribe una tecla
         buscar: _.debounce(function() {
             this.getResults();
         }, 50)

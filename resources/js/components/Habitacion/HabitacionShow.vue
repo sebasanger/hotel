@@ -6,7 +6,7 @@
         <p>Camas matrimoñales: {{ habitacion.dobles }}</p>
         <p>estado: {{ habitacion.numeroHabitacion }}</p>
 
-        <router-link :to="{ name: 'habitaciones' }">atras</router-link>
+        <router-link :to="{ name: 'habitacion' }">atras</router-link>
     </div>
 </template>
 
@@ -22,9 +22,7 @@ export default {
                 this.$Progress.finish();
             })
             .catch(() => {
-                this.$router.push({
-                    name: "500"
-                });
+                this.$Progress.fail();
             });
     },
     computed: {

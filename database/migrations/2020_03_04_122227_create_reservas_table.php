@@ -19,34 +19,35 @@ class CreateReservasTable extends Migration
             $table->double('precio');
             $table->date('egreso');
             $table->date('ingreso');
-            $table->string('patenteAuto',20)->nullable();
-            $table->string('color',40)->default('blue');
+            $table->string('patenteAuto', 20)->nullable();
+            $table->string('color', 40)->default('blue');
             $table->tinyInteger('estado')->default(1);
             $table->double('totalPagar')->nullable();
-            $table->double('pagado')->nullable();
+            $table->double('pagado')->default(0);
+            $table->string('procedencia', 80)->nullable();
+            $table->string('destino', 80)->nullable();
             $table->softDeletes();
             $table->timestamps();
 
             $table->unsignedSmallInteger('users_id');
             $table->foreign('users_id')
-            ->references('id')->on('users');
+                ->references('id')->on('users');
 
             $table->unsignedBigInteger('clientes_id');
             $table->foreign('clientes_id')
-            ->references('id')->on('clientes');
+                ->references('id')->on('clientes');
 
-            $table->unsignedSmallInteger('motivos_id');
+            $table->unsignedSmallInteger('motivos_id')->nullable();
             $table->foreign('motivos_id')
-            ->references('id')->on('motivos');
+                ->references('id')->on('motivos');
 
             $table->unsignedSmallInteger('preciosHabitaciones_id');
             $table->foreign('preciosHabitaciones_id')
-            ->references('id')->on('preciosHabitaciones');
+                ->references('id')->on('preciosHabitaciones');
 
             $table->unsignedSmallInteger('habitaciones_id');
             $table->foreign('habitaciones_id')
-            ->references('id')->on('habitaciones');
-
+                ->references('id')->on('habitaciones');
         });
     }
 

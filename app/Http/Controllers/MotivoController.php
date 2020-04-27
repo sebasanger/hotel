@@ -80,4 +80,8 @@ class MotivoController extends Controller
         $motivo->delete();
         return $motivo;
     }
+    public function getAllMotivos()
+    {
+        return Motivo::all();
+    }
 }

@@ -122,5 +122,8 @@ class ProductoController extends Controller
         return $producto;
     }
 
-
+    public function getAllProductos()
+    {
+        return Producto::all();
+    }
 }

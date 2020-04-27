@@ -81,4 +81,9 @@ class FacturaController extends Controller
         $factura->delete();
         return $factura;
     }
+
+    public function getAllFacturas()
+    {
+        return Factura::all();
+    }
 }

@@ -18,6 +18,18 @@ Auth::routes(["register" => false]);
 
 Route::middleware(['auth'])->group(function () {
 
+    Route::get('getAllCategorias', 'CategoriaController@getAllCategorias');
+    Route::get('getAllFacturas', 'FacturaController@getAllFacturas');
+    Route::get('getAllMarcas', 'MarcaController@getAllMarcas');
+    Route::get('getAllModosPagos', 'ModoPagoController@getAllModosPagos');
+    Route::get('getAllMotivos', 'MotivoController@getAllMotivos');
+    Route::get('getAllPreciosHabitaciones', 'PrecioHabitacionController@getAllPreciosHabitaciones');
+    Route::get('getAllClientes', 'ClienteController@getAllClientes');
+    Route::get('getAllHabitaciones', 'HabitacionController@getAllHabitaciones');
+    Route::get('getAllProductos', 'ProductoController@getAllProductos');
+
+    Route::get('userFind', 'UserController@userFind');
+
     Route::middleware(['role:1'])->group(function () {
         Route::apiResource('caja', 'CajaController');
 
@@ -45,13 +57,10 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('user/{filtro?}', 'UserController@index');
 
-        Route::get('userFind', 'UserController@userFind');
-
         Route::apiResource('user', 'UserController')->except([
             'index'
         ]);
     });
-
     Route::get('cliente/{filtro?}', 'ClienteController@index');
 
     Route::apiResource('cliente', 'ClienteController');

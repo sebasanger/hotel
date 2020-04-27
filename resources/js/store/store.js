@@ -29,6 +29,9 @@ export default new Vuex.Store({
         },
         SET_ELEMENTOS(state, elementos) {
             state.elementos = elementos;
+        },
+        ADD_RESERVA(state, reserva) {
+            state.reservas.push(reserva);
         }
     },
     actions: {
@@ -72,9 +75,15 @@ export default new Vuex.Store({
             if (reserva) {
                 commit("SET_RESERVA", reserva);
             } else {
-                Axios.get("/reserva/" + id).then(res => {
-                    commit("SET_RESERVA", res.data);
-                });
+                Axios.get("/reserva/" + id)
+                    .then(res => {
+                        commit("SET_RESERVA", res.data);
+                    })
+                    .then(() => {
+                        this.$router.push({
+                            name: "500"
+                        });
+                    });
             }
         }
     },

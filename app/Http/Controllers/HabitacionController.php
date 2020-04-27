@@ -16,7 +16,7 @@ class HabitacionController extends Controller
      */
     public function index()
     {
-        return Habitacion::OrderBy('numeroHabitacion', 'ASC')->paginate(20);
+        return Habitacion::OrderBy('numeroHabitacion', 'ASC')->paginate(10);
     }
 
     /**
@@ -157,5 +157,10 @@ class HabitacionController extends Controller
         $habitacion = Habitacion::findOrFail($id);
         $habitacion->delete();
         return $habitacion;
+    }
+
+    public function getAllHabitaciones()
+    {
+        return Habitacion::all();
     }
 }

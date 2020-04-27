@@ -18,8 +18,8 @@ export const mutations = {
 
 export const actions = {
     fetchHabitaciones({ commit }) {
-        Axios.get("/habitacion").then(res => {
-            commit("SET_HABITACIONES", res.data.data);
+        Axios.get("/getAllHabitaciones").then(res => {
+            commit("SET_HABITACIONES", res.data);
         });
     },
     fetchHabitacion({ commit, getters }, id) {
@@ -27,9 +27,15 @@ export const actions = {
         if (habitacion) {
             commit("SET_HABITACION", habitacion);
         } else {
-            Axios.get("/habitacion/" + id).then(res => {
-                commit("SET_HABITACION", res.data);
-            });
+            Axios.get("/habitacion/" + id)
+                .then(res => {
+                    commit("SET_HABITACION", res.data);
+                })
+                .then(() => {
+                    this.$router.push({
+                        name: "500"
+                    });
+                });
         }
     }
 };

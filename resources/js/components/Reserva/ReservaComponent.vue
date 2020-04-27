@@ -26,6 +26,14 @@
                 <!-- /.card -->
             </div>
         </div>
+        <reserva-modal
+            :form="form"
+            :habitaciones="habitaciones"
+            :clientes="clientes"
+            :preciosHabitaciones="preciosHabitaciones"
+            :motivos="motivos"
+            :editMode="editMode"
+        />
     </div>
 </template>
 
@@ -33,6 +41,7 @@
 import GSTC from "vue-gantt-schedule-timeline-calendar";
 import CalendarScroll from "gantt-schedule-timeline-calendar/dist/CalendarScroll.plugin.js";
 import { mapState, mapGetters } from "vuex";
+import ReservaModal from "./reservaModal.vue";
 
 let router;
 let selectionApi;
@@ -41,10 +50,30 @@ let subs = [];
 export default {
     name: "reservas",
     components: {
-        GSTC
+        GSTC,
+        ReservaModal
     },
     data() {
         return {
+            editMode: false,
+            search: "",
+            clientes: [],
+            preciosHabitaciones: [],
+            motivos: [],
+            form: new Form({
+                id: "",
+                clientes_id: "",
+                preciosHabitaciones_id: "",
+                motivos_id: "",
+                habitaciones_id: "",
+                ingreso: "",
+                egreso: "",
+                pagado: 0,
+                huespedes: "",
+                patenteAuto: "",
+                destino: "",
+                procedencia: ""
+            }),
             config: {
                 actions: {
                     "chart-timeline-items-row-item": [this.itemClickAction]
@@ -192,15 +221,26 @@ export default {
         };
     },
     computed: {
-        ...mapState(["reservas", "elementos", "habitacion"]),
-        cargar() {
-            this.config.list.rows = this.habitacion.habitaciones;
-            this.config.chart.items = this.elementos;
+        ...mapState(["reservas", "elementos"]),
+        ...mapState("habitacion", ["habitaciones", "habitacion"])
+    },
+    watch: {
+        elementos(newValue, oldValue) {
+            this.config.chart.items = newValue;
+        },
+        habitaciones(newValue, oldValue) {
+            this.config.list.rows = newValue;
         }
     },
 
     methods: {
+        cargar() {
+            this.config.list.rows = this.habitaciones;
+            this.config.chart.items = this.elementos;
+        },
         newModal() {
+            this.editMode = false;
+            this.form.reset();
             $("#addNew").modal("show");
         },
         itemClickAction(element, data) {
@@ -223,6 +263,17 @@ export default {
         },
         onState(state) {
             this.state = state;
+        },
+        loadClientes() {
+            axios.get("getAllClientes").then(res => (this.clientes = res.data));
+        },
+        loadPrecios() {
+            axios
+                .get("getAllPreciosHabitaciones")
+                .then(res => (this.preciosHabitaciones = res.data));
+        },
+        loadMotivos() {
+            axios.get("getAllMotivos").then(res => (this.motivos = res.data));
         }
     },
 
@@ -231,7 +282,10 @@ export default {
     },
 
     mounted() {
-        setTimeout(() => this.cargar, 1200);
+        this.cargar();
+        this.loadClientes();
+        this.loadPrecios();
+        this.loadMotivos();
         this.$Progress.finish();
     },
     beforeDestroy() {

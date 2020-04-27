@@ -44,7 +44,7 @@ class IngresoProductoController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'cantidadIngreso' => 'required|numeric',
             'precioCompra' => 'required|numeric',
             'productos_id' => 'required|numeric',
