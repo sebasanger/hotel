@@ -50,8 +50,6 @@ class ClienteController extends Controller
             'celular' => 'nullable|numeric',
             'domicilio' => 'nullable|string|min:2|max:30',
             'profecion' => 'nullable|string|min:2|max:30',
-            'procedencia' => 'nullable|string|min:2|max:30',
-            'destino' => 'nullable|string|min:2|max:30',
 
         ]);
 
@@ -61,8 +59,6 @@ class ClienteController extends Controller
         $cliente->dni = $request->dni;
         $cliente->celular = $request->celular;
         $cliente->domicilio = $request->domicilio;
-        $cliente->destino = $request->destino;
-        $cliente->procedencia = $request->procedencia;
         $cliente->profecion = $request->profecion;
         $cliente->facturas_id = $request->facturas_id;
 
@@ -101,8 +97,7 @@ class ClienteController extends Controller
             'celular' => 'nullable|numeric',
             'domicilio' => 'nullable|string|min:2|max:30',
             'profecion' => 'nullable|string|min:2|max:30',
-            'procedencia' => 'nullable|string|min:2|max:30',
-            'destino' => 'nullable|string|min:2|max:30',
+
         ]);
 
         $cliente = cliente::find($request->id);
@@ -112,8 +107,6 @@ class ClienteController extends Controller
         $cliente->celular = $request->celular;
         $cliente->email = $request->email;
         $cliente->domicilio = $request->domicilio;
-        $cliente->destino = $request->destino;
-        $cliente->procedencia = $request->procedencia;
         $cliente->profecion = $request->profecion;
         $cliente->facturas_id = $request->facturas_id;
 

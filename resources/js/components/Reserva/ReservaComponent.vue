@@ -56,10 +56,6 @@ export default {
     data() {
         return {
             editMode: false,
-            search: "",
-            clientes: [],
-            preciosHabitaciones: [],
-            motivos: [],
             form: new Form({
                 id: "",
                 clientes_id: "",
@@ -68,7 +64,7 @@ export default {
                 habitaciones_id: "",
                 ingreso: "",
                 egreso: "",
-                pagado: 0,
+                pagado: "",
                 huespedes: "",
                 patenteAuto: "",
                 destino: "",
@@ -222,7 +218,8 @@ export default {
     },
     computed: {
         ...mapState(["reservas", "elementos"]),
-        ...mapState("habitacion", ["habitaciones", "habitacion"])
+        ...mapState("habitacion", ["habitaciones", "habitacion"]),
+        ...mapState("carga", ["motivos", "clientes", "preciosHabitaciones"])
     },
     watch: {
         elementos(newValue, oldValue) {
@@ -263,17 +260,6 @@ export default {
         },
         onState(state) {
             this.state = state;
-        },
-        loadClientes() {
-            axios.get("getAllClientes").then(res => (this.clientes = res.data));
-        },
-        loadPrecios() {
-            axios
-                .get("getAllPreciosHabitaciones")
-                .then(res => (this.preciosHabitaciones = res.data));
-        },
-        loadMotivos() {
-            axios.get("getAllMotivos").then(res => (this.motivos = res.data));
         }
     },
 
@@ -283,9 +269,6 @@ export default {
 
     mounted() {
         this.cargar();
-        this.loadClientes();
-        this.loadPrecios();
-        this.loadMotivos();
         this.$Progress.finish();
     },
     beforeDestroy() {

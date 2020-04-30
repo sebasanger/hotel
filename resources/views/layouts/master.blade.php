@@ -260,15 +260,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 ♣♠♥♦
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2020 <a href="https://adminlte.io">Sebastian sangermnao</a>.</strong> todos los derechos reservados.
+            <strong>Copyright &copy; 2020 <a href="https://adminlte.io">Sebastian Sangermano</a>.</strong> todos los derechos reservados.
         </footer>
     </div>
     <!-- ./wrapper -->
 
     <!-- REQUIRED SCRIPTS -->
     <script src="/js/app.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gantt-schedule-timeline-calendar"></script>
-
-
 </body>
 </html>

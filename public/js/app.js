@@ -1972,6 +1972,9 @@ __webpack_require__.r(__webpack_exports__);
     this.$store.dispatch("habitacion/fetchHabitaciones");
     this.$store.dispatch("fetchReservas");
     this.$store.dispatch("cliente/fetchClientes", 1);
+    this.$store.dispatch("carga/fetchMotivos");
+    this.$store.dispatch("carga/fetchPreciosHabitaciones");
+    this.$store.dispatch("carga/fetchClientes");
   }
 });
 
@@ -6997,10 +7000,6 @@ var subs = [];
   data: function data() {
     return {
       editMode: false,
-      search: "",
-      clientes: [],
-      preciosHabitaciones: [],
-      motivos: [],
       form: new Form({
         id: "",
         clientes_id: "",
@@ -7009,7 +7008,7 @@ var subs = [];
         habitaciones_id: "",
         ingreso: "",
         egreso: "",
-        pagado: 0,
+        pagado: "",
         huespedes: "",
         patenteAuto: "",
         destino: "",
@@ -7120,7 +7119,7 @@ var subs = [];
       }
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["reservas", "elementos"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("habitacion", ["habitaciones", "habitacion"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["reservas", "elementos"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("habitacion", ["habitaciones", "habitacion"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("carga", ["motivos", "clientes", "preciosHabitaciones"])),
   watch: {
     elementos: function elementos(newValue, oldValue) {
       this.config.chart.items = newValue;
@@ -7161,27 +7160,6 @@ var subs = [];
     },
     onState: function onState(state) {
       this.state = state;
-    },
-    loadClientes: function loadClientes() {
-      var _this = this;
-
-      axios.get("getAllClientes").then(function (res) {
-        return _this.clientes = res.data;
-      });
-    },
-    loadPrecios: function loadPrecios() {
-      var _this2 = this;
-
-      axios.get("getAllPreciosHabitaciones").then(function (res) {
-        return _this2.preciosHabitaciones = res.data;
-      });
-    },
-    loadMotivos: function loadMotivos() {
-      var _this3 = this;
-
-      axios.get("getAllMotivos").then(function (res) {
-        return _this3.motivos = res.data;
-      });
     }
   },
   created: function created() {
@@ -7189,9 +7167,6 @@ var subs = [];
   },
   mounted: function mounted() {
     this.cargar();
-    this.loadClientes();
-    this.loadPrecios();
-    this.loadMotivos();
     this.$Progress.finish();
   },
   beforeDestroy: function beforeDestroy() {
@@ -7216,408 +7191,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_hotel_datepicker__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_hotel_datepicker__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    HotelDatePicker: vue_hotel_datepicker__WEBPACK_IMPORTED_MODULE_0___default.a
-  },
-  props: ["index", "item", "form", "editMode", "habitaciones", "clientes", "motivos", "preciosHabitaciones"],
-  data: function data() {
-    return {
-      ptAr: {
-        night: "Noche",
-        nights: "Noches",
-        "day-names": ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
-        "check-in": "Ingreso",
-        "check-out": "Egreso",
-        "month-names": ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
-      }
-    };
-  },
-  methods: {
-    ingresoChanged: function ingresoChanged(newDate) {
-      var newIngreso = moment__WEBPACK_IMPORTED_MODULE_1___default()(newDate).format("YYYY/MM/DD");
-      this.form.ingreso = newIngreso;
-    },
-    egresoChanged: function egresoChanged(newDate) {
-      var newEgreso = moment__WEBPACK_IMPORTED_MODULE_1___default()(newDate).format("YYYY/MM/DD");
-      this.form.egreso = newEgreso;
-    },
-    updateReserva: function updateReserva() {
-      var _this = this;
-
-      this.$Progress.start();
-      this.form.put("cliente/" + this.form.id).then(function (res) {
-        $("#addNew").modal("hide");
-        Toast.fire({
-          icon: "success",
-          title: "Cliente actualizado correctamente"
-        });
-
-        _this.$Progress.finish();
-      })["catch"](function () {
-        _this.$Progress.fail();
-
-        Toast.fire({
-          icon: "error",
-          title: "Error"
-        });
-      });
-    },
-    createReserva: function createReserva() {
-      var _this2 = this;
-
-      this.$Progress.start();
-      this.form.post("reserva").then(function () {
-        _this2.$store.dispatch("fetchReservas");
-
-        $("#addNew").modal("hide");
-        Toast.fire({
-          icon: "success",
-          title: "Reserva creada correctamente"
-        });
-
-        _this2.$Progress.finish();
-      })["catch"](function () {
-        _this2.$Progress.fail();
-
-        Toast.fire({
-          icon: "error",
-          title: "Error"
-        });
-      });
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Reserva/reservaShow.vue?vue&type=script&lang=js&":
-/*!******************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Reserva/reservaShow.vue?vue&type=script&lang=js& ***!
-  \******************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -7663,10 +7237,645 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    HotelDatePicker: vue_hotel_datepicker__WEBPACK_IMPORTED_MODULE_0___default.a
+  },
+  props: ["index", "item", "form", "editMode", "habitaciones", "clientes", "motivos", "preciosHabitaciones"],
+  data: function data() {
+    return {
+      precioDia: 0,
+      ingreso: "",
+      egreso: "",
+      ingresoInicial: "",
+      egresoInicial: "",
+      ptAr: {
+        night: "Noche",
+        nights: "Noches",
+        "day-names": ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+        "check-in": "Ingreso",
+        "check-out": "Egreso",
+        "month-names": ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+      }
+    };
+  },
+  methods: {
+    ingresoChanged: function ingresoChanged(newDate) {
+      this.ingreso = newDate;
+      var newIngreso = moment__WEBPACK_IMPORTED_MODULE_1___default()(newDate).format("YYYY/MM/DD");
+      this.form.ingreso = newIngreso;
+    },
+    egresoChanged: function egresoChanged(newDate) {
+      this.egreso = newDate;
+      var newEgreso = moment__WEBPACK_IMPORTED_MODULE_1___default()(newDate).format("YYYY/MM/DD");
+      this.form.egreso = newEgreso;
+    },
+    updateReserva: function updateReserva() {
+      var _this = this;
+
+      this.$Progress.start();
+      this.form.put("" + this.form.id).then(function (res) {
+        _this.$store.dispatch("refreshReserva", res.data.id);
+
+        _this.$store.dispatch("fetchReservas");
+
+        $("#addNew").modal("hide");
+        Toast.fire({
+          icon: "success",
+          title: "Reserva actualizada correctamente"
+        });
+
+        _this.$Progress.finish();
+      })["catch"](function () {
+        _this.$Progress.fail();
+
+        Toast.fire({
+          icon: "error",
+          title: "Error"
+        });
+      });
+    },
+    createReserva: function createReserva() {
+      var _this2 = this;
+
+      this.$Progress.start();
+      this.form.post("reserva").then(function () {
+        _this2.$store.dispatch("fetchReservas");
+
+        $("#addNew").modal("hide");
+        Toast.fire({
+          icon: "success",
+          title: "Reserva creada correctamente"
+        });
+
+        _this2.$Progress.finish();
+      })["catch"](function () {
+        _this2.$Progress.fail();
+
+        Toast.fire({
+          icon: "error",
+          title: "Error"
+        });
+      });
+    }
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["reserva"]), {
+    //para saber cuanto sale la reserva
+    total: function total() {
+      //se averigua que este el egreso, ingreso y precio total
+      if (this.ingreso && this.egreso && this.form.preciosHabitaciones_id) {
+        //se saca la diferencia entre el ingreso y egreso
+        var a = moment__WEBPACK_IMPORTED_MODULE_1___default()(this.egreso);
+        var b = moment__WEBPACK_IMPORTED_MODULE_1___default()(this.ingreso);
+        var cantidadDias = a.diff(b, "days"); //se busca el id del select de precio de habitacion
+
+        var idPrecio = this.form.preciosHabitaciones_id; //se busca el precio por el id que buscamos antes
+
+        this.precioDia = this.preciosHabitaciones.find(function (precioHabitacion) {
+          return precioHabitacion.id == idPrecio;
+        }); //se retorna la multiplicacion de la cantidad de dias por el precio
+
+        return this.precioDia.precioHabitacion * cantidadDias;
+      }
+    },
+    //sirve para buscar dentro de la reserva en el modo de edicion, si se edita se busca el total de l formulario en el metodo this.total
+    totalEdit: function totalEdit() {
+      //se averigua que este el egreso, ingreso y precio total pero en la reserva que se busco para editar
+      if (this.reserva.ingreso && this.reserva.egreso && this.form.preciosHabitaciones_id) {
+        //se saca la diferencia entre el ingreso y egreso
+        var a = moment__WEBPACK_IMPORTED_MODULE_1___default()(this.reserva.egreso);
+        var b = moment__WEBPACK_IMPORTED_MODULE_1___default()(this.reserva.ingreso);
+        var cantidadDias = a.diff(b, "days"); //se busca el id del select de precio de habitacion
+
+        var idPrecio = this.form.preciosHabitaciones_id; //se busca el precio por el id que buscamos antes
+
+        this.precioDia = this.preciosHabitaciones.find(function (precioHabitacion) {
+          return precioHabitacion.id == idPrecio;
+        }); //se retorna la multiplicacion de la cantidad de dias por el precio
+
+        return this.precioDia.precioHabitacion * cantidadDias;
+      }
+    },
+    startIngreso: function startIngreso() {
+      if (this.editMode && this.reserva.ingreso) {
+        return moment__WEBPACK_IMPORTED_MODULE_1___default()(this.reserva.ingreso).format("YYYY,MM,DD");
+      }
+    },
+    startEgreso: function startEgreso() {
+      if (this.editMode && this.reserva.egreso) {
+        return moment__WEBPACK_IMPORTED_MODULE_1___default()(this.reserva.egreso).format("YYYY,MM,DD");
+      }
+    }
+  })
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Reserva/reservaShow.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Reserva/reservaShow.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _reservaModal_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./reservaModal.vue */ "./resources/js/components/Reserva/reservaModal.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    ReservaModal: _reservaModal_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
   props: ["id"],
+  data: function data() {
+    return {
+      editMode: "false",
+      form: new Form({
+        id: "",
+        clientes_id: "",
+        preciosHabitaciones_id: "",
+        motivos_id: "",
+        habitaciones_id: "",
+        ingreso: "",
+        egreso: "",
+        pagado: "",
+        huespedes: "",
+        patenteAuto: "",
+        destino: "",
+        procedencia: ""
+      })
+    };
+  },
   created: function created() {
     var _this = this;
 
@@ -7678,13 +7887,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     });
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["reserva"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["reserva"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("habitacion", ["habitaciones"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("carga", ["motivos", "clientes", "preciosHabitaciones"]), {
     betWeen: function betWeen() {
       var a = moment__WEBPACK_IMPORTED_MODULE_1___default()(this.reserva.egreso);
       var b = moment__WEBPACK_IMPORTED_MODULE_1___default()(this.reserva.ingreso);
       return a.diff(b, "days"); //return moment().diff();
     }
-  })
+  }),
+  methods: {
+    editModal: function editModal(reserva) {
+      this.editMode = true;
+      this.form.reset();
+      $("#addNew").modal("show");
+      this.form.fill(reserva);
+    }
+  }
 });
 
 /***/ }),
@@ -12916,7 +13133,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.fade-list-enter {\n    opacity: 0.05;\n}\n.fade-list-enter-active {\n    transition: all 0.7s ease-in;\n}\ntable th {\n    text-align: center;\n    color:  darkblue;\n}\n", ""]);
+exports.push([module.i, "\n.fade-list-enter {\n    opacity: 0.05;\n}\n.fade-list-enter-active {\n    transition: all 0.7s ease-in;\n}\ntable th {\n    text-align: center;\n    color: darkblue;\n}\n", ""]);
 
 // exports
 
@@ -83956,11 +84173,11 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "modal-dialog modal-dialog-centered",
+            staticClass: "modal-dialog modal-dialog-centered modal-lg",
             attrs: { role: "document" }
           },
           [
-            _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "modal-content " }, [
               _c("div", { staticClass: "modal-header" }, [
                 _c("h5", {
                   staticClass: "modal-title",
@@ -83981,666 +84198,849 @@ var render = function() {
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
-                      _vm.editMode ? _vm.UpdateReserva() : _vm.createReserva()
+                      _vm.editMode ? _vm.updateReserva() : _vm.createReserva()
                     }
                   }
                 },
                 [
                   _c("div", { staticClass: "modal-body" }, [
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
-                        _c("label", [_vm._v("*Cantidad de huespedes")]),
-                        _vm._v(" "),
+                    _c("div", { staticClass: "container-fluid" }, [
+                      _c("div", { staticClass: "form-row" }, [
                         _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.form.huespedes,
-                                expression: "form.huespedes"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            class: {
-                              "is-invalid": _vm.form.errors.has("huespedes")
-                            },
-                            attrs: { required: "", name: "huespedes" },
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.form,
-                                  "huespedes",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
-                            }
-                          },
+                          "div",
+                          { staticClass: "form-group col-md-6" },
                           [
+                            _c("label", [_vm._v("*Cantidad de huespedes")]),
+                            _vm._v(" "),
                             _c(
-                              "option",
+                              "select",
                               {
-                                attrs: { disabled: "", selected: "", value: "" }
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.form.huespedes,
+                                    expression: "form.huespedes"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                class: {
+                                  "is-invalid": _vm.form.errors.has("huespedes")
+                                },
+                                attrs: { required: "", name: "huespedes" },
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.form,
+                                      "huespedes",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  }
+                                }
                               },
                               [
-                                _vm._v(
-                                  "Seleccionar la cantidad de\n                                    huespedes"
-                                )
+                                _c(
+                                  "option",
+                                  {
+                                    attrs: {
+                                      disabled: "",
+                                      selected: "",
+                                      value: ""
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "Seleccionar la cantidad de\n                                            huespedes"
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "1" } }, [
+                                  _vm._v("1")
+                                ]),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "2" } }, [
+                                  _vm._v("2")
+                                ]),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "3" } }, [
+                                  _vm._v("3")
+                                ]),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "4" } }, [
+                                  _vm._v("4")
+                                ]),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "5" } }, [
+                                  _vm._v("5")
+                                ])
                               ]
                             ),
                             _vm._v(" "),
-                            _c("option", { attrs: { value: "1" } }, [
-                              _vm._v("1")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "2" } }, [
-                              _vm._v("2")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "3" } }, [
-                              _vm._v("3")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "4" } }, [
-                              _vm._v("4")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "5" } }, [
-                              _vm._v("5")
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "clientes_id" }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
-                        _c("label", [_vm._v("*Huesped")]),
-                        _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.form.clientes_id,
-                                expression: "form.clientes_id"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            class: {
-                              "is-invalid": _vm.form.errors.has("clientes_id")
-                            },
-                            attrs: { required: "", name: "clientes_id" },
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.form,
-                                  "clientes_id",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
-                            }
-                          },
-                          [
-                            _c(
-                              "option",
-                              {
-                                attrs: { disabled: "", selected: "", value: "" }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                    Seleccionar el huesped\n                                "
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _vm._l(_vm.clientes, function(c) {
-                              return _c(
-                                "option",
-                                { key: c.id, domProps: { value: c.id } },
-                                [_vm._v(_vm._s(c.nombre + " " + c.apellido))]
-                              )
+                            _c("has-error", {
+                              attrs: { form: _vm.form, field: "clientes_id" }
                             })
                           ],
-                          2
+                          1
                         ),
                         _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "clientes_id" }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
-                        _c("label", [_vm._v("*Habitacion")]),
+                        _c(
+                          "div",
+                          { staticClass: "form-group col-md-6" },
+                          [
+                            _c("label", [_vm._v("*Huesped")]),
+                            _vm._v(" "),
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.form.clientes_id,
+                                    expression: "form.clientes_id"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                class: {
+                                  "is-invalid": _vm.form.errors.has(
+                                    "clientes_id"
+                                  )
+                                },
+                                attrs: { required: "", name: "clientes_id" },
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.form,
+                                      "clientes_id",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _c(
+                                  "option",
+                                  {
+                                    attrs: {
+                                      disabled: "",
+                                      selected: "",
+                                      value: ""
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                            Seleccionar el huesped\n                                        "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _vm._l(_vm.clientes, function(c) {
+                                  return _c(
+                                    "option",
+                                    { key: c.id, domProps: { value: c.id } },
+                                    [
+                                      _vm._v(
+                                        _vm._s(c.nombre + " " + c.apellido)
+                                      )
+                                    ]
+                                  )
+                                })
+                              ],
+                              2
+                            ),
+                            _vm._v(" "),
+                            _c("has-error", {
+                              attrs: { form: _vm.form, field: "clientes_id" }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "form-group col-md-6" },
+                          [
+                            _c("label", [_vm._v("*Habitacion")]),
+                            _vm._v(" "),
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.form.habitaciones_id,
+                                    expression: "form.habitaciones_id"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                class: {
+                                  "is-invalid": _vm.form.errors.has(
+                                    "habitaciones_id"
+                                  )
+                                },
+                                attrs: {
+                                  required: "",
+                                  name: "habitaciones_id"
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.form,
+                                      "habitaciones_id",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _vm._l(_vm.habitaciones, function(h) {
+                                  return _c(
+                                    "option",
+                                    { key: h.id, domProps: { value: h.id } },
+                                    [_vm._v(_vm._s(h.numeroHabitacion))]
+                                  )
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  {
+                                    attrs: {
+                                      disabled: "",
+                                      selected: "",
+                                      value: ""
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                            Seleccionar la habitacion\n                                        "
+                                    )
+                                  ]
+                                )
+                              ],
+                              2
+                            ),
+                            _vm._v(" "),
+                            _c("has-error", {
+                              attrs: {
+                                form: _vm.form,
+                                field: "habitaciones_id"
+                              }
+                            })
+                          ],
+                          1
+                        ),
                         _vm._v(" "),
                         _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.form.habitaciones_id,
-                                expression: "form.habitaciones_id"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            class: {
-                              "is-invalid": _vm.form.errors.has(
-                                "habitaciones_id"
-                              )
-                            },
-                            attrs: { required: "", name: "habitaciones_id" },
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.form,
-                                  "habitaciones_id",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
-                            }
-                          },
+                          "div",
+                          { staticClass: "form-group col-md-6" },
                           [
-                            _vm._l(_vm.habitaciones, function(h) {
-                              return _c(
-                                "option",
-                                { key: h.id, domProps: { value: h.id } },
-                                [_vm._v(_vm._s(h.numeroHabitacion))]
-                              )
+                            _c("label", [_vm._v("*Precio")]),
+                            _vm._v(" "),
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.form.preciosHabitaciones_id,
+                                    expression:
+                                      "\n                                            form.preciosHabitaciones_id\n                                        "
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                class: {
+                                  "is-invalid": _vm.form.errors.has(
+                                    "preciosHabitaciones_id"
+                                  )
+                                },
+                                attrs: {
+                                  required: "",
+                                  name: "preciosHabitaciones_id"
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.form,
+                                      "preciosHabitaciones_id",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _c(
+                                  "option",
+                                  {
+                                    attrs: {
+                                      disabled: "",
+                                      selected: "",
+                                      value: ""
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                            Seleccionar el precio\n                                        "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _vm._l(_vm.preciosHabitaciones, function(ph) {
+                                  return _c(
+                                    "option",
+                                    { key: ph.id, domProps: { value: ph.id } },
+                                    [
+                                      _vm._v(
+                                        _vm._s(
+                                          ph.precioHabitacion +
+                                            " " +
+                                            ph.descripcion
+                                        )
+                                      )
+                                    ]
+                                  )
+                                })
+                              ],
+                              2
+                            ),
+                            _vm._v(" "),
+                            _c("has-error", {
+                              attrs: {
+                                form: _vm.form,
+                                field: "preciosHabitaciones_id"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _vm.editMode
+                        ? _c("div", { staticClass: "form-row" }, [
+                            _c(
+                              "div",
+                              { staticClass: "form-group col-md-12" },
+                              [
+                                _c("label", [_vm._v("*Ingreso/Egreso")]),
+                                _vm._v(" "),
+                                _c(
+                                  "HotelDatePicker",
+                                  {
+                                    attrs: {
+                                      minNights: 1,
+                                      name: "ingreso",
+                                      format: "DD/MM/YYYY",
+                                      i18n: _vm.ptAr,
+                                      startingDateValue: new Date(
+                                        _vm.startIngreso
+                                      ),
+                                      endingDateValue: new Date(
+                                        _vm.startEgreso
+                                      ),
+                                      startDate: new Date(
+                                        new Date().getFullYear(),
+                                        new Date().getMonth() - 1,
+                                        1
+                                      )
+                                    },
+                                    on: {
+                                      "check-in-changed": function($event) {
+                                        return _vm.ingresoChanged($event)
+                                      },
+                                      "check-out-changed": function($event) {
+                                        return _vm.egresoChanged($event)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                        >\n                                    "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("has-error", {
+                                  attrs: { form: _vm.form, field: "ingreso" }
+                                }),
+                                _vm._v(" "),
+                                _c("has-error", {
+                                  attrs: { form: _vm.form, field: "egreso" }
+                                })
+                              ],
+                              1
+                            )
+                          ])
+                        : !_vm.editMode
+                        ? _c("div", { staticClass: "form-row" }, [
+                            _c(
+                              "div",
+                              { staticClass: "form-group col-md-12" },
+                              [
+                                _c("label", [_vm._v("*Ingreso/Egreso")]),
+                                _vm._v(" "),
+                                _c("HotelDatePicker", {
+                                  attrs: {
+                                    minNights: 1,
+                                    name: "ingreso",
+                                    format: "DD/MM/YYYY",
+                                    i18n: _vm.ptAr
+                                  },
+                                  on: {
+                                    "check-in-changed": function($event) {
+                                      return _vm.ingresoChanged($event)
+                                    },
+                                    "check-out-changed": function($event) {
+                                      return _vm.egresoChanged($event)
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("has-error", {
+                                  attrs: { form: _vm.form, field: "ingreso" }
+                                }),
+                                _vm._v(" "),
+                                _c("has-error", {
+                                  attrs: { form: _vm.form, field: "egreso" }
+                                })
+                              ],
+                              1
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.editMode
+                        ? _c("div", { staticClass: "form-row" }, [
+                            _c("div", { staticClass: "form-group col-md-4" }, [
+                              _c("label", [_vm._v("Total a pagar")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                staticClass: "form-control",
+                                attrs: { type: "number", disabled: "" },
+                                domProps: {
+                                  value: _vm.total ? _vm.total : _vm.totalEdit
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group col-md-4" }, [
+                              _c("label", [_vm._v("Pagado")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                staticClass: "form-control",
+                                attrs: { type: "number", disabled: "" },
+                                domProps: {
+                                  value: _vm.reserva.pagado
+                                    ? _vm.reserva.pagado
+                                    : "0"
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group col-md-4" }, [
+                              _c("label", [_vm._v("Faltante")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                staticClass: "form-control",
+                                attrs: { type: "number", disabled: "" },
+                                domProps: {
+                                  value: _vm.total
+                                    ? _vm.total - _vm.reserva.pagado
+                                    : _vm.totalEdit - _vm.reserva.pagado
+                                }
+                              })
+                            ])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      !_vm.editMode
+                        ? _c("div", { staticClass: "form-row" }, [
+                            _c(
+                              "div",
+                              { staticClass: "form-group col-md-6" },
+                              [
+                                _c("label", [_vm._v("Pagado")]),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model.number",
+                                      value: _vm.form.pagado,
+                                      expression: "form.pagado",
+                                      modifiers: { number: true }
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  class: {
+                                    "is-invalid": _vm.form.errors.has("pagado")
+                                  },
+                                  attrs: {
+                                    type: "number",
+                                    name: "pagado",
+                                    placeholder: "Cantidad que pago el huesped"
+                                  },
+                                  domProps: { value: _vm.form.pagado },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.form,
+                                        "pagado",
+                                        _vm._n($event.target.value)
+                                      )
+                                    },
+                                    blur: function($event) {
+                                      return _vm.$forceUpdate()
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("has-error", {
+                                  attrs: { form: _vm.form, field: "pagado" }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group col-md-3 " }, [
+                              _c("label", [_vm._v("Total a pagar")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                staticClass: "form-control",
+                                attrs: { type: "number", disabled: "" },
+                                domProps: { value: _vm.total }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group col-md-3 " }, [
+                              _c("label", [_vm._v("Faltante")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                staticClass: "form-control",
+                                attrs: { type: "number", disabled: "" },
+                                domProps: { value: _vm.total - _vm.form.pagado }
+                              })
+                            ])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "form-group col-md-6" },
+                          [
+                            _c("label", [_vm._v("Motivo")]),
+                            _vm._v(" "),
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.form.motivos_id,
+                                    expression: "form.motivos_id"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                class: {
+                                  "is-invalid": _vm.form.errors.has(
+                                    "motivos_id"
+                                  )
+                                },
+                                attrs: { name: "motivos_id" },
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.form,
+                                      "motivos_id",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _c(
+                                  "option",
+                                  {
+                                    attrs: {
+                                      disabled: "",
+                                      selected: "",
+                                      value: ""
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                            Seleccionar el motivo del viaje\n                                        "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _vm._l(_vm.motivos, function(m) {
+                                  return _c(
+                                    "option",
+                                    { key: m.id, domProps: { value: m.id } },
+                                    [_vm._v(_vm._s(m.motivo))]
+                                  )
+                                })
+                              ],
+                              2
+                            ),
+                            _vm._v(" "),
+                            _c("has-error", {
+                              attrs: { form: _vm.form, field: "motivos_id" }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "form-group col-md-6" },
+                          [
+                            _c("label", [_vm._v("Destino")]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form.destino,
+                                  expression: "form.destino"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: {
+                                "is-invalid": _vm.form.errors.has("destino")
+                              },
+                              attrs: {
+                                type: "text",
+                                name: "destino",
+                                placeholder: "A donde se dirije el huesped"
+                              },
+                              domProps: { value: _vm.form.destino },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.form,
+                                    "destino",
+                                    $event.target.value
+                                  )
+                                }
+                              }
                             }),
                             _vm._v(" "),
-                            _c(
-                              "option",
-                              {
-                                attrs: { disabled: "", selected: "", value: "" }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                    Seleccionar la habitacion\n                                "
-                                )
-                              ]
-                            )
+                            _c("has-error", {
+                              attrs: { form: _vm.form, field: "destino" }
+                            })
                           ],
-                          2
-                        ),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "habitaciones_id" }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
-                        _c("label", [_vm._v("*Ingreso/Egreso")]),
-                        _vm._v(" "),
-                        _c("HotelDatePicker", {
-                          attrs: {
-                            minNights: 1,
-                            name: "ingreso",
-                            format: "DD/MM/YYYY",
-                            i18n: _vm.ptAr
-                          },
-                          on: {
-                            "check-in-changed": function($event) {
-                              return _vm.ingresoChanged($event)
-                            },
-                            "check-out-changed": function($event) {
-                              return _vm.egresoChanged($event)
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "ingreso" }
-                        }),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "egreso" }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
-                        _c("label", [_vm._v("*Precio")]),
-                        _vm._v(" "),
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-row" }, [
                         _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.form.preciosHabitaciones_id,
-                                expression: "form.preciosHabitaciones_id"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            class: {
-                              "is-invalid": _vm.form.errors.has(
-                                "preciosHabitaciones_id"
-                              )
-                            },
-                            attrs: {
-                              required: "",
-                              name: "preciosHabitaciones_id"
-                            },
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.form,
-                                  "preciosHabitaciones_id",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
-                            }
-                          },
+                          "div",
+                          { staticClass: "form-group col-md-6" },
                           [
-                            _c(
-                              "option",
-                              {
-                                attrs: { disabled: "", selected: "", value: "" }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                    Seleccionar el precio\n                                "
-                                )
-                              ]
-                            ),
+                            _c("label", [_vm._v("Procedencia")]),
                             _vm._v(" "),
-                            _vm._l(_vm.preciosHabitaciones, function(ph) {
-                              return _c(
-                                "option",
-                                { key: ph.id, domProps: { value: ph.id } },
-                                [
-                                  _vm._v(
-                                    _vm._s(
-                                      ph.precioHabitacion + " " + ph.descripcion
-                                    )
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form.procedencia,
+                                  expression: "form.procedencia"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: {
+                                "is-invalid": _vm.form.errors.has("procedencia")
+                              },
+                              attrs: {
+                                type: "text",
+                                name: "procedencia",
+                                placeholder: "De donde viene el huesped"
+                              },
+                              domProps: { value: _vm.form.procedencia },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.form,
+                                    "procedencia",
+                                    $event.target.value
                                   )
-                                ]
-                              )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("has-error", {
+                              attrs: { form: _vm.form, field: "procedencia" }
                             })
                           ],
-                          2
+                          1
                         ),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: {
-                            form: _vm.form,
-                            field: "preciosHabitaciones_id"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
-                        _c("label", [_vm._v("Pagado")]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model.number",
-                              value: _vm.form.pagado,
-                              expression: "form.pagado",
-                              modifiers: { number: true }
-                            }
-                          ],
-                          staticClass: "form-control",
-                          class: {
-                            "is-invalid": _vm.form.errors.has("pagado")
-                          },
-                          attrs: {
-                            type: "number",
-                            name: "pagado",
-                            placeholder: "Cantidad que pago el huesped"
-                          },
-                          domProps: { value: _vm.form.pagado },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.form,
-                                "pagado",
-                                _vm._n($event.target.value)
-                              )
-                            },
-                            blur: function($event) {
-                              return _vm.$forceUpdate()
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "pagado" }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
-                        _c("label", [_vm._v("Motivo")]),
                         _vm._v(" "),
                         _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.form.motivos_id,
-                                expression: "form.motivos_id"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            class: {
-                              "is-invalid": _vm.form.errors.has("motivos_id")
-                            },
-                            attrs: { name: "motivos_id" },
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.form,
-                                  "motivos_id",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              }
-                            }
-                          },
+                          "div",
+                          { staticClass: "form-group col-md-6" },
                           [
-                            _c(
-                              "option",
-                              {
-                                attrs: { disabled: "", selected: "", value: "" }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                    Seleccionar el motivo del viaje\n                                "
-                                )
-                              ]
-                            ),
+                            _c("label", [_vm._v("Patente")]),
                             _vm._v(" "),
-                            _vm._l(_vm.motivos, function(m) {
-                              return _c(
-                                "option",
-                                { key: m.id, domProps: { value: m.id } },
-                                [_vm._v(_vm._s(m.motivo))]
-                              )
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form.patenteAuto,
+                                  expression: "form.patenteAuto"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              class: {
+                                "is-invalid": _vm.form.errors.has("patenteAuto")
+                              },
+                              attrs: {
+                                type: "text",
+                                name: "patenteAuto",
+                                placeholder: "Patente del vehiculo"
+                              },
+                              domProps: { value: _vm.form.patenteAuto },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.form,
+                                    "patenteAuto",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("has-error", {
+                              attrs: { form: _vm.form, field: "patenteAuto" }
                             })
                           ],
-                          2
-                        ),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "motivos_id" }
-                        })
-                      ],
-                      1
-                    ),
+                          1
+                        )
+                      ])
+                    ]),
                     _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
-                        _c("label", [_vm._v("Destino")]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
+                    _c("div", { staticClass: "modal-footer" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          attrs: { type: "button", "data-dismiss": "modal" }
+                        },
+                        [
+                          _vm._v(
+                            "\n                                Cancelar\n                            "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      !_vm.editMode
+                        ? _c(
+                            "button",
                             {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.form.destino,
-                              expression: "form.destino"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          class: {
-                            "is-invalid": _vm.form.errors.has("destino")
-                          },
-                          attrs: {
-                            type: "text",
-                            name: "destino",
-                            placeholder: "A donde se dirije el huesped"
-                          },
-                          domProps: { value: _vm.form.destino },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(_vm.form, "destino", $event.target.value)
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "destino" }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
-                        _c("label", [_vm._v("Procedencia")]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.form.procedencia,
-                              expression: "form.procedencia"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          class: {
-                            "is-invalid": _vm.form.errors.has("procedencia")
-                          },
-                          attrs: {
-                            type: "text",
-                            name: "procedencia",
-                            placeholder: "De donde viene el huesped"
-                          },
-                          domProps: { value: _vm.form.procedencia },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.form,
-                                "procedencia",
-                                $event.target.value
+                              staticClass: "btn btn-success",
+                              attrs: { type: "submit" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                Guardar\n                            "
                               )
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "procedencia" }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
-                        _c("label", [_vm._v("Patente")]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
+                            ]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.editMode
+                        ? _c(
+                            "button",
                             {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.form.patenteAuto,
-                              expression: "form.patenteAuto"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          class: {
-                            "is-invalid": _vm.form.errors.has("patenteAuto")
-                          },
-                          attrs: {
-                            type: "text",
-                            name: "patenteAuto",
-                            placeholder: "Patente del vehiculo"
-                          },
-                          domProps: { value: _vm.form.patenteAuto },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.form,
-                                "patenteAuto",
-                                $event.target.value
+                              staticClass: "btn btn-success",
+                              attrs: { type: "submit" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                Actualizar\n                            "
                               )
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "patenteAuto" }
-                        })
-                      ],
-                      1
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "modal-footer" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-danger",
-                        attrs: { type: "button", "data-dismiss": "modal" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                            Cancelar\n                        "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    !_vm.editMode
-                      ? _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success",
-                            attrs: { type: "submit" }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            Guardar\n                        "
-                            )
-                          ]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.editMode
-                      ? _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success",
-                            attrs: { type: "submit" }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            Actualizar\n                        "
-                            )
-                          ]
-                        )
-                      : _vm._e()
+                            ]
+                          )
+                        : _vm._e()
+                    ])
                   ])
                 ]
               )
@@ -84764,9 +85164,33 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn",
+          on: {
+            click: function($event) {
+              return _vm.editModal(_vm.reserva)
+            }
+          }
+        },
+        [_c("i", { staticClass: "fa fa-edit blue" })]
+      ),
+      _vm._v(" "),
       _c("router-link", { attrs: { to: { name: "reserva" } } }, [
         _vm._v("atras")
-      ])
+      ]),
+      _vm._v(" "),
+      _c("reserva-modal", {
+        attrs: {
+          form: _vm.form,
+          habitaciones: _vm.habitaciones,
+          clientes: _vm.clientes,
+          preciosHabitaciones: _vm.preciosHabitaciones,
+          motivos: _vm.motivos,
+          editMode: _vm.editMode
+        }
+      })
     ],
     1
   )
@@ -104297,6 +104721,62 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 
 /***/ }),
 
+/***/ "./resources/js/store/modules/carga.js":
+/*!*********************************************!*\
+  !*** ./resources/js/store/modules/carga.js ***!
+  \*********************************************/
+/*! exports provided: namespaced, state, mutations, actions */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "namespaced", function() { return namespaced; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "state", function() { return state; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mutations", function() { return mutations; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "actions", function() { return actions; });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+var namespaced = true;
+var state = {
+  clientes: [],
+  preciosHabitaciones: [],
+  motivos: []
+};
+var mutations = {
+  SET_CLIENTES: function SET_CLIENTES(state, clientes) {
+    state.clientes = clientes;
+  },
+  SET_PRECIOSHABITACIONES: function SET_PRECIOSHABITACIONES(state, preciosHabitaciones) {
+    state.preciosHabitaciones = preciosHabitaciones;
+  },
+  SET_MOTIVOS: function SET_MOTIVOS(state, motivos) {
+    state.motivos = motivos;
+  }
+};
+var actions = {
+  fetchClientes: function fetchClientes(_ref) {
+    var commit = _ref.commit;
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/getAllClientes").then(function (res) {
+      commit("SET_CLIENTES", res.data);
+    });
+  },
+  fetchPreciosHabitaciones: function fetchPreciosHabitaciones(_ref2) {
+    var commit = _ref2.commit;
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/getAllPreciosHabitaciones").then(function (res) {
+      commit("SET_PRECIOSHABITACIONES", res.data);
+    });
+  },
+  fetchMotivos: function fetchMotivos(_ref3) {
+    var commit = _ref3.commit;
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/getAllMotivos").then(function (res) {
+      commit("SET_MOTIVOS", res.data);
+    });
+  }
+};
+
+/***/ }),
+
 /***/ "./resources/js/store/modules/cliente.js":
 /*!***********************************************!*\
   !*** ./resources/js/store/modules/cliente.js ***!
@@ -104562,7 +105042,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_user_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/user.js */ "./resources/js/store/modules/user.js");
 /* harmony import */ var _modules_cliente_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/cliente.js */ "./resources/js/store/modules/cliente.js");
 /* harmony import */ var _modules_habitacion_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/habitacion.js */ "./resources/js/store/modules/habitacion.js");
-/* harmony import */ var _modules_notification_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/notification.js */ "./resources/js/store/modules/notification.js");
+/* harmony import */ var _modules_carga_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/carga.js */ "./resources/js/store/modules/carga.js");
+/* harmony import */ var _modules_notification_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/notification.js */ "./resources/js/store/modules/notification.js");
+
 
 
 
@@ -104574,9 +105056,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   modules: {
     user: _modules_user_js__WEBPACK_IMPORTED_MODULE_3__,
-    notification: _modules_notification_js__WEBPACK_IMPORTED_MODULE_6__,
+    notification: _modules_notification_js__WEBPACK_IMPORTED_MODULE_7__,
     cliente: _modules_cliente_js__WEBPACK_IMPORTED_MODULE_4__,
-    habitacion: _modules_habitacion_js__WEBPACK_IMPORTED_MODULE_5__
+    habitacion: _modules_habitacion_js__WEBPACK_IMPORTED_MODULE_5__,
+    carga: _modules_carga_js__WEBPACK_IMPORTED_MODULE_6__
   },
   state: {
     reservas: [],
@@ -104592,9 +105075,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     SET_ELEMENTOS: function SET_ELEMENTOS(state, elementos) {
       state.elementos = elementos;
-    },
-    ADD_RESERVA: function ADD_RESERVA(state, reserva) {
-      state.reservas.push(reserva);
     }
   },
   actions: {
@@ -104640,13 +105120,25 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         commit("SET_RESERVA", reserva);
       } else {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/reserva/" + id).then(function (res) {
-          commit("SET_RESERVA", res.data);
-        }).then(function () {
+          commit("SET_RESERVA", res.data[0]);
+        })["catch"](function () {
           _this.$router.push({
             name: "500"
           });
         });
       }
+    },
+    refreshReserva: function refreshReserva(_ref3, id) {
+      var _this2 = this;
+
+      var commit = _ref3.commit;
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/reserva/" + id).then(function (res) {
+        commit("SET_RESERVA", res.data[0]);
+      })["catch"](function () {
+        _this2.$router.push({
+          name: "500"
+        });
+      });
     }
   },
   getters: {

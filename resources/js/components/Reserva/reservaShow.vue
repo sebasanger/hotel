@@ -33,16 +33,52 @@
             Destino del huesped: {{ reserva.destino | capitalize }}
         </p>
 
+        <button @click="editModal(reserva)" class="btn">
+            <i class="fa fa-edit blue"></i>
+        </button>
+
         <router-link :to="{ name: 'reserva' }">atras</router-link>
+
+        <reserva-modal
+            :form="form"
+            :habitaciones="habitaciones"
+            :clientes="clientes"
+            :preciosHabitaciones="preciosHabitaciones"
+            :motivos="motivos"
+            :editMode="editMode"
+        />
     </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import moment from "moment";
+import ReservaModal from "./reservaModal.vue";
 
 export default {
+    components: {
+        ReservaModal
+    },
     props: ["id"],
+    data() {
+        return {
+            editMode: "false",
+            form: new Form({
+                id: "",
+                clientes_id: "",
+                preciosHabitaciones_id: "",
+                motivos_id: "",
+                habitaciones_id: "",
+                ingreso: "",
+                egreso: "",
+                pagado: "",
+                huespedes: "",
+                patenteAuto: "",
+                destino: "",
+                procedencia: ""
+            })
+        };
+    },
     created() {
         this.$store
             .dispatch("fetchReserva", this.id)
@@ -57,11 +93,21 @@ export default {
     },
     computed: {
         ...mapState(["reserva"]),
+        ...mapState("habitacion", ["habitaciones"]),
+        ...mapState("carga", ["motivos", "clientes", "preciosHabitaciones"]),
         betWeen() {
             var a = moment(this.reserva.egreso);
             var b = moment(this.reserva.ingreso);
             return a.diff(b, "days");
             //return moment().diff();
+        }
+    },
+    methods: {
+        editModal(reserva) {
+            this.editMode = true;
+            this.form.reset();
+            $("#addNew").modal("show");
+            this.form.fill(reserva);
         }
     }
 };

@@ -4,6 +4,7 @@ import Axios from "axios";
 import * as user from "./modules/user.js";
 import * as cliente from "./modules/cliente.js";
 import * as habitacion from "./modules/habitacion.js";
+import * as carga from "./modules/carga.js";
 import * as notification from "./modules/notification.js";
 
 Vue.use(Vuex);
@@ -13,7 +14,8 @@ export default new Vuex.Store({
         user,
         notification,
         cliente,
-        habitacion
+        habitacion,
+        carga
     },
     state: {
         reservas: [],
@@ -29,9 +31,6 @@ export default new Vuex.Store({
         },
         SET_ELEMENTOS(state, elementos) {
             state.elementos = elementos;
-        },
-        ADD_RESERVA(state, reserva) {
-            state.reservas.push(reserva);
         }
     },
     actions: {
@@ -77,14 +76,25 @@ export default new Vuex.Store({
             } else {
                 Axios.get("/reserva/" + id)
                     .then(res => {
-                        commit("SET_RESERVA", res.data);
+                        commit("SET_RESERVA", res.data[0]);
                     })
-                    .then(() => {
+                    .catch(() => {
                         this.$router.push({
                             name: "500"
                         });
                     });
             }
+        },
+        refreshReserva({ commit }, id) {
+            Axios.get("/reserva/" + id)
+                .then(res => {
+                    commit("SET_RESERVA", res.data[0]);
+                })
+                .catch(() => {
+                    this.$router.push({
+                        name: "500"
+                    });
+                });
         }
     },
     getters: {

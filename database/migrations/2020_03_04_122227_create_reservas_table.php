@@ -23,7 +23,7 @@ class CreateReservasTable extends Migration
             $table->string('color', 40)->default('blue');
             $table->tinyInteger('estado')->default(1);
             $table->double('totalPagar')->nullable();
-            $table->double('pagado')->default(0);
+            $table->double('pagado')->nullable()->default(0);
             $table->string('procedencia', 80)->nullable();
             $table->string('destino', 80)->nullable();
             $table->softDeletes();

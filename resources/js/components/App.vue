@@ -42,6 +42,9 @@ export default {
         this.$store.dispatch("habitacion/fetchHabitaciones");
         this.$store.dispatch("fetchReservas");
         this.$store.dispatch("cliente/fetchClientes", 1);
+        this.$store.dispatch("carga/fetchMotivos");
+        this.$store.dispatch("carga/fetchPreciosHabitaciones");
+        this.$store.dispatch("carga/fetchClientes");
     }
 };
 </script>
@@ -55,6 +58,6 @@ export default {
 }
 table th {
     text-align: center;
-    color:  darkblue;
+    color: darkblue;
 }
 </style>
