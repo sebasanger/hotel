@@ -45,6 +45,7 @@ export default {
         this.$store.dispatch("carga/fetchMotivos");
         this.$store.dispatch("carga/fetchPreciosHabitaciones");
         this.$store.dispatch("carga/fetchClientes");
+        this.$store.dispatch("caja/fetchCaja");
     }
 };
 </script>

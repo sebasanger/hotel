@@ -28,6 +28,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('getAllHabitaciones', 'HabitacionController@getAllHabitaciones');
     Route::get('getAllProductos', 'ProductoController@getAllProductos');
 
+    Route::get('getCajaActiva', 'CajaController@getCajaActiva');
+
     Route::get('userFind', 'UserController@userFind');
 
     Route::middleware(['role:1'])->group(function () {

@@ -86,6 +86,6 @@ class PrecioHabitacionController extends Controller
     }
     public function getAllPreciosHabitaciones()
     {
-        return PrecioHabitacion::all();
+        return PrecioHabitacion::orderBy('precioHabitacion')->get();
     }
 }

@@ -303,7 +303,7 @@
                                             type="number"
                                             class="form-control"
                                             disabled
-                                            :value="total"
+                                            :value="total ? total : ''"
                                         />
                                     </div>
 
@@ -313,7 +313,9 @@
                                             type="number"
                                             class="form-control"
                                             disabled
-                                            :value="total - form.pagado"
+                                            :value="
+                                                total ? total - form.pagado : ''
+                                            "
                                         />
                                     </div>
                                 </div>
@@ -515,12 +517,19 @@ export default {
                     });
                     this.$Progress.finish();
                 })
-                .catch(() => {
+                .catch(error => {
+                    if (error.response.status == 400) {
+                        Toast.fire({
+                            icon: "error",
+                            title: error.response.data.message
+                        });
+                    } else {
+                        Toast.fire({
+                            icon: "error",
+                            title: "Error"
+                        });
+                    }
                     this.$Progress.fail();
-                    Toast.fire({
-                        icon: "error",
-                        title: "Error"
-                    });
                 });
         },
 
@@ -537,12 +546,19 @@ export default {
                     });
                     this.$Progress.finish();
                 })
-                .catch(() => {
+                .catch(error => {
+                    if (error.response.status == 400) {
+                        Toast.fire({
+                            icon: "error",
+                            title: error.response.data.message
+                        });
+                    } else {
+                        Toast.fire({
+                            icon: "error",
+                            title: "Error"
+                        });
+                    }
                     this.$Progress.fail();
-                    Toast.fire({
-                        icon: "error",
-                        title: "Error"
-                    });
                 });
         }
     },

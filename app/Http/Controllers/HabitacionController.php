@@ -161,6 +161,6 @@ class HabitacionController extends Controller
 
     public function getAllHabitaciones()
     {
-        return Habitacion::all();
+        return Habitacion::orderBy('numeroHabitacion')->get();
     }
 }

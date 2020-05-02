@@ -33,11 +33,17 @@
             Destino del huesped: {{ reserva.destino | capitalize }}
         </p>
 
+        <router-link :to="{ name: 'reserva' }" class="btn">
+            <i class="fa fa-backspace red">Atras</i>
+        </router-link>
+
         <button @click="editModal(reserva)" class="btn">
-            <i class="fa fa-edit blue"></i>
+            <i class="fa fa-edit blue">Editar</i>
         </button>
 
-        <router-link :to="{ name: 'reserva' }">atras</router-link>
+        <button @click="createPago(reserva)" class="btn" v-if="caja">
+            <i class="fa fa-money-bill green">Agregar pago</i>
+        </button>
 
         <reserva-modal
             :form="form"
@@ -47,6 +53,8 @@
             :motivos="motivos"
             :editMode="editMode"
         />
+
+        <Pago-modal :pagoForm="pagoForm" :reserva="reserva" :editPago="false" />
     </div>
 </template>
 
@@ -54,10 +62,12 @@
 import { mapState } from "vuex";
 import moment from "moment";
 import ReservaModal from "./reservaModal.vue";
+import PagoModal from "../Pago/PagoModal.vue";
 
 export default {
     components: {
-        ReservaModal
+        ReservaModal,
+        PagoModal
     },
     props: ["id"],
     data() {
@@ -76,6 +86,12 @@ export default {
                 patenteAuto: "",
                 destino: "",
                 procedencia: ""
+            }),
+            pagoForm: new Form({
+                id: "",
+                reservas_id: "",
+                modosPagos_id: "",
+                monto: 0
             })
         };
     },
@@ -95,6 +111,7 @@ export default {
         ...mapState(["reserva"]),
         ...mapState("habitacion", ["habitaciones"]),
         ...mapState("carga", ["motivos", "clientes", "preciosHabitaciones"]),
+        ...mapState("caja", ["caja"]),
         betWeen() {
             var a = moment(this.reserva.egreso);
             var b = moment(this.reserva.ingreso);
@@ -108,6 +125,10 @@ export default {
             this.form.reset();
             $("#addNew").modal("show");
             this.form.fill(reserva);
+        },
+        createPago(reserva) {
+            this.pagoForm.reset();
+            $("#addPago").modal("show");
         }
     }
 };

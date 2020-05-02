@@ -5,6 +5,7 @@ import * as user from "./modules/user.js";
 import * as cliente from "./modules/cliente.js";
 import * as habitacion from "./modules/habitacion.js";
 import * as carga from "./modules/carga.js";
+import * as caja from "./modules/caja.js";
 import * as notification from "./modules/notification.js";
 
 Vue.use(Vuex);
@@ -15,7 +16,8 @@ export default new Vuex.Store({
         notification,
         cliente,
         habitacion,
-        carga
+        carga,
+        caja
     },
     state: {
         reservas: [],

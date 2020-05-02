@@ -45,4 +45,11 @@ class CajaController extends Controller
     {
         //
     }
+
+    public function getCajaActiva()
+    {
+        $caja = Caja::where('cajaActiva', 1)->orderBy('id', 'desc')->get();
+
+        return $caja;
+    }
 }

@@ -82,6 +82,6 @@ class MotivoController extends Controller
     }
     public function getAllMotivos()
     {
-        return Motivo::all();
+        return Motivo::orderBy('motivo')->get();
     }
 }

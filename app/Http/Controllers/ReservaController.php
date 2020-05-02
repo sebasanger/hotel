@@ -49,7 +49,7 @@ class ReservaController extends Controller
             'pagado' => 'numeric|nullable',
 
         ]);
-        $fechaLibre = $this->verificacion($request->habitaciones_id, $request->ingreso, $request->egreso);
+        $fechaLibre = $this->verificacion($request->habitaciones_id, $request->ingreso, $request->egreso,);
         if ($fechaLibre) {
             $precio = PrecioHabitacion::findOrFail($request->preciosHabitaciones_id);
             $precioDia = $precio->precioHabitacion;
@@ -78,7 +78,7 @@ class ReservaController extends Controller
 
             return $reserva;
         } else {
-            return "error al crear la reserva";
+            abort(400, 'Hay una reserva en esa fecha');
         }
     }
 
@@ -122,39 +122,45 @@ class ReservaController extends Controller
 
         ]);
 
-        $precio = PrecioHabitacion::findOrFail($request->preciosHabitaciones_id);
-        $precioDia = $precio->precioHabitacion;
-        $CantidadDias = Carbon::parse($request->ingreso)->floatDiffInDays($request->egreso);
-        $precioTotal = $precioDia * $CantidadDias;
 
-        $reserva = Reserva::find($request->id);
+        $fechaLibre = $this->verificacion($request->habitaciones_id, $request->ingreso, $request->egreso, $request->id);
+        if ($fechaLibre) {
+            $precio = PrecioHabitacion::findOrFail($request->preciosHabitaciones_id);
+            $precioDia = $precio->precioHabitacion;
+            $CantidadDias = Carbon::parse($request->ingreso)->floatDiffInDays($request->egreso);
+            $precioTotal = $precioDia * $CantidadDias;
 
-        $totalPagos = $this->findPagosForReserva($request->id);
+            $reserva = Reserva::find($request->id);
 
-        $totalConsumos = $this->findConsumosForReserva($request->id);
+            $totalPagos = $this->findPagosForReserva($request->id);
 
-        $total = $reserva->pagado + $totalPagos - $totalConsumos;
+            $totalConsumos = $this->findConsumosForReserva($request->id);
 
-        $colorGrafica = $this->checkColor($total, $precioTotal);
+            $total = $reserva->pagado + $totalPagos - $totalConsumos;
+
+            $colorGrafica = $this->checkColor($total, $precioTotal);
 
 
-        $reserva->huespedes = $request->huespedes;
-        $reserva->ingreso = $request->ingreso;
-        $reserva->egreso = $request->egreso;
-        $reserva->clientes_id = $request->clientes_id;
-        $reserva->habitaciones_id = $request->habitaciones_id;
-        $reserva->preciosHabitaciones_id = $request->preciosHabitaciones_id;
-        $reserva->motivos_id = $request->motivos_id;
-        $reserva->patenteAuto = $request->patenteAuto;
-        $reserva->destino = $request->destino;
-        $reserva->procedencia = $request->procedencia;
-        $reserva->precio = $precioDia;
-        $reserva->totalPagar = $precioTotal + $totalConsumos;
-        $reserva->color = $colorGrafica;
-        $reserva->users_id = Auth::user()->id;
-        $reserva->save();
+            $reserva->huespedes = $request->huespedes;
+            $reserva->ingreso = $request->ingreso;
+            $reserva->egreso = $request->egreso;
+            $reserva->clientes_id = $request->clientes_id;
+            $reserva->habitaciones_id = $request->habitaciones_id;
+            $reserva->preciosHabitaciones_id = $request->preciosHabitaciones_id;
+            $reserva->motivos_id = $request->motivos_id;
+            $reserva->patenteAuto = $request->patenteAuto;
+            $reserva->destino = $request->destino;
+            $reserva->procedencia = $request->procedencia;
+            $reserva->precio = $precioDia;
+            $reserva->totalPagar = $precioTotal + $totalConsumos;
+            $reserva->color = $colorGrafica;
+            $reserva->users_id = Auth::user()->id;
+            $reserva->save();
 
-        return $reserva;
+            return $reserva;
+        } else {
+            abort(400, 'Hay una reserva en esa fecha');
+        }
     }
 
     /**
@@ -192,18 +198,25 @@ class ReservaController extends Controller
         return $TotalConsumo;
     }
 
-    public function verificacion($habitacionId, $ingreso, $egreso)
+    public function verificacion($habitacionId, $ingreso, $egreso, $reservaId = null)
     {
-        $from = Carbon::parse($ingreso)->startOfDay()->toDateTimeString();
+        //se pasan a carbon para hacer la comparacion en el between als fechas y al ingreso se le agrega un dia
+        $from = Carbon::parse($ingreso)->addDay()->startOfDay()->toDateTimeString();
         $to = Carbon::parse($egreso)->startOfDay()->toDateTimeString();
-
-        $onIngreso = Reserva::all()->where('habitaciones_id', $habitacionId)
+        //se hace las comparacion y si encuentra una coincidencia suma un contador
+        $onIngreso = Reserva::all()
+            ->where('habitaciones_id', $habitacionId)
+            ->whereNotIn('id', $reservaId)
             ->whereBetween('ingreso', [$from, $to])
             ->count();
-        $onEgreso = Reserva::all()->where('habitaciones_id', $habitacionId)
+        $onEgreso = Reserva::all()
+            ->where('habitaciones_id', $habitacionId)
+            ->whereNotIn('id', $reservaId)
             ->whereBetween('egreso', [$from, $to])
             ->count();
+        //se suman ambos contadores
         $catidadReservas = $onIngreso + $onEgreso;
+        //si el contador da 1 o mas significa que hay una reserva en esa fecha y en esa habitacion por lo que retorna un false
         if ($catidadReservas == 0) {
             return true;
         } else {
