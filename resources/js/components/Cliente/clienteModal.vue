@@ -225,6 +225,7 @@ export default {
                 .then(res => {
                     //actualiza los clientes manteniendo la pagina y filtros actuales
                     this.getResults(this.paginaActual, this.search);
+                    this.$store.dispatch("carga/fetchAllClientes");
                     $("#addNew").modal("hide");
                     Toast.fire({
                         icon: "success",
@@ -253,6 +254,8 @@ export default {
                     this.search = "";
                     //carga los clientes nuevamente pero nos devuelve a la pagina 1
                     this.getResults(1, "");
+                    //se recarga los clientes
+                    this.$store.dispatch("carga/fetchAllClientes");
                     //se cierra el modal
                     $("#addNew").modal("hide");
                     //se da el aviso de que fue todo correcto

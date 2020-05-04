@@ -172,6 +172,10 @@
                                     <div class="form-group col-md-12">
                                         <label>*Ingreso/Egreso</label>
                                         <HotelDatePicker
+                                            v-if="
+                                                reserva.ingreso &&
+                                                    reserva.egreso
+                                            "
                                             :minNights="1"
                                             name="ingreso"
                                             format="DD/MM/YYYY"
@@ -508,7 +512,7 @@ export default {
             this.form
                 .put("" + this.form.id)
                 .then(res => {
-                    this.$store.dispatch("refreshReserva", res.data.id);
+                    this.$store.dispatch("fetchReserva", res.data.id);
                     this.$store.dispatch("fetchReservas");
                     $("#addNew").modal("hide");
                     Toast.fire({

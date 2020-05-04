@@ -6,6 +6,7 @@ import * as cliente from "./modules/cliente.js";
 import * as habitacion from "./modules/habitacion.js";
 import * as carga from "./modules/carga.js";
 import * as caja from "./modules/caja.js";
+import * as pago from "./modules/pago.js";
 import * as notification from "./modules/notification.js";
 
 Vue.use(Vuex);
@@ -17,7 +18,8 @@ export default new Vuex.Store({
         cliente,
         habitacion,
         carga,
-        caja
+        caja,
+        pago
     },
     state: {
         reservas: [],
@@ -71,37 +73,16 @@ export default new Vuex.Store({
                 commit("SET_ELEMENTOS", elementos);
             });
         },
-        fetchReserva({ commit, getters }, id) {
-            var reserva = getters.getReservaById(id);
-            if (reserva) {
-                commit("SET_RESERVA", reserva);
-            } else {
-                Axios.get("/reserva/" + id)
-                    .then(res => {
-                        commit("SET_RESERVA", res.data[0]);
-                    })
-                    .catch(() => {
-                        this.$router.push({
-                            name: "500"
-                        });
-                    });
-            }
-        },
-        refreshReserva({ commit }, id) {
+        fetchReserva({ commit }, id) {
             Axios.get("/reserva/" + id)
                 .then(res => {
-                    commit("SET_RESERVA", res.data[0]);
+                    commit("SET_RESERVA", res.data);
                 })
                 .catch(() => {
                     this.$router.push({
                         name: "500"
                     });
                 });
-        }
-    },
-    getters: {
-        getReservaById: state => id => {
-            return state.reservas.find(reserva => reserva.id == id);
         }
     }
 });

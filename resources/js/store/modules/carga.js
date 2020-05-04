@@ -5,7 +5,8 @@ export const namespaced = true;
 export const state = {
     clientes: [],
     preciosHabitaciones: [],
-    motivos: []
+    motivos: [],
+    modosPagos: []
 };
 
 export const mutations = {
@@ -17,23 +18,31 @@ export const mutations = {
     },
     SET_MOTIVOS(state, motivos) {
         state.motivos = motivos;
+    },
+    SET_MODOSPAGOS(state, modosPagos) {
+        state.modosPagos = modosPagos;
     }
 };
 
 export const actions = {
-    fetchClientes({ commit }) {
+    fetchAllClientes({ commit }) {
         Axios.get("/getAllClientes").then(res => {
             commit("SET_CLIENTES", res.data);
         });
     },
-    fetchPreciosHabitaciones({ commit }) {
+    fetchAllPreciosHabitaciones({ commit }) {
         Axios.get("/getAllPreciosHabitaciones").then(res => {
             commit("SET_PRECIOSHABITACIONES", res.data);
         });
     },
-    fetchMotivos({ commit }) {
+    fetchAllMotivos({ commit }) {
         Axios.get("/getAllMotivos").then(res => {
             commit("SET_MOTIVOS", res.data);
+        });
+    },
+    fetchAllModosPagos({ commit }) {
+        Axios.get("/getAllModosPagos").then(res => {
+            commit("SET_MODOSPAGOS", res.data);
         });
     }
 };

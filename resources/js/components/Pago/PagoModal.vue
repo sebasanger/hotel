@@ -16,7 +16,7 @@
                         <h5
                             class="modal-title"
                             id="addPago"
-                            v-text="editPago ? 'Editar pago' : 'Agregar pago'"
+                            v-text="'Agregar pago'"
                         ></h5>
                         <button
                             type="button"
@@ -27,31 +27,69 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form
-                        @submit.prevent="editPago ? updatepago() : createPago()"
-                    >
+                    <form @submit.prevent="createPago()">
                         <div class="modal-body">
                             <div class="form-group">
                                 <label class="col-form-label"
                                     >Monto del pago</label
                                 >
                                 <input
-                                    v-model="pagoForm.monto"
+                                    v-model="formPago.monto"
                                     type="number"
                                     name="monto"
                                     required
                                     placeholder="Monto del pago"
                                     class="form-control"
                                     :class="{
-                                        'is-invalid': pagoForm.errors.has(
-                                            'nombre'
+                                        'is-invalid': formPago.errors.has(
+                                            'monto'
                                         )
                                     }"
                                 />
                                 <has-error
-                                    :form="pagoForm"
+                                    :form="formPago"
                                     field="monto"
                                 ></has-error>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Modos de pago</label>
+                                <select
+                                    v-model="formPago.modosPagos_id"
+                                    required
+                                    name="modosPagos_id"
+                                    class="form-control"
+                                    :class="{
+                                        'is-invalid': formPago.errors.has(
+                                            'modosPagos_id'
+                                        )
+                                    }"
+                                >
+                                    <option value disabled
+                                        >Seleccionar el modo de pago</option
+                                    >
+                                    <option
+                                        v-for="mp in modosPagos"
+                                        :key="mp.id"
+                                        :value="mp.id"
+                                        >{{ mp.modoPago }}</option
+                                    >
+                                </select>
+                                <has-error
+                                    :form="formPago"
+                                    field="modosPagos_id"
+                                ></has-error>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-form-label">Faltante</label>
+                                <input
+                                    disabled
+                                    type="number"
+                                    name="faltante"
+                                    class="form-control"
+                                    :value="faltante"
+                                />
                             </div>
                         </div>
 
@@ -63,19 +101,8 @@
                             >
                                 Cancelar
                             </button>
-                            <button
-                                v-if="!editPago"
-                                type="submit"
-                                class="btn btn-success"
-                            >
+                            <button type="submit" class="btn btn-success">
                                 Guardar
-                            </button>
-                            <button
-                                v-if="editPago"
-                                type="submit"
-                                class="btn btn-success"
-                            >
-                                Actualizar
                             </button>
                         </div>
                     </form>
@@ -87,58 +114,58 @@
 
 <script>
 export default {
-    props: ["editPago", "reserva", "pagoForm"],
-
+    props: ["reserva", "formPago", "caja", "modosPagos"],
+    computed: {
+        faltante() {
+            if (this.reserva.totalPagar) {
+                return (
+                    this.reserva.totalPagar -
+                    this.reserva.pagado -
+                    this.formPago.monto
+                );
+            } else {
+                return "0";
+            }
+        }
+    },
     methods: {
-        updatePago() {
-            this.$Progress.start();
-            this.form
-                .put("cliente/" + this.form.id)
-                .then(res => {
-                    //actualiza los clientes manteniendo la pagina y filtros actuales
-                    this.getResults(this.paginaActual, this.search);
-                    $("#addPago").modal("hide");
-                    Toast.fire({
-                        icon: "success",
-                        title: "Cliente actualizado correctamente"
-                    });
-                    this.$Progress.finish();
-                })
-                .catch(() => {
-                    this.$Progress.fail();
-                    Toast.fire({
-                        icon: "error",
-                        title: "Error"
-                    });
-                });
-        },
-
         createPago() {
-            this.$Progress.start();
-            this.form
-                .post("cliente")
-                .then(() => {
-                    //se limpia posibles filtros para que devuelva a la pagina 1 y se vea la agregacion del usuario
-                    this.search = "";
-                    //carga los clientes nuevamente pero nos devuelve a la pagina 1
-                    this.getResults(1, "");
-                    //se cierra el modal
-                    $("#addPago").modal("hide");
-                    //se da el aviso de que fue todo correcto
-                    Toast.fire({
-                        icon: "success",
-                        title: "Cliente creado correctamente"
+            if (this.caja) {
+                this.$Progress.start();
+                this.formPago.reservas_id = this.reserva.id;
+                this.formPago.cajas_id = this.caja.id;
+                this.formPago
+                    .post("/pago")
+                    .then(res => {
+                        this.$store.dispatch(
+                            "pago/fetchPagosByReserva",
+                            this.reserva.id
+                        );
+                        this.$store.dispatch(
+                            "fetchReserva",
+                            res.data.reservas_id
+                        );
+                        this.$store.dispatch("fetchReservas");
+                        $("#addPago").modal("hide");
+                        Toast.fire({
+                            icon: "success",
+                            title: "Pago agregado correctamente"
+                        });
+                        this.$Progress.finish();
+                    })
+                    .catch(() => {
+                        this.$Progress.fail();
+                        Toast.fire({
+                            icon: "error",
+                            title: "Error"
+                        });
                     });
-                    this.$Progress.finish();
-                })
-                .catch(() => {
-                    //sino se avisa de un error pero se mantiene el modal hasta que se haga correctamente
-                    this.$Progress.fail();
-                    Toast.fire({
-                        icon: "error",
-                        title: "Error"
-                    });
+            } else {
+                Toast.fire({
+                    icon: "error",
+                    title: "Primero debe abrir una caja"
                 });
+            }
         }
     }
 };

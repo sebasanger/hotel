@@ -92,9 +92,10 @@ class ReservaController extends Controller
     {
         $reservas = Reserva::find($id)->leftJoin('clientes', 'reservas.clientes_id', '=', 'clientes.id')
             ->leftJoin('habitaciones', 'reservas.habitaciones_id', '=', 'habitaciones.id')
-            ->select('reservas.*', 'habitaciones.numeroHabitacion', 'clientes.apellido', 'clientes.nombre')
+            ->leftJoin('facturas', 'clientes.facturas_id', '=', 'facturas.id')
+            ->select('reservas.*', 'habitaciones.numeroHabitacion', 'clientes.apellido', 'clientes.nombre', 'clientes.dni', 'clientes.celular', 'clientes.profecion', 'facturas.tipoFactura')
             ->where('reservas.id', '=', $id)
-            ->get();
+            ->first();
 
         return $reservas;
     }
@@ -132,13 +133,9 @@ class ReservaController extends Controller
 
             $reserva = Reserva::find($request->id);
 
-            $totalPagos = $this->findPagosForReserva($request->id);
-
             $totalConsumos = $this->findConsumosForReserva($request->id);
 
-            $total = $reserva->pagado + $totalPagos - $totalConsumos;
-
-            $colorGrafica = $this->checkColor($total, $precioTotal);
+            $colorGrafica = $this->checkColor($reserva->pagado, $precioTotal);
 
 
             $reserva->huespedes = $request->huespedes;

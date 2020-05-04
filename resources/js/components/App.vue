@@ -42,10 +42,11 @@ export default {
         this.$store.dispatch("habitacion/fetchHabitaciones");
         this.$store.dispatch("fetchReservas");
         this.$store.dispatch("cliente/fetchClientes", 1);
-        this.$store.dispatch("carga/fetchMotivos");
-        this.$store.dispatch("carga/fetchPreciosHabitaciones");
-        this.$store.dispatch("carga/fetchClientes");
-        this.$store.dispatch("caja/fetchCaja");
+        this.$store.dispatch("carga/fetchAllMotivos");
+        this.$store.dispatch("carga/fetchAllPreciosHabitaciones");
+        this.$store.dispatch("carga/fetchAllClientes");
+        this.$store.dispatch("caja/fetchCajaActiva");
+        this.$store.dispatch("carga/fetchAllModosPagos");
     }
 };
 </script>
@@ -59,6 +60,5 @@ export default {
 }
 table th {
     text-align: center;
-    color: darkblue;
 }
 </style>

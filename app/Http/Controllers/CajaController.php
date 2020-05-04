@@ -48,8 +48,11 @@ class CajaController extends Controller
 
     public function getCajaActiva()
     {
-        $caja = Caja::where('cajaActiva', 1)->orderBy('id', 'desc')->get();
-
-        return $caja;
+        $caja = Caja::where('cajaActiva', "=", 1)->first();
+        if ($caja) {
+            return $caja;
+        } else {
+            abort(404, "No hay caja activa");
+        }
     }
 }

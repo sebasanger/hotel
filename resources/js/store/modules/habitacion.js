@@ -31,7 +31,7 @@ export const actions = {
                 .then(res => {
                     commit("SET_HABITACION", res.data);
                 })
-                .then(() => {
+                .catch(() => {
                     this.$router.push({
                         name: "500"
                     });

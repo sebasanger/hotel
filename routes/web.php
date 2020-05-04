@@ -30,6 +30,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('getCajaActiva', 'CajaController@getCajaActiva');
 
+    Route::get('getPagosByReserva/{reservaId}', 'PagoController@getPagosByReserva');
+
     Route::get('userFind', 'UserController@userFind');
 
     Route::middleware(['role:1'])->group(function () {

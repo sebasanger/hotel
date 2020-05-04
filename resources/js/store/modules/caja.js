@@ -30,12 +30,12 @@ export const actions = {
                 dispatch("notification/add", notification, { root: true });
             });
     },
-    fetchCaja({ commit, dispatch }) {
+    fetchCajaActiva({ commit, dispatch }) {
         Axios.get("/getCajaActiva/")
             .then(res => {
                 commit("SET_CAJA", res.data);
             })
-            .then(err => {
+            .catch(err => {
                 const notification = {
                     type: "error",
                     message: "No hay caja activa"

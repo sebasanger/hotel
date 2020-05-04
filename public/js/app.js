@@ -1972,10 +1972,11 @@ __webpack_require__.r(__webpack_exports__);
     this.$store.dispatch("habitacion/fetchHabitaciones");
     this.$store.dispatch("fetchReservas");
     this.$store.dispatch("cliente/fetchClientes", 1);
-    this.$store.dispatch("carga/fetchMotivos");
-    this.$store.dispatch("carga/fetchPreciosHabitaciones");
-    this.$store.dispatch("carga/fetchClientes");
-    this.$store.dispatch("caja/fetchCaja");
+    this.$store.dispatch("carga/fetchAllMotivos");
+    this.$store.dispatch("carga/fetchAllPreciosHabitaciones");
+    this.$store.dispatch("carga/fetchAllClientes");
+    this.$store.dispatch("caja/fetchCajaActiva");
+    this.$store.dispatch("carga/fetchAllModosPagos");
   }
 });
 
@@ -2538,6 +2539,8 @@ __webpack_require__.r(__webpack_exports__);
         //actualiza los clientes manteniendo la pagina y filtros actuales
         _this.getResults(_this.paginaActual, _this.search);
 
+        _this.$store.dispatch("carga/fetchAllClientes");
+
         $("#addNew").modal("hide");
         Toast.fire({
           icon: "success",
@@ -2569,7 +2572,10 @@ __webpack_require__.r(__webpack_exports__);
         //se limpia posibles filtros para que devuelva a la pagina 1 y se vea la agregacion del usuario
         _this2.search = ""; //carga los clientes nuevamente pero nos devuelve a la pagina 1
 
-        _this2.getResults(1, ""); //se cierra el modal
+        _this2.getResults(1, ""); //se recarga los clientes
+
+
+        _this2.$store.dispatch("carga/fetchAllClientes"); //se cierra el modal
 
 
         $("#addNew").modal("hide"); //se da el aviso de que fue todo correcto
@@ -6381,60 +6387,159 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["editPago", "reserva", "pagoForm"],
+  props: ["reserva", "formPago", "caja", "modosPagos"],
+  computed: {
+    faltante: function faltante() {
+      if (this.reserva.totalPagar) {
+        return this.reserva.totalPagar - this.reserva.pagado - this.formPago.monto;
+      } else {
+        return "0";
+      }
+    }
+  },
   methods: {
-    updatePago: function updatePago() {
+    createPago: function createPago() {
       var _this = this;
 
-      this.$Progress.start();
-      this.form.put("cliente/" + this.form.id).then(function (res) {
-        //actualiza los clientes manteniendo la pagina y filtros actuales
-        _this.getResults(_this.paginaActual, _this.search);
+      if (this.caja) {
+        this.$Progress.start();
+        this.formPago.reservas_id = this.reserva.id;
+        this.formPago.cajas_id = this.caja.id;
+        this.formPago.post("/pago").then(function (res) {
+          _this.$store.dispatch("pago/fetchPagosByReserva", _this.reserva.id);
 
-        $("#addPago").modal("hide");
-        Toast.fire({
-          icon: "success",
-          title: "Cliente actualizado correctamente"
+          _this.$store.dispatch("fetchReserva", res.data.reservas_id);
+
+          _this.$store.dispatch("fetchReservas");
+
+          $("#addPago").modal("hide");
+          Toast.fire({
+            icon: "success",
+            title: "Pago agregado correctamente"
+          });
+
+          _this.$Progress.finish();
+        })["catch"](function () {
+          _this.$Progress.fail();
+
+          Toast.fire({
+            icon: "error",
+            title: "Error"
+          });
         });
-
-        _this.$Progress.finish();
-      })["catch"](function () {
-        _this.$Progress.fail();
-
-        Toast.fire({
-          icon: "error",
-          title: "Error"
-        });
-      });
-    },
-    createPago: function createPago() {
-      var _this2 = this;
-
-      this.$Progress.start();
-      this.form.post("cliente").then(function () {
-        //se limpia posibles filtros para que devuelva a la pagina 1 y se vea la agregacion del usuario
-        _this2.search = ""; //carga los clientes nuevamente pero nos devuelve a la pagina 1
-
-        _this2.getResults(1, ""); //se cierra el modal
-
-
-        $("#addPago").modal("hide"); //se da el aviso de que fue todo correcto
-
-        Toast.fire({
-          icon: "success",
-          title: "Cliente creado correctamente"
-        });
-
-        _this2.$Progress.finish();
-      })["catch"](function () {
-        //sino se avisa de un error pero se mantiene el modal hasta que se haga correctamente
-        _this2.$Progress.fail();
-
+      } else {
         Toast.fire({
           icon: "error",
-          title: "Error"
+          title: "Primero debe abrir una caja"
         });
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Pago/pagoList.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Pago/pagoList.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["pagos"],
+  methods: {
+    deletePago: function deletePago(pago) {
+      var _this = this;
+
+      Swal.fire({
+        title: "¿Esta seguro que desea eliminar este pago?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, eliminar!"
+      }).then(function (result) {
+        if (result.value) {
+          axios["delete"]("/pago/" + pago.id).then(function () {
+            _this.$store.dispatch("pago/fetchPagosByReserva", pago.reservas_id);
+
+            _this.$store.dispatch("fetchReserva", pago.reservas_id);
+
+            _this.$store.dispatch("fetchReservas");
+
+            Swal.fire("Eliminado!", "El pago se elimino correctamente.", "success");
+          })["catch"](function () {
+            Swal.fire("Error!", "No se pudo eliminar el pago.", "error");
+          });
+        }
       });
     }
   }
@@ -7801,6 +7906,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -7842,7 +7951,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.$Progress.start();
       this.form.put("" + this.form.id).then(function (res) {
-        _this.$store.dispatch("refreshReserva", res.data.id);
+        _this.$store.dispatch("fetchReserva", res.data.id);
 
         _this.$store.dispatch("fetchReservas");
 
@@ -7966,6 +8075,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _reservaModal_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./reservaModal.vue */ "./resources/js/components/Reserva/reservaModal.vue");
 /* harmony import */ var _Pago_PagoModal_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Pago/PagoModal.vue */ "./resources/js/components/Pago/PagoModal.vue");
+/* harmony import */ var _Pago_pagoList_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Pago/pagoList.vue */ "./resources/js/components/Pago/pagoList.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -8032,6 +8142,279 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -8039,7 +8422,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     ReservaModal: _reservaModal_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    PagoModal: _Pago_PagoModal_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    PagoModal: _Pago_PagoModal_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    PagoList: _Pago_pagoList_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   props: ["id"],
   data: function data() {
@@ -8059,11 +8443,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         destino: "",
         procedencia: ""
       }),
-      pagoForm: new Form({
+      formPago: new Form({
         id: "",
         reservas_id: "",
         modosPagos_id: "",
-        monto: 0
+        monto: 0,
+        cajas_id: ""
       })
     };
   },
@@ -8073,16 +8458,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.$store.dispatch("fetchReserva", this.id).then(function () {
       _this.$Progress.finish();
     })["catch"](function () {
-      _this.$router.push({
-        name: "500"
-      });
+      _this.$Progress.fail();
     });
+    this.$store.dispatch("pago/fetchPagosByReserva", this.id);
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["reserva"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("habitacion", ["habitaciones"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("carga", ["motivos", "clientes", "preciosHabitaciones"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("caja", ["caja"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("habitacion", ["habitaciones"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["reserva"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("pago", ["pagos"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("carga", ["motivos", "clientes", "preciosHabitaciones", "modosPagos"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("caja", ["caja"]), {
     betWeen: function betWeen() {
       var a = moment__WEBPACK_IMPORTED_MODULE_1___default()(this.reserva.egreso);
       var b = moment__WEBPACK_IMPORTED_MODULE_1___default()(this.reserva.ingreso);
       return a.diff(b, "days"); //return moment().diff();
+    },
+    faltante: function faltante() {
+      return this.reserva.totalPagar - this.reserva.pagado;
     }
   }),
   methods: {
@@ -8093,7 +8480,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.form.fill(reserva);
     },
     createPago: function createPago(reserva) {
-      this.pagoForm.reset();
+      this.formPago.reset();
       $("#addPago").modal("show");
     }
   }
@@ -13328,7 +13715,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.fade-list-enter {\n    opacity: 0.05;\n}\n.fade-list-enter-active {\n    transition: all 0.7s ease-in;\n}\ntable th {\n    text-align: center;\n    color: darkblue;\n}\n", ""]);
+exports.push([module.i, "\n.fade-list-enter {\n    opacity: 0.05;\n}\n.fade-list-enter-active {\n    transition: all 0.7s ease-in;\n}\ntable th {\n    text-align: center;\n}\n", ""]);
 
 // exports
 
@@ -82024,11 +82411,7 @@ var render = function() {
                 _c("h5", {
                   staticClass: "modal-title",
                   attrs: { id: "addPago" },
-                  domProps: {
-                    textContent: _vm._s(
-                      _vm.editPago ? "Editar pago" : "Agregar pago"
-                    )
-                  }
+                  domProps: { textContent: _vm._s("Agregar pago") }
                 }),
                 _vm._v(" "),
                 _vm._m(0)
@@ -82040,7 +82423,7 @@ var render = function() {
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
-                      _vm.editPago ? _vm.updatepago() : _vm.createPago()
+                      return _vm.createPago()
                     }
                   }
                 },
@@ -82059,13 +82442,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.pagoForm.monto,
-                              expression: "pagoForm.monto"
+                              value: _vm.formPago.monto,
+                              expression: "formPago.monto"
                             }
                           ],
                           staticClass: "form-control",
                           class: {
-                            "is-invalid": _vm.pagoForm.errors.has("nombre")
+                            "is-invalid": _vm.formPago.errors.has("monto")
                           },
                           attrs: {
                             type: "number",
@@ -82073,14 +82456,14 @@ var render = function() {
                             required: "",
                             placeholder: "Monto del pago"
                           },
-                          domProps: { value: _vm.pagoForm.monto },
+                          domProps: { value: _vm.formPago.monto },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
                               _vm.$set(
-                                _vm.pagoForm,
+                                _vm.formPago,
                                 "monto",
                                 $event.target.value
                               )
@@ -82089,57 +82472,99 @@ var render = function() {
                         }),
                         _vm._v(" "),
                         _c("has-error", {
-                          attrs: { form: _vm.pagoForm, field: "monto" }
+                          attrs: { form: _vm.formPago, field: "monto" }
                         })
                       ],
                       1
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "modal-footer" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-danger",
-                        attrs: { type: "button", "data-dismiss": "modal" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                            Cancelar\n                        "
-                        )
-                      ]
                     ),
                     _vm._v(" "),
-                    !_vm.editPago
-                      ? _c(
-                          "button",
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", [_vm._v("Modos de pago")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
                           {
-                            staticClass: "btn btn-success",
-                            attrs: { type: "submit" }
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.formPago.modosPagos_id,
+                                expression: "formPago.modosPagos_id"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.formPago.errors.has(
+                                "modosPagos_id"
+                              )
+                            },
+                            attrs: { required: "", name: "modosPagos_id" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.formPago,
+                                  "modosPagos_id",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
                           },
                           [
-                            _vm._v(
-                              "\n                            Guardar\n                        "
-                            )
-                          ]
-                        )
-                      : _vm._e(),
+                            _c(
+                              "option",
+                              { attrs: { value: "", disabled: "" } },
+                              [_vm._v("Seleccionar el modo de pago")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.modosPagos, function(mp) {
+                              return _c(
+                                "option",
+                                { key: mp.id, domProps: { value: mp.id } },
+                                [_vm._v(_vm._s(mp.modoPago))]
+                              )
+                            })
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.formPago, field: "modosPagos_id" }
+                        })
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
-                    _vm.editPago
-                      ? _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success",
-                            attrs: { type: "submit" }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            Actualizar\n                        "
-                            )
-                          ]
-                        )
-                      : _vm._e()
-                  ])
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { staticClass: "col-form-label" }, [
+                        _vm._v("Faltante")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: {
+                          disabled: "",
+                          type: "number",
+                          name: "faltante"
+                        },
+                        domProps: { value: _vm.faltante }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(1)
                 ]
               )
             ])
@@ -82166,6 +82591,140 @@ var staticRenderFns = [
       },
       [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-danger",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [
+          _vm._v(
+            "\n                            Cancelar\n                        "
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "btn btn-success", attrs: { type: "submit" } },
+        [
+          _vm._v(
+            "\n                            Guardar\n                        "
+          )
+        ]
+      )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Pago/pagoList.vue?vue&type=template&id=4368fab2&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Pago/pagoList.vue?vue&type=template&id=4368fab2& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "table",
+      { staticClass: "table table-hover table-dark" },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _vm._l(_vm.pagos, function(pago) {
+          return _c("tr", { key: pago.id, staticClass: "list-complete-item" }, [
+            _c("td", [_vm._v(_vm._s(pago.monto))]),
+            _vm._v(" "),
+            _c("td", [
+              _vm._v(
+                "\n                " + _vm._s(pago.modoPago) + "\n            "
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _vm._v(
+                "\n                " +
+                  _vm._s(_vm._f("capitalize")(pago.name)) +
+                  "\n            "
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _vm._v(
+                "\n                " +
+                  _vm._s(pago.created_at) +
+                  "\n            "
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _vm._v(
+                "\n                " +
+                  _vm._s(pago.updated_at) +
+                  "\n            "
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", { staticClass: "text-center" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn ml-2",
+                  on: {
+                    click: function($event) {
+                      return _vm.deletePago(pago)
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-trash red" })]
+              )
+            ])
+          ])
+        })
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Monto")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Modo de pago")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Encargado de la transaccion")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Fecha de creacion")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Fecha de modificacion")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Acciones")])
+      ])
+    ])
   }
 ]
 render._withStripped = true
@@ -83629,41 +84188,45 @@ var render = function() {
                               [
                                 _c("label", [_vm._v("*Ingreso/Egreso")]),
                                 _vm._v(" "),
-                                _c(
-                                  "HotelDatePicker",
-                                  {
-                                    attrs: {
-                                      minNights: 1,
-                                      name: "ingreso",
-                                      format: "DD/MM/YYYY",
-                                      i18n: _vm.ptAr,
-                                      startingDateValue: new Date(
-                                        _vm.startIngreso
-                                      ),
-                                      endingDateValue: new Date(
-                                        _vm.startEgreso
-                                      ),
-                                      startDate: new Date(
-                                        new Date().getFullYear(),
-                                        new Date().getMonth() - 1,
-                                        1
-                                      )
-                                    },
-                                    on: {
-                                      "check-in-changed": function($event) {
-                                        return _vm.ingresoChanged($event)
+                                _vm.reserva.ingreso && _vm.reserva.egreso
+                                  ? _c(
+                                      "HotelDatePicker",
+                                      {
+                                        attrs: {
+                                          minNights: 1,
+                                          name: "ingreso",
+                                          format: "DD/MM/YYYY",
+                                          i18n: _vm.ptAr,
+                                          startingDateValue: new Date(
+                                            _vm.startIngreso
+                                          ),
+                                          endingDateValue: new Date(
+                                            _vm.startEgreso
+                                          ),
+                                          startDate: new Date(
+                                            new Date().getFullYear(),
+                                            new Date().getMonth() - 1,
+                                            1
+                                          )
+                                        },
+                                        on: {
+                                          "check-in-changed": function($event) {
+                                            return _vm.ingresoChanged($event)
+                                          },
+                                          "check-out-changed": function(
+                                            $event
+                                          ) {
+                                            return _vm.egresoChanged($event)
+                                          }
+                                        }
                                       },
-                                      "check-out-changed": function($event) {
-                                        return _vm.egresoChanged($event)
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                                        >\n                                    "
+                                      [
+                                        _vm._v(
+                                          "\n                                        >\n                                    "
+                                        )
+                                      ]
                                     )
-                                  ]
-                                ),
+                                  : _vm._e(),
                                 _vm._v(" "),
                                 _c("has-error", {
                                   attrs: { form: _vm.form, field: "ingreso" }
@@ -84156,133 +84719,563 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("p", [
-        _vm._v(
-          "\n        nombre:\n        " +
-            _vm._s(
-              _vm._f("capitalize")(
-                _vm.reserva.nombre + " " + _vm.reserva.apellido
-              )
-            ) +
-            "\n    "
-        )
-      ]),
-      _vm._v(" "),
-      _c("p", [
-        _vm._v(
-          "numero de la habitacion: " + _vm._s(_vm.reserva.numeroHabitacion)
-        )
-      ]),
-      _vm._v(" "),
-      _c("p", [_vm._v("Precio por dia: " + _vm._s(_vm.reserva.precio))]),
-      _vm._v(" "),
-      _c("p", [_vm._v("Total a pagar: " + _vm._s(_vm.reserva.totalPagar))]),
-      _vm._v(" "),
-      _c("p", [_vm._v("Total pagado: " + _vm._s(_vm.reserva.pagado))]),
-      _vm._v(" "),
-      _c("p", [
-        _vm._v(
-          "Falta pagar: " + _vm._s(_vm.reserva.totalPagar - _vm.reserva.pagado)
-        )
-      ]),
-      _vm._v(" "),
-      _c("p", [
-        _vm._v("Ingreso: " + _vm._s(_vm._f("formatDate")(_vm.reserva.ingreso)))
-      ]),
-      _vm._v(" "),
-      _c("p", [
-        _vm._v("Egreso: " + _vm._s(_vm._f("formatDate")(_vm.reserva.egreso)))
-      ]),
-      _vm._v(" "),
-      _c("p", [_vm._v("Dias totales: " + _vm._s(_vm.betWeen))]),
-      _vm._v(" "),
-      _vm.reserva.patenteAuto
-        ? _c("p", [
-            _vm._v(
-              "\n        Patente del auto: " +
-                _vm._s(_vm.reserva.patenteAuto) +
-                "\n    "
-            )
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.reserva.procedencia
-        ? _c("p", [
-            _vm._v(
-              "\n        Procedencia del cliente: " +
-                _vm._s(_vm._f("capitalize")(_vm.reserva.procedencia)) +
-                "\n    "
-            )
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.reserva.destino
-        ? _c("p", [
-            _vm._v(
-              "\n        Destino del huesped: " +
-                _vm._s(_vm._f("capitalize")(_vm.reserva.destino)) +
-                "\n    "
-            )
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "router-link",
-        { staticClass: "btn", attrs: { to: { name: "reserva" } } },
-        [_c("i", { staticClass: "fa fa-backspace red" }, [_vm._v("Atras")])]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn",
-          on: {
-            click: function($event) {
-              return _vm.editModal(_vm.reserva)
-            }
-          }
-        },
-        [_c("i", { staticClass: "fa fa-edit blue" }, [_vm._v("Editar")])]
-      ),
-      _vm._v(" "),
-      _vm.caja
-        ? _c(
-            "button",
-            {
-              staticClass: "btn",
-              on: {
-                click: function($event) {
-                  return _vm.createPago(_vm.reserva)
-                }
-              }
-            },
-            [
-              _c("i", { staticClass: "fa fa-money-bill green" }, [
-                _vm._v("Agregar pago")
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("div", { staticClass: "card" }, [
+            _c(
+              "div",
+              { staticClass: "card-header mb-3" },
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "btn btn-danger btn-sm",
+                    attrs: { to: { name: "reserva" } }
+                  },
+                  [
+                    _vm._v(
+                      "\n                        Atras\n                    "
+                    )
+                  ]
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "container-fluid" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("div", { staticClass: "card card-primary card-outline" }, [
+                    _c("div", { staticClass: "card-body box-profile" }, [
+                      _c("div", { staticClass: "text-center" }),
+                      _vm._v(" "),
+                      _c(
+                        "h3",
+                        { staticClass: "profile-username text-center" },
+                        [
+                          _vm._v(
+                            "\n                                        Datos de la reserva\n                                    "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "ul",
+                        {
+                          staticClass: "list-group list-group-unbordered mb-3"
+                        },
+                        [
+                          _c("li", { staticClass: "list-group-item" }, [
+                            _c("b", [_vm._v("Numero de la habitacion:")]),
+                            _vm._v(" "),
+                            _c("a", { staticClass: "float-right" }, [
+                              _vm._v(
+                                "\n                                                " +
+                                  _vm._s(_vm.reserva.numeroHabitacion)
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("li", { staticClass: "list-group-item" }, [
+                            _c("b", [_vm._v("Precio por dia:")]),
+                            _vm._v(" "),
+                            _c("a", { staticClass: "float-right" }, [
+                              _vm._v(_vm._s(_vm.reserva.precio))
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("li", { staticClass: "list-group-item" }, [
+                            _c("b", [_vm._v("Total a pagar:")]),
+                            _vm._v(" "),
+                            _c("a", { staticClass: "float-right" }, [
+                              _vm._v(
+                                "\n                                                " +
+                                  _vm._s(_vm.reserva.totalPagar)
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("li", { staticClass: "list-group-item" }, [
+                            _c("b", [_vm._v("Total pagado:")]),
+                            _vm._v(" "),
+                            _c("a", { staticClass: "float-right" }, [
+                              _vm._v(
+                                "\n                                                " +
+                                  _vm._s(_vm.reserva.pagado)
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("li", { staticClass: "list-group-item" }, [
+                            _c("b", [_vm._v("Falta pagar:")]),
+                            _vm._v(" "),
+                            _c("a", { staticClass: "float-right" }, [
+                              _vm._v(
+                                "\n                                                " +
+                                  _vm._s(_vm.faltante)
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("li", { staticClass: "list-group-item" }, [
+                            _c("b", [_vm._v("Ingreso:")]),
+                            _vm._v(" "),
+                            _c("a", { staticClass: "float-right" }, [
+                              _vm._v(
+                                "\n                                                " +
+                                  _vm._s(
+                                    _vm._f("formatDate")(_vm.reserva.ingreso)
+                                  )
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("li", { staticClass: "list-group-item" }, [
+                            _c("b", [_vm._v("Egreso:")]),
+                            _vm._v(" "),
+                            _c("a", { staticClass: "float-right" }, [
+                              _vm._v(
+                                "\n                                                " +
+                                  _vm._s(
+                                    _vm._f("formatDate")(_vm.reserva.egreso)
+                                  )
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("li", { staticClass: "list-group-item" }, [
+                            _c("b", [_vm._v("Dias totales:")]),
+                            _vm._v(" "),
+                            _c("a", { staticClass: "float-right" }, [
+                              _vm._v(
+                                "\n                                                " +
+                                  _vm._s(_vm.betWeen)
+                              )
+                            ])
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-primary btn-block text-white",
+                          on: {
+                            click: function($event) {
+                              return _vm.editModal(_vm.reserva)
+                            }
+                          }
+                        },
+                        [_vm._v("Editar reserva")]
+                      ),
+                      _vm._v(" "),
+                      _vm.caja.cajaActiva == 1
+                        ? _c(
+                            "a",
+                            {
+                              staticClass:
+                                "btn btn-primary btn-block btn-success text-white",
+                              on: {
+                                click: function($event) {
+                                  return _vm.createPago(_vm.reserva)
+                                }
+                              }
+                            },
+                            [_vm._v("Agregar pago")]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.caja.cajaActiva == 1
+                        ? _c(
+                            "a",
+                            {
+                              staticClass:
+                                "btn btn-primary btn-block btn-success text-white",
+                              on: {
+                                click: function($event) {
+                                  return _vm.createPago(_vm.reserva)
+                                }
+                              }
+                            },
+                            [_vm._v("Agregar consumo")]
+                          )
+                        : _c(
+                            "a",
+                            {
+                              staticClass:
+                                "btn btn-primary btn-block btn-warning text-white"
+                            },
+                            [_vm._v("Abrir caja")]
+                          ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass:
+                            "btn btn-primary btn-block btn-danger text-white",
+                          on: {
+                            click: function($event) {
+                              return _vm.createPago(_vm.reserva)
+                            }
+                          }
+                        },
+                        [_vm._v("Eliminar reserva")]
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("div", { staticClass: "card card-primary" }, [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-body" }, [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "text-muted" }, [
+                        _vm._v(
+                          "\n                                        " +
+                            _vm._s(
+                              _vm._f("capitalize")(
+                                _vm.reserva.nombre + " " + _vm.reserva.apellido
+                              )
+                            ) +
+                            "\n                                    "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _vm.reserva.dni
+                        ? _c("div", [
+                            _c("hr"),
+                            _vm._v(" "),
+                            _vm._m(2),
+                            _vm._v(" "),
+                            _c("p", { staticClass: "text-muted" }, [
+                              _vm._v(
+                                "\n                                            " +
+                                  _vm._s(_vm.reserva.dni) +
+                                  "\n                                        "
+                              )
+                            ])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.reserva.tipoFactura
+                        ? _c("div", [
+                            _c("hr"),
+                            _vm._v(" "),
+                            _vm._m(3),
+                            _vm._v(" "),
+                            _c("p", { staticClass: "text-muted" }, [
+                              _vm._v(
+                                "\n                                            " +
+                                  _vm._s(_vm.reserva.tipoFactura) +
+                                  "\n                                        "
+                              )
+                            ])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.reserva.procedencia
+                        ? _c("div", [
+                            _c("hr"),
+                            _vm._v(" "),
+                            _vm._m(4),
+                            _vm._v(" "),
+                            _c("p", { staticClass: "text-muted" }, [
+                              _vm._v(
+                                "\n                                            " +
+                                  _vm._s(
+                                    _vm._f("capitalize")(
+                                      _vm.reserva.procedencia
+                                    )
+                                  ) +
+                                  "\n                                        "
+                              )
+                            ])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.reserva.destino
+                        ? _c("div", [
+                            _c("hr"),
+                            _vm._v(" "),
+                            _vm._m(5),
+                            _vm._v(" "),
+                            _c("p", { staticClass: "text-muted" }, [
+                              _vm._v(
+                                "\n                                            " +
+                                  _vm._s(
+                                    _vm._f("capitalize")(_vm.reserva.destino)
+                                  ) +
+                                  "\n                                        "
+                              )
+                            ])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.reserva.celular
+                        ? _c("div", [
+                            _c("hr"),
+                            _vm._v(" "),
+                            _vm._m(6),
+                            _vm._v(" "),
+                            _c("p", { staticClass: "text-muted" }, [
+                              _vm._v(
+                                "\n                                            " +
+                                  _vm._s(_vm.reserva.celular) +
+                                  "\n                                        "
+                              )
+                            ])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.reserva.patenteAuto
+                        ? _c("div", [
+                            _c("hr"),
+                            _vm._v(" "),
+                            _vm._m(7),
+                            _vm._v(" "),
+                            _c("p", { staticClass: "text-muted" }, [
+                              _vm._v(
+                                "\n                                            " +
+                                  _vm._s(_vm.reserva.patenteAuto) +
+                                  "\n                                        "
+                              )
+                            ])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass:
+                            "btn btn-primary btn-block btn-info text-white",
+                          on: {
+                            click: function($event) {
+                              return _vm.createPago(_vm.reserva)
+                            }
+                          }
+                        },
+                        [_vm._v("Editar cliente")]
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c("div", { staticClass: "card" }, [
+                    _c("div", { staticClass: "card-header p-2" }, [
+                      _c("ul", { staticClass: "nav nav-pills" }, [
+                        _vm._m(8),
+                        _vm._v(" "),
+                        _vm.pagos.length >= 1
+                          ? _c("li", { staticClass: "nav-item" }, [
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "nav-link",
+                                  attrs: {
+                                    href: "#activity",
+                                    "data-toggle": "tab"
+                                  }
+                                },
+                                [_vm._v("Consumos")]
+                              )
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.pagos.length >= 1
+                          ? _c("li", { staticClass: "nav-item" }, [
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "nav-link",
+                                  attrs: {
+                                    href: "#timeline",
+                                    "data-toggle": "tab"
+                                  }
+                                },
+                                [_vm._v("Pagos")]
+                              )
+                            ])
+                          : _vm._e()
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-body" }, [
+                      _c("div", { staticClass: "tab-content" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "tab-pane active",
+                            attrs: { id: "settings" }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                            default data\n                                        "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm.pagos.length >= 1
+                          ? _c(
+                              "div",
+                              {
+                                staticClass: "tab-pane",
+                                attrs: { id: "activity" }
+                              },
+                              [
+                                _c("pago-list", { attrs: { pagos: _vm.pagos } })
+                              ],
+                              1
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.pagos.length >= 1
+                          ? _c(
+                              "div",
+                              {
+                                staticClass: "tab-pane",
+                                attrs: { id: "timeline" }
+                              },
+                              [
+                                _c("pago-list", { attrs: { pagos: _vm.pagos } })
+                              ],
+                              1
+                            )
+                          : _vm._e()
+                      ])
+                    ])
+                  ])
+                ])
               ])
-            ]
-          )
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _vm.reserva != null
+        ? _c("reserva-modal", {
+            attrs: {
+              form: _vm.form,
+              habitaciones: _vm.habitaciones,
+              clientes: _vm.clientes,
+              preciosHabitaciones: _vm.preciosHabitaciones,
+              motivos: _vm.motivos,
+              editMode: _vm.editMode
+            }
+          })
         : _vm._e(),
       _vm._v(" "),
-      _c("reserva-modal", {
+      _c("pago-modal", {
         attrs: {
-          form: _vm.form,
-          habitaciones: _vm.habitaciones,
-          clientes: _vm.clientes,
-          preciosHabitaciones: _vm.preciosHabitaciones,
-          motivos: _vm.motivos,
-          editMode: _vm.editMode
+          formPago: _vm.formPago,
+          reserva: _vm.reserva,
+          modosPagos: _vm.modosPagos,
+          caja: _vm.caja
         }
-      }),
-      _vm._v(" "),
-      _c("Pago-modal", {
-        attrs: { pagoForm: _vm.pagoForm, reserva: _vm.reserva, editPago: false }
       })
     ],
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [
+        _vm._v(
+          "\n                                        Datos del cliente\n                                    "
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("strong", [
+      _c("i", { staticClass: "fas fa-book mr-1" }),
+      _vm._v("\n                                        Nombre")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("strong", [
+      _c("i", { staticClass: "fas fa-passport mr-1" }),
+      _vm._v("\n                                            DNI")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("strong", [
+      _c("i", { staticClass: "fas fa-book mr-1" }),
+      _vm._v("\n                                            Tipo de factura")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("strong", [
+      _c("i", { staticClass: "fas fa-map-marker-alt mr-1" }),
+      _vm._v(
+        "\n                                            Procedencia del cliente"
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("strong", [
+      _c("i", { staticClass: "fas fa-map-marker-alt mr-1" }),
+      _vm._v(
+        "\n                                            Destino del huesped"
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("strong", [
+      _c("i", { staticClass: "fas fa-phone mr-1" }),
+      _vm._v("\n                                            Celular")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("strong", [
+      _c("i", { staticClass: "fas fa-car mr-1" }),
+      _vm._v("\n                                            Patente del auto")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "nav-item" }, [
+      _c(
+        "a",
+        {
+          staticClass: "nav-link active",
+          attrs: { href: "#settings", "data-toggle": "tab" }
+        },
+        [_vm._v("default")]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -103269,6 +104262,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Pago/pagoList.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/components/Pago/pagoList.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _pagoList_vue_vue_type_template_id_4368fab2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pagoList.vue?vue&type=template&id=4368fab2& */ "./resources/js/components/Pago/pagoList.vue?vue&type=template&id=4368fab2&");
+/* harmony import */ var _pagoList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pagoList.vue?vue&type=script&lang=js& */ "./resources/js/components/Pago/pagoList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _pagoList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _pagoList_vue_vue_type_template_id_4368fab2___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _pagoList_vue_vue_type_template_id_4368fab2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Pago/pagoList.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Pago/pagoList.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/Pago/pagoList.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_pagoList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./pagoList.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Pago/pagoList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_pagoList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Pago/pagoList.vue?vue&type=template&id=4368fab2&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/Pago/pagoList.vue?vue&type=template&id=4368fab2& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_pagoList_vue_vue_type_template_id_4368fab2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./pagoList.vue?vue&type=template&id=4368fab2& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Pago/pagoList.vue?vue&type=template&id=4368fab2&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_pagoList_vue_vue_type_template_id_4368fab2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_pagoList_vue_vue_type_template_id_4368fab2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/ProductoComponent.vue":
 /*!*******************************************************!*\
   !*** ./resources/js/components/ProductoComponent.vue ***!
@@ -103922,12 +104984,12 @@ var actions = {
       });
     });
   },
-  fetchCaja: function fetchCaja(_ref2) {
+  fetchCajaActiva: function fetchCajaActiva(_ref2) {
     var commit = _ref2.commit,
         dispatch = _ref2.dispatch;
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/getCajaActiva/").then(function (res) {
       commit("SET_CAJA", res.data);
-    }).then(function (err) {
+    })["catch"](function (err) {
       var notification = {
         type: "error",
         message: "No hay caja activa"
@@ -103961,7 +105023,8 @@ var namespaced = true;
 var state = {
   clientes: [],
   preciosHabitaciones: [],
-  motivos: []
+  motivos: [],
+  modosPagos: []
 };
 var mutations = {
   SET_CLIENTES: function SET_CLIENTES(state, clientes) {
@@ -103972,25 +105035,34 @@ var mutations = {
   },
   SET_MOTIVOS: function SET_MOTIVOS(state, motivos) {
     state.motivos = motivos;
+  },
+  SET_MODOSPAGOS: function SET_MODOSPAGOS(state, modosPagos) {
+    state.modosPagos = modosPagos;
   }
 };
 var actions = {
-  fetchClientes: function fetchClientes(_ref) {
+  fetchAllClientes: function fetchAllClientes(_ref) {
     var commit = _ref.commit;
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/getAllClientes").then(function (res) {
       commit("SET_CLIENTES", res.data);
     });
   },
-  fetchPreciosHabitaciones: function fetchPreciosHabitaciones(_ref2) {
+  fetchAllPreciosHabitaciones: function fetchAllPreciosHabitaciones(_ref2) {
     var commit = _ref2.commit;
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/getAllPreciosHabitaciones").then(function (res) {
       commit("SET_PRECIOSHABITACIONES", res.data);
     });
   },
-  fetchMotivos: function fetchMotivos(_ref3) {
+  fetchAllMotivos: function fetchAllMotivos(_ref3) {
     var commit = _ref3.commit;
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/getAllMotivos").then(function (res) {
       commit("SET_MOTIVOS", res.data);
+    });
+  },
+  fetchAllModosPagos: function fetchAllModosPagos(_ref4) {
+    var commit = _ref4.commit;
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/getAllModosPagos").then(function (res) {
+      commit("SET_MODOSPAGOS", res.data);
     });
   }
 };
@@ -104031,7 +105103,7 @@ var actions = {
   fetchClientes: function fetchClientes(_ref, payload) {
     var commit = _ref.commit,
         dispatch = _ref.dispatch;
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("cliente/" + payload.query + "?page=" + payload.pagina).then(function (res) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/cliente/" + payload.query + "?page=" + payload.pagina).then(function (res) {
       commit("SET_CLIENTES", res.data);
     })["catch"](function (err) {
       var notification = {
@@ -104055,7 +105127,7 @@ var actions = {
     } else {
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/cliente/" + id).then(function (res) {
         commit("SET_CLIENTE", res.data.data);
-      }).then(function () {
+      })["catch"](function () {
         _this.$router.push({
           name: "500"
         });
@@ -104124,7 +105196,7 @@ var actions = {
     } else {
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/habitacion/" + id).then(function (res) {
         commit("SET_HABITACION", res.data);
-      }).then(function () {
+      })["catch"](function () {
         _this.$router.push({
           name: "500"
         });
@@ -104188,6 +105260,54 @@ var actions = {
   remove: function remove(_ref2, notificationToRemove) {
     var commit = _ref2.commit;
     commit('DELETE', notificationToRemove);
+  }
+};
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/pago.js":
+/*!********************************************!*\
+  !*** ./resources/js/store/modules/pago.js ***!
+  \********************************************/
+/*! exports provided: namespaced, state, mutations, actions */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "namespaced", function() { return namespaced; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "state", function() { return state; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mutations", function() { return mutations; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "actions", function() { return actions; });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+var namespaced = true;
+var state = {
+  pagos: [],
+  pago: {}
+};
+var mutations = {
+  SET_PAGOS: function SET_PAGOS(state, pagos) {
+    state.pagos = pagos;
+  },
+  SET_PAGO: function SET_PAGO(state, pago) {
+    state.pago = pago;
+  }
+};
+var actions = {
+  fetchPagosByReserva: function fetchPagosByReserva(_ref, reservaId) {
+    var commit = _ref.commit;
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/getPagosByReserva/" + reservaId).then(function (res) {
+      commit("SET_PAGOS", res.data);
+    })["catch"](function (err) {
+      var notification = {
+        type: "error",
+        message: "No se pudieron cargar los pagos de la reserva"
+      };
+      dispatch("notification/add", notification, {
+        root: true
+      });
+    });
   }
 };
 
@@ -104264,7 +105384,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_habitacion_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/habitacion.js */ "./resources/js/store/modules/habitacion.js");
 /* harmony import */ var _modules_carga_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/carga.js */ "./resources/js/store/modules/carga.js");
 /* harmony import */ var _modules_caja_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/caja.js */ "./resources/js/store/modules/caja.js");
-/* harmony import */ var _modules_notification_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/notification.js */ "./resources/js/store/modules/notification.js");
+/* harmony import */ var _modules_pago_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/pago.js */ "./resources/js/store/modules/pago.js");
+/* harmony import */ var _modules_notification_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/notification.js */ "./resources/js/store/modules/notification.js");
+
 
 
 
@@ -104278,11 +105400,12 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   modules: {
     user: _modules_user_js__WEBPACK_IMPORTED_MODULE_3__,
-    notification: _modules_notification_js__WEBPACK_IMPORTED_MODULE_8__,
+    notification: _modules_notification_js__WEBPACK_IMPORTED_MODULE_9__,
     cliente: _modules_cliente_js__WEBPACK_IMPORTED_MODULE_4__,
     habitacion: _modules_habitacion_js__WEBPACK_IMPORTED_MODULE_5__,
     carga: _modules_carga_js__WEBPACK_IMPORTED_MODULE_6__,
-    caja: _modules_caja_js__WEBPACK_IMPORTED_MODULE_7__
+    caja: _modules_caja_js__WEBPACK_IMPORTED_MODULE_7__,
+    pago: _modules_pago_js__WEBPACK_IMPORTED_MODULE_8__
   },
   state: {
     reservas: [],
@@ -104335,42 +105458,14 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     fetchReserva: function fetchReserva(_ref2, id) {
       var _this = this;
 
-      var commit = _ref2.commit,
-          getters = _ref2.getters;
-      var reserva = getters.getReservaById(id);
-
-      if (reserva) {
-        commit("SET_RESERVA", reserva);
-      } else {
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/reserva/" + id).then(function (res) {
-          commit("SET_RESERVA", res.data[0]);
-        })["catch"](function () {
-          _this.$router.push({
-            name: "500"
-          });
-        });
-      }
-    },
-    refreshReserva: function refreshReserva(_ref3, id) {
-      var _this2 = this;
-
-      var commit = _ref3.commit;
+      var commit = _ref2.commit;
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/reserva/" + id).then(function (res) {
-        commit("SET_RESERVA", res.data[0]);
+        commit("SET_RESERVA", res.data);
       })["catch"](function () {
-        _this2.$router.push({
+        _this.$router.push({
           name: "500"
         });
       });
-    }
-  },
-  getters: {
-    getReservaById: function getReservaById(state) {
-      return function (id) {
-        return state.reservas.find(function (reserva) {
-          return reserva.id == id;
-        });
-      };
     }
   }
 }));

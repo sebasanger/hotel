@@ -18,7 +18,7 @@ export const mutations = {
 
 export const actions = {
     fetchClientes({ commit, dispatch }, payload) {
-        Axios.get("cliente/" + payload.query + "?page=" + payload.pagina)
+        Axios.get("/cliente/" + payload.query + "?page=" + payload.pagina)
             .then(res => {
                 commit("SET_CLIENTES", res.data);
             })
@@ -39,7 +39,7 @@ export const actions = {
                 .then(res => {
                     commit("SET_CLIENTE", res.data.data);
                 })
-                .then(() => {
+                .catch(() => {
                     this.$router.push({
                         name: "500"
                     });
@@ -51,6 +51,5 @@ export const actions = {
 export const getters = {
     getClienteById: state => id => {
         return state.clientes.data.find(cliente => cliente.id == id);
-    },
-
+    }
 };
