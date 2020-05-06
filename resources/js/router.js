@@ -51,7 +51,7 @@ export default new Router({
             name: "home"
         },
         {
-            path: "/reserva/:id",
+            path: "/reservaDetalles/:id",
             component: reservashow,
             name: "reservaShow",
             props: true

@@ -14,7 +14,7 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         $user = new User();
-        $user->name = "Sebastian";
+        $user->name = "Sebastian sangermano";
         $user->direccion = "Berutti 1258";
         $user->telefono = "402641";
         $user->celular = "3755309633";
@@ -28,7 +28,7 @@ class UserTableSeeder extends Seeder
         $user->save();
 
         $user = new User();
-        $user->name = "nora";
+        $user->name = "nora graziosetti";
         $user->direccion = "Berutti 1258";
         $user->telefono = "402641";
         $user->celular = "7878554";

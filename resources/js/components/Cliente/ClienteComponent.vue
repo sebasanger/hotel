@@ -174,7 +174,7 @@ export default {
             //abre el mismo modal pero con la opcion de edit modal en true lo que cambia a que metodo pasamos la info y rellena el modal
             this.editMode = true;
             this.form.reset();
-            $("#addNew").modal("show");
+            $("#addEditCliente").modal("show");
             this.form.fill(cliente);
         },
 
@@ -186,7 +186,7 @@ export default {
             //abre el modal, lo limpia y saca el modo de edicion si es que estaba activo
             this.editMode = false;
             this.form.reset();
-            $("#addNew").modal("show");
+            $("#addEditCliente").modal("show");
         },
 
         //busca los clientes por pagina y por filtrado

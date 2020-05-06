@@ -73,9 +73,8 @@ class ClienteController extends Controller
      * @param  \App\Cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show()
     {
-        return cliente::findOrFail($id);
     }
 
     /**
@@ -133,5 +132,10 @@ class ClienteController extends Controller
     {
         $clientes = Cliente::orderBy('nombre')->get();
         return $clientes;
+    }
+
+    public function findCliente($id)
+    {
+        return cliente::leftJoin('facturas', 'clientes.facturas_id', '=', 'facturas.id')->where('clientes.id', $id)->select('clientes.*', 'facturas.tipoFactura')->first();
     }
 }

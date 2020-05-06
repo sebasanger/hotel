@@ -7,243 +7,70 @@
                         <router-link
                             :to="{ name: 'reserva' }"
                             class="btn btn-danger btn-sm"
+                            >Atras</router-link
                         >
-                            Atras
-                        </router-link>
                     </div>
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-md-3">
+                            <!-- data de la reserva -->
+                            <div class="col-md-4">
                                 <div class="card card-primary card-outline">
                                     <div class="card-body box-profile">
-                                        <div class="text-center"></div>
-                                        <h3
-                                            class="profile-username text-center"
-                                        >
-                                            Datos de la reserva
-                                        </h3>
-
-                                        <ul
-                                            class="list-group list-group-unbordered mb-3"
-                                        >
-                                            <li class="list-group-item">
-                                                <b>Numero de la habitacion:</b>
-                                                <a class="float-right">
-                                                    {{
-                                                        reserva.numeroHabitacion
-                                                    }}</a
-                                                >
-                                            </li>
-                                            <li class="list-group-item">
-                                                <b>Precio por dia:</b>
-                                                <a class="float-right">{{
-                                                    reserva.precio
-                                                }}</a>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <b>Total a pagar:</b>
-                                                <a class="float-right">
-                                                    {{ reserva.totalPagar }}</a
-                                                >
-                                            </li>
-                                            <li class="list-group-item">
-                                                <b>Total pagado:</b>
-                                                <a class="float-right">
-                                                    {{ reserva.pagado }}</a
-                                                >
-                                            </li>
-                                            <li class="list-group-item">
-                                                <b>Falta pagar:</b>
-                                                <a class="float-right">
-                                                    {{ faltante }}</a
-                                                >
-                                            </li>
-                                            <li class="list-group-item">
-                                                <b>Ingreso:</b>
-                                                <a class="float-right">
-                                                    {{
-                                                        reserva.ingreso
-                                                            | formatDate
-                                                    }}</a
-                                                >
-                                            </li>
-                                            <li class="list-group-item">
-                                                <b>Egreso:</b>
-                                                <a class="float-right">
-                                                    {{
-                                                        reserva.egreso
-                                                            | formatDate
-                                                    }}</a
-                                                >
-                                            </li>
-                                            <li class="list-group-item">
-                                                <b>Dias totales:</b>
-                                                <a class="float-right">
-                                                    {{ betWeen }}</a
-                                                >
-                                            </li>
-                                        </ul>
+                                        <reserva-data :reserva="reserva" />
 
                                         <a
                                             @click="editModal(reserva)"
-                                            class="btn btn-primary btn-block text-white"
+                                            class="btn btn-primary text-white col-md-6"
                                             >Editar reserva</a
                                         >
+
                                         <a
-                                            v-if="caja.cajaActiva == 1"
                                             @click="createPago(reserva)"
-                                            class="btn btn-primary btn-block btn-success text-white"
-                                            >Agregar pago</a
+                                            class="btn btn-primary btn-danger text-white col-md-5 ml-2"
+                                            >Eliminar reserva</a
                                         >
                                         <a
                                             v-if="caja.cajaActiva == 1"
                                             @click="createPago(reserva)"
-                                            class="btn btn-primary btn-block btn-success text-white"
+                                            class="btn btn-primary btn-success text-white col-md-6 mt-2"
+                                            >Agregar pago</a
+                                        >
+
+                                        <a
+                                            v-if="caja.cajaActiva == 1"
+                                            @click="createPago(reserva)"
+                                            class="btn btn-primary btn-success text-white col-md-5 mt-2 ml-2"
                                             >Agregar consumo</a
                                         >
                                         <a
-                                            v-else
-                                            class="btn btn-primary btn-block btn-warning text-white"
+                                            v-if="caja.cajaActiva == 0"
+                                            class="btn btn-primary btn-warning text-white col-md-6 mt-2"
                                             >Abrir caja</a
                                         >
-
-                                        <a
-                                            @click="createPago(reserva)"
-                                            class="btn btn-primary btn-block btn-danger text-white"
-                                            >Eliminar reserva</a
-                                        >
                                     </div>
-
-                                    <!-- /.card-body -->
                                 </div>
                             </div>
-                            <!-- /.col -->
+                            <!-- cierre data de la reserva -->
+
+                            <!-- cliente -->
                             <div class="col-md-3">
-                                <div class="card card-primary">
-                                    <div class="card-header">
-                                        <h3 class="card-title">
-                                            Datos del cliente
-                                        </h3>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <strong
-                                            ><i class="fas fa-book mr-1"></i>
-                                            Nombre</strong
-                                        >
-                                        <p class="text-muted">
-                                            {{
-                                                (reserva.nombre +
-                                                    " " +
-                                                    reserva.apellido)
-                                                    | capitalize
-                                            }}
-                                        </p>
-
-                                        <div v-if="reserva.dni">
-                                            <hr />
-                                            <strong
-                                                ><i
-                                                    class="fas fa-passport mr-1"
-                                                ></i>
-                                                DNI</strong
-                                            >
-
-                                            <p class="text-muted">
-                                                {{ reserva.dni }}
-                                            </p>
-                                        </div>
-
-                                        <div v-if="reserva.tipoFactura">
-                                            <hr />
-                                            <strong
-                                                ><i
-                                                    class="fas fa-book mr-1"
-                                                ></i>
-                                                Tipo de factura</strong
-                                            >
-
-                                            <p class="text-muted">
-                                                {{ reserva.tipoFactura }}
-                                            </p>
-                                        </div>
-
-                                        <div v-if="reserva.procedencia">
-                                            <hr />
-                                            <strong
-                                                ><i
-                                                    class="fas fa-map-marker-alt mr-1"
-                                                ></i>
-                                                Procedencia del cliente</strong
-                                            >
-
-                                            <p class="text-muted">
-                                                {{
-                                                    reserva.procedencia
-                                                        | capitalize
-                                                }}
-                                            </p>
-                                        </div>
-
-                                        <div v-if="reserva.destino">
-                                            <hr />
-                                            <strong
-                                                ><i
-                                                    class="fas fa-map-marker-alt mr-1"
-                                                ></i>
-                                                Destino del huesped</strong
-                                            >
-
-                                            <p class="text-muted">
-                                                {{
-                                                    reserva.destino | capitalize
-                                                }}
-                                            </p>
-                                        </div>
-
-                                        <div v-if="reserva.celular">
-                                            <hr />
-                                            <strong
-                                                ><i
-                                                    class="fas fa-phone mr-1"
-                                                ></i>
-                                                Celular</strong
-                                            >
-
-                                            <p class="text-muted">
-                                                {{ reserva.celular }}
-                                            </p>
-                                        </div>
-
-                                        <div v-if="reserva.patenteAuto">
-                                            <hr />
-                                            <strong
-                                                ><i class="fas fa-car mr-1"></i>
-                                                Patente del auto</strong
-                                            >
-
-                                            <p class="text-muted">
-                                                {{ reserva.patenteAuto }}
-                                            </p>
-                                        </div>
-                                        <a
-                                            @click="createPago(reserva)"
-                                            class="btn btn-primary btn-block btn-info text-white"
-                                            >Editar cliente</a
-                                        >
-                                    </div>
-                                    <!-- /.card-body -->
-                                </div>
-                                <!-- /.nav-tabs-custom -->
+                                <cliente-show
+                                    :reserva="reserva"
+                                    :facturas="facturas"
+                                    :cliente="cliente"
+                                />
                             </div>
-                            <!-- /.col -->
-                            <div class="col-md-6">
-                                <div class="card">
+                            <!-- cierre data del cliente -->
+
+                            <!-- data multiple -->
+                            <div class="col-md-5">
+                                <div class="card card-secondary">
+                                    <!--  para cambiar de tablas -->
                                     <div class="card-header p-2">
                                         <ul class="nav nav-pills">
                                             <li class="nav-item">
                                                 <a
-                                                    class="nav-link active"
+                                                    class="nav-link active text-white"
                                                     href="#settings"
                                                     data-toggle="tab"
                                                     >default</a
@@ -254,7 +81,7 @@
                                                 v-if="pagos.length >= 1"
                                             >
                                                 <a
-                                                    class="nav-link"
+                                                    class="nav-link text-white"
                                                     href="#activity"
                                                     data-toggle="tab"
                                                     >Consumos</a
@@ -265,7 +92,7 @@
                                                 v-if="pagos.length >= 1"
                                             >
                                                 <a
-                                                    class="nav-link"
+                                                    class="nav-link text-white"
                                                     href="#timeline"
                                                     data-toggle="tab"
                                                     >Pagos</a
@@ -273,8 +100,10 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <!-- /.card-header -->
+                                    <!-- cierre para cambiar de tablas -->
+                                    <!-- multiples tablas -->
                                     <div class="card-body">
+                                        <!-- tabla default -->
                                         <div class="tab-content">
                                             <div
                                                 class="tab-pane active"
@@ -282,6 +111,8 @@
                                             >
                                                 default data
                                             </div>
+                                            <!-- cierre tabla default -->
+                                            <!--  tabla de pagos -->
                                             <div
                                                 class="tab-pane"
                                                 id="activity"
@@ -289,6 +120,8 @@
                                             >
                                                 <pago-list :pagos="pagos" />
                                             </div>
+                                            <!-- cierre de tabla de pagos -->
+                                            <!-- tabla de consumos -->
                                             <div
                                                 class="tab-pane"
                                                 id="timeline"
@@ -296,19 +129,17 @@
                                             >
                                                 <pago-list :pagos="pagos" />
                                             </div>
-
-                                            <!-- /.tab-pane -->
+                                            <!-- cierre tabla de consumos -->
                                         </div>
-                                        <!-- /.tab-content -->
                                     </div>
-                                    <!-- /.card-body -->
+                                    <!-- cierre de multiples tablas -->
                                 </div>
                             </div>
+                            <!-- data multiple -->
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /.row -->
         </div>
 
         <reserva-modal
@@ -332,18 +163,21 @@
 
 <script>
 import { mapState } from "vuex";
-import moment from "moment";
+
 import ReservaModal from "./reservaModal.vue";
 import PagoModal from "../Pago/PagoModal.vue";
 import PagoList from "../Pago/pagoList.vue";
+import ClienteShow from "./ClienteShow.vue";
+import ReservaData from "./ReservaData.vue";
 
 export default {
     components: {
         ReservaModal,
         PagoModal,
-        PagoList
+        PagoList,
+        ClienteShow,
+        ReservaData
     },
-    props: ["id"],
     data() {
         return {
             editMode: "false",
@@ -371,38 +205,33 @@ export default {
         };
     },
     created() {
-        this.$store
-            .dispatch("fetchReserva", this.id)
-            .then(() => {
-                this.$Progress.finish();
-            })
-            .catch(() => {
-                this.$Progress.fail();
-            });
-        this.$store.dispatch("pago/fetchPagosByReserva", this.id);
+        this.cargar();
     },
     computed: {
         ...mapState("habitacion", ["habitaciones"]),
+        ...mapState("cliente", ["cliente"]),
         ...mapState(["reserva"]),
         ...mapState("pago", ["pagos"]),
         ...mapState("carga", [
             "motivos",
             "clientes",
             "preciosHabitaciones",
-            "modosPagos"
+            "modosPagos",
+            "facturas"
         ]),
-        ...mapState("caja", ["caja"]),
-        betWeen() {
-            var a = moment(this.reserva.egreso);
-            var b = moment(this.reserva.ingreso);
-            return a.diff(b, "days");
-            //return moment().diff();
-        },
-        faltante() {
-            return this.reserva.totalPagar - this.reserva.pagado;
-        }
+        ...mapState("caja", ["caja"])
     },
     methods: {
+        cargar() {
+            this.$store
+                .dispatch("fetchReserva", this.$route.params.id)
+                .then(res => {
+                    this.$Progress.finish();
+                })
+                .catch(() => {
+                    this.$Progress.fail();
+                });
+        },
         editModal(reserva) {
             this.editMode = true;
             this.form.reset();

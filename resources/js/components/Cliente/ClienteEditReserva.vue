@@ -16,9 +16,7 @@
                         <h5
                             class="modal-title"
                             id="addEditCliente"
-                            v-text="
-                                editMode ? 'Editar cliente' : 'Crear cliente'
-                            "
+                            v-text="'Editar cliente'"
                         ></h5>
                         <button
                             type="button"
@@ -29,11 +27,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form
-                        @submit.prevent="
-                            editMode ? updateCliente() : createCliente()
-                        "
-                    >
+                    <form @submit.prevent="updateCliente()">
                         <div class="modal-body">
                             <div class="form-group">
                                 <label class="col-form-label">Nombre</label>
@@ -184,18 +178,8 @@
                             >
                                 Cancelar
                             </button>
-                            <button
-                                v-if="!editMode"
-                                type="submit"
-                                class="btn btn-success"
-                            >
-                                Guardar
-                            </button>
-                            <button
-                                v-if="editMode"
-                                type="submit"
-                                class="btn btn-success"
-                            >
+
+                            <button type="submit" class="btn btn-success">
                                 Actualizar
                             </button>
                         </div>
@@ -208,16 +192,14 @@
 
 <script>
 export default {
-    props: ["item", "search", "paginaActual", "form", "editMode", "facturas"],
+    props: ["form", "facturas", "reserva"],
     methods: {
         updateCliente() {
             this.$Progress.start();
             this.form
                 .put("/cliente/" + this.form.id)
                 .then(res => {
-                    //actualiza los clientes manteniendo la pagina y filtros actuales
-                    this.getResults(this.paginaActual, this.search);
-                    this.$store.dispatch("carga/fetchAllClientes");
+                    this.$store.dispatch("fetchReserva", this.reserva.id);
                     $("#addEditCliente").modal("hide");
                     Toast.fire({
                         icon: "success",
@@ -226,39 +208,6 @@ export default {
                     this.$Progress.finish();
                 })
                 .catch(() => {
-                    this.$Progress.fail();
-                    Toast.fire({
-                        icon: "error",
-                        title: "Error"
-                    });
-                });
-        },
-        getResults(pagina, filtro) {
-            let payload = { query: filtro, pagina: pagina };
-            this.$store.dispatch("cliente/fetchClientes", payload);
-        },
-        createCliente() {
-            this.$Progress.start();
-            this.form
-                .post("/cliente")
-                .then(() => {
-                    //se limpia posibles filtros para que devuelva a la pagina 1 y se vea la agregacion del usuario
-                    this.search = "";
-                    //carga los clientes nuevamente pero nos devuelve a la pagina 1
-                    this.getResults(1, "");
-                    //se recarga los clientes
-                    this.$store.dispatch("carga/fetchAllClientes");
-                    //se cierra el modal
-                    $("#addEditCliente").modal("hide");
-                    //se da el aviso de que fue todo correcto
-                    Toast.fire({
-                        icon: "success",
-                        title: "Cliente creado correctamente"
-                    });
-                    this.$Progress.finish();
-                })
-                .catch(() => {
-                    //sino se avisa de un error pero se mantiene el modal hasta que se haga correctamente
                     this.$Progress.fail();
                     Toast.fire({
                         icon: "error",

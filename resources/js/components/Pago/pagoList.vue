@@ -1,38 +1,44 @@
 <template>
     <div>
-        <table class="table table-hover table-dark">
-            <thead>
-                <tr>
-                    <th>Monto</th>
-                    <th>Modo de pago</th>
-                    <th>Encargado de la transaccion</th>
-                    <th>Fecha de creacion</th>
-                    <th>Fecha de modificacion</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
+        <div class="card-body table-responsive p-0">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Monto</th>
+                        <th>Modo de pago</th>
+                        <th>Encargado de la transaccion</th>
+                        <th>Fecha de creacion</th>
+                        <th>Fecha de modificacion</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
 
-            <tr v-for="pago in pagos" :key="pago.id" class="list-complete-item">
-                <td>{{ pago.monto }}</td>
-                <td>
-                    {{ pago.modoPago }}
-                </td>
-                <td>
-                    {{ pago.name | capitalize }}
-                </td>
-                <td>
-                    {{ pago.created_at }}
-                </td>
-                <td>
-                    {{ pago.updated_at }}
-                </td>
-                <td class="text-center">
-                    <button class="btn ml-2" @click="deletePago(pago)">
-                        <i class="fa fa-trash red"></i>
-                    </button>
-                </td>
-            </tr>
-        </table>
+                <tr
+                    v-for="pago in pagos"
+                    :key="pago.id"
+                    class="list-complete-item"
+                >
+                    <td>{{ pago.monto }}</td>
+                    <td>
+                        {{ pago.modoPago }}
+                    </td>
+                    <td>
+                        {{ pago.name | capitalize }}
+                    </td>
+                    <td>
+                        {{ pago.created_at }}
+                    </td>
+                    <td>
+                        {{ pago.updated_at }}
+                    </td>
+                    <td class="text-center">
+                        <button class="btn ml-2" @click="deletePago(pago)">
+                            <i class="fa fa-trash red"></i>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </template>
 <script>
@@ -52,10 +58,6 @@ export default {
                     axios
                         .delete("/pago/" + pago.id)
                         .then(() => {
-                            this.$store.dispatch(
-                                "pago/fetchPagosByReserva",
-                                pago.reservas_id
-                            );
                             this.$store.dispatch(
                                 "fetchReserva",
                                 pago.reservas_id

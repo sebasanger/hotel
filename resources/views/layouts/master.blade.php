@@ -51,10 +51,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <li class="nav-item">
                         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
                     </li>
-                    <cambio></cambio>
+                    {{-- < <cambio></cambio>  --}}
                 </ul>
-
-
 
             </nav>
             <!-- /.navbar -->
@@ -63,16 +61,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <aside class="main-sidebar sidebar-dark-primary elevation-4">
                 <!-- Brand Logo -->
                 <router-link to="/" class="brand-link">
-                    <img src="./img/hl.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <img src="./img/hl.png" class="brand-image img-circle elevation-3" style="opacity: .8">
                     <span class="brand-text font-weight-light">Hotel</span>
                 </router-link>
+
 
                 <!-- Sidebar -->
                 <div class="sidebar">
                     <!-- Sidebar user panel (optional) -->
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                         <div class="image">
-                            <img src="./img/perro.jpg" class="img-circle elevation-2" alt="User Image">
+                            <img src="./img/perro.jpg" class="img-circle elevation-2">
                         </div>
                         <div class="info">
                             <a href="#" class="d-block">
@@ -84,8 +83,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- Sidebar Menu -->
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                            <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
+
 
                             <li class="nav-item">
                                 <router-link to="/" class="nav-link">
@@ -113,7 +111,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </p>
                                 </router-link>
                             </li>
-
 
                             @can('isAdmin')
                             <li class="nav-item has-treeview">

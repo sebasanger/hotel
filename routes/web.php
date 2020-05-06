@@ -34,6 +34,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('userFind', 'UserController@userFind');
 
+    Route::get('findCliente/{id}', 'ClienteController@findCliente');
+
     Route::middleware(['role:1'])->group(function () {
         Route::apiResource('caja', 'CajaController');
 

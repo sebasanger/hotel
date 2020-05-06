@@ -6,7 +6,8 @@ export const state = {
     clientes: [],
     preciosHabitaciones: [],
     motivos: [],
-    modosPagos: []
+    modosPagos: [],
+    facturas: []
 };
 
 export const mutations = {
@@ -21,6 +22,9 @@ export const mutations = {
     },
     SET_MODOSPAGOS(state, modosPagos) {
         state.modosPagos = modosPagos;
+    },
+    SET_FACTURAS(state, facturas) {
+        state.facturas = facturas;
     }
 };
 
@@ -43,6 +47,11 @@ export const actions = {
     fetchAllModosPagos({ commit }) {
         Axios.get("/getAllModosPagos").then(res => {
             commit("SET_MODOSPAGOS", res.data);
+        });
+    },
+    fetchAllFacturas({ commit }) {
+        Axios.get("/getAllFacturas").then(res => {
+            commit("SET_FACTURAS", res.data);
         });
     }
 };

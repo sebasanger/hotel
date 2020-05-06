@@ -73,9 +73,11 @@ export default new Vuex.Store({
                 commit("SET_ELEMENTOS", elementos);
             });
         },
-        fetchReserva({ commit }, id) {
+        fetchReserva({ commit, dispatch }, id) {
             Axios.get("/reserva/" + id)
                 .then(res => {
+                    dispatch("pago/fetchPagosByReserva", id);
+                    dispatch("cliente/fetchCliente", res.data.clientes_id);
                     commit("SET_RESERVA", res.data);
                 })
                 .catch(() => {

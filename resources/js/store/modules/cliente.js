@@ -30,26 +30,15 @@ export const actions = {
                 dispatch("notification/add", notification, { root: true });
             });
     },
-    fetchCliente({ commit, getters }, id) {
-        var cliente = getters.getClienteById(id);
-        if (cliente) {
-            commit("SET_CLIENTE", cliente);
-        } else {
-            Axios.get("/cliente/" + id)
-                .then(res => {
-                    commit("SET_CLIENTE", res.data.data);
-                })
-                .catch(() => {
-                    this.$router.push({
-                        name: "500"
-                    });
+    fetchCliente({ commit }, id) {
+        Axios.get("/findCliente/" + id)
+            .then(res => {
+                commit("SET_CLIENTE", res.data);
+            })
+            .catch(() => {
+                this.$router.push({
+                    name: "500"
                 });
-        }
-    }
-};
-
-export const getters = {
-    getClienteById: state => id => {
-        return state.clientes.data.find(cliente => cliente.id == id);
+            });
     }
 };

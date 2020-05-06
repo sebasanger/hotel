@@ -138,10 +138,6 @@ export default {
                     .post("/pago")
                     .then(res => {
                         this.$store.dispatch(
-                            "pago/fetchPagosByReserva",
-                            this.reserva.id
-                        );
-                        this.$store.dispatch(
                             "fetchReserva",
                             res.data.reservas_id
                         );
