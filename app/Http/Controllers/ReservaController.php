@@ -49,7 +49,7 @@ class ReservaController extends Controller
             'pagado' => 'numeric|nullable',
 
         ]);
-        $fechaLibre = $this->verificacion($request->habitaciones_id, $request->ingreso, $request->egreso,);
+        $fechaLibre = $this->verificacion($request->habitaciones_id, $request->ingreso, $request->egreso);
         if ($fechaLibre) {
             $precio = PrecioHabitacion::findOrFail($request->preciosHabitaciones_id);
             $precioDia = $precio->precioHabitacion;

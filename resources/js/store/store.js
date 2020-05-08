@@ -7,6 +7,8 @@ import * as habitacion from "./modules/habitacion.js";
 import * as carga from "./modules/carga.js";
 import * as caja from "./modules/caja.js";
 import * as pago from "./modules/pago.js";
+import * as consumo from "./modules/consumo.js";
+import * as producto from "./modules/producto.js";
 import * as notification from "./modules/notification.js";
 
 Vue.use(Vuex);
@@ -19,7 +21,9 @@ export default new Vuex.Store({
         habitacion,
         carga,
         caja,
-        pago
+        pago,
+        consumo,
+        producto
     },
     state: {
         reservas: [],
@@ -77,6 +81,7 @@ export default new Vuex.Store({
             Axios.get("/reserva/" + id)
                 .then(res => {
                     dispatch("pago/fetchPagosByReserva", id);
+                    dispatch("consumo/fetchConsumosByReserva", id);
                     dispatch("cliente/fetchCliente", res.data.clientes_id);
                     commit("SET_RESERVA", res.data);
                 })

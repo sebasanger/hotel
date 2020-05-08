@@ -6,6 +6,8 @@ import reservashow from "./components/Reserva/reservaShow.vue";
 
 import Reserva from "./components/Reserva/ReservaComponent.vue";
 
+import cajaActiva from "./components/Caja/CajaActiva.vue";
+
 import Cliente from "./components/Cliente/ClienteComponent.vue";
 
 import clienteShow from "./components/Cliente/ClienteShow.vue";
@@ -61,6 +63,12 @@ export default new Router({
             path: "/reservas",
             component: Reserva,
             name: "reserva"
+        },
+
+        {
+            path: "/cajaActual",
+            component: cajaActiva,
+            name: "cajaActiva"
         },
 
         {

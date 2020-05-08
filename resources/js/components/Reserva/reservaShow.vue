@@ -7,8 +7,10 @@
                         <router-link
                             :to="{ name: 'reserva' }"
                             class="btn btn-danger btn-sm"
-                            >Atras</router-link
+                            style="width: 100px"
                         >
+                            <i class="fa fa-backspace mr-1 fa-lg"></i>Volver
+                        </router-link>
                     </div>
                     <div class="container-fluid">
                         <div class="row">
@@ -20,31 +22,34 @@
 
                                         <a
                                             @click="editModal(reserva)"
-                                            class="btn btn-primary text-white col-md-6"
+                                            style="margin-left: 30px"
+                                            class="btn btn-primary text-white col-5"
                                             >Editar reserva</a
                                         >
 
                                         <a
                                             @click="createPago(reserva)"
-                                            class="btn btn-primary btn-danger text-white col-md-5 ml-2"
+                                            class="btn btn-primary btn-danger text-white col-5 ml-2"
                                             >Eliminar reserva</a
                                         >
                                         <a
                                             v-if="caja.cajaActiva == 1"
+                                            style="margin-left: 30px"
                                             @click="createPago(reserva)"
-                                            class="btn btn-primary btn-success text-white col-md-6 mt-2"
+                                            class="btn btn-primary btn-success text-white col-5 mt-2"
                                             >Agregar pago</a
                                         >
 
                                         <a
                                             v-if="caja.cajaActiva == 1"
-                                            @click="createPago(reserva)"
-                                            class="btn btn-primary btn-success text-white col-md-5 mt-2 ml-2"
+                                            @click="createConsumo(reserva)"
+                                            class="btn btn-primary btn-success text-white col-5 mt-2 ml-2"
                                             >Agregar consumo</a
                                         >
                                         <a
                                             v-if="caja.cajaActiva == 0"
-                                            class="btn btn-primary btn-warning text-white col-md-6 mt-2"
+                                            style="margin-left: 30px"
+                                            class="btn btn-primary btn-warning text-white col-5 mt-2"
                                             >Abrir caja</a
                                         >
                                     </div>
@@ -53,7 +58,7 @@
                             <!-- cierre data de la reserva -->
 
                             <!-- cliente -->
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <cliente-show
                                     :reserva="reserva"
                                     :facturas="facturas"
@@ -63,7 +68,7 @@
                             <!-- cierre data del cliente -->
 
                             <!-- data multiple -->
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <div class="card card-secondary">
                                     <!--  para cambiar de tablas -->
                                     <div class="card-header p-2">
@@ -84,18 +89,18 @@
                                                     class="nav-link text-white"
                                                     href="#activity"
                                                     data-toggle="tab"
-                                                    >Consumos</a
+                                                    >Pagos</a
                                                 >
                                             </li>
                                             <li
                                                 class="nav-item"
-                                                v-if="pagos.length >= 1"
+                                                v-if="consumos.length >= 1"
                                             >
                                                 <a
                                                     class="nav-link text-white"
                                                     href="#timeline"
                                                     data-toggle="tab"
-                                                    >Pagos</a
+                                                    >Consumos</a
                                                 >
                                             </li>
                                         </ul>
@@ -125,9 +130,11 @@
                                             <div
                                                 class="tab-pane"
                                                 id="timeline"
-                                                v-if="pagos.length >= 1"
+                                                v-if="consumos.length >= 1"
                                             >
-                                                <pago-list :pagos="pagos" />
+                                                <consumo-list
+                                                    :consumos="consumos"
+                                                />
                                             </div>
                                             <!-- cierre tabla de consumos -->
                                         </div>
@@ -158,6 +165,14 @@
             :modosPagos="modosPagos"
             :caja="caja"
         />
+
+        <consumo-modal
+            :formConsumo="formConsumo"
+            :reserva="reserva"
+            :modosPagos="modosPagos"
+            :caja="caja"
+            :productos="productos"
+        />
     </div>
 </template>
 
@@ -166,7 +181,9 @@ import { mapState } from "vuex";
 
 import ReservaModal from "./reservaModal.vue";
 import PagoModal from "../Pago/PagoModal.vue";
+import ConsumoModal from "../Consumo/ConsumoModal.vue";
 import PagoList from "../Pago/pagoList.vue";
+import ConsumoList from "../Consumo/ConsumoList.vue";
 import ClienteShow from "./ClienteShow.vue";
 import ReservaData from "./ReservaData.vue";
 
@@ -176,7 +193,9 @@ export default {
         PagoModal,
         PagoList,
         ClienteShow,
-        ReservaData
+        ReservaData,
+        ConsumoList,
+        ConsumoModal
     },
     data() {
         return {
@@ -201,6 +220,15 @@ export default {
                 modosPagos_id: "",
                 monto: 0,
                 cajas_id: ""
+            }),
+            formConsumo: new Form({
+                id: "",
+                reservas_id: "",
+                modosPagos_id: "",
+                productos_id: "",
+                cantidad: 1,
+                cajas_id: "",
+                pagado: 0
             })
         };
     },
@@ -212,6 +240,8 @@ export default {
         ...mapState("cliente", ["cliente"]),
         ...mapState(["reserva"]),
         ...mapState("pago", ["pagos"]),
+        ...mapState("consumo", ["consumos"]),
+        ...mapState("producto", ["productos"]),
         ...mapState("carga", [
             "motivos",
             "clientes",
@@ -241,6 +271,10 @@ export default {
         createPago(reserva) {
             this.formPago.reset();
             $("#addPago").modal("show");
+        },
+        createConsumo(reserva) {
+            this.formConsumo.reset();
+            $("#addConsumo").modal("show");
         }
     }
 };

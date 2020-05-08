@@ -48,6 +48,7 @@ export default {
         this.$store.dispatch("caja/fetchCajaActiva");
         this.$store.dispatch("carga/fetchAllModosPagos");
         this.$store.dispatch("carga/fetchAllFacturas");
+        this.$store.dispatch("producto/fetchAllProductos");
     }
 };
 </script>

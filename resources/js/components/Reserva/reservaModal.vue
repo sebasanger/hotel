@@ -510,7 +510,7 @@ export default {
         updateReserva() {
             this.$Progress.start();
             this.form
-                .put("" + this.form.id)
+                .put("/reserva/" + this.form.id)
                 .then(res => {
                     this.$store.dispatch("fetchReserva", res.data.id);
                     this.$store.dispatch("fetchReservas");
@@ -540,7 +540,7 @@ export default {
         createReserva() {
             this.$Progress.start();
             this.form
-                .post("reserva")
+                .post("/reserva")
                 .then(() => {
                     this.$store.dispatch("fetchReservas");
                     $("#addNew").modal("hide");

@@ -52,3 +52,7 @@ import moment from "moment"; //Import Moment
 Vue.filter("formatDate", function(date) {
     return moment(date).format("DD/MM/YYYY");
 });
+
+Vue.filter("fromatDateTime", function(date) {
+    return moment(date).format("DD/MM/YYYY hh:ss");
+});

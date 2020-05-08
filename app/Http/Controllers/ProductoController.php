@@ -124,6 +124,15 @@ class ProductoController extends Controller
 
     public function getAllProductos()
     {
-        return Producto::all();
+        return Producto::all()->where('stock', '>=', 1);
+    }
+
+    public function getProducto($id)
+    {
+        return Producto::leftJoin('marcas', 'productos.marcas_id', '=', 'marcas.id')
+            ->leftJoin('categorias', 'productos.categorias_id', '=', 'categorias.id')
+            ->select('productos.*', 'categorias.categoria', 'marcas.marca')
+            ->where('productos.id', $id)->where('productos.stock', '>=', 1)
+            ->first();
     }
 }

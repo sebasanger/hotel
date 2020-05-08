@@ -118,4 +118,7 @@ export default {
 p {
     font-size: medium;
 }
+table {
+    text-align: center;
+}
 </style>
