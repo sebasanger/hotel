@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Caja;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,53 +17,81 @@ class CajaController extends Controller
     }
     */
 
-    public function index(Request $request)
+    public function index($query = null)
     {
-        if ($request->ajax()) {
-            return Caja::all();
+        if (empty($query)) {
+            $cajas = Caja::leftJoin('users', 'cajas.users_id', '=', 'users.id')
+                ->select('cajas.*', 'users.name')
+                ->latest()
+                ->paginate(10);
         } else {
-            abort(403, "No permitido");
+            $cajas = Caja::leftJoin('users', 'cajas.users_id', '=', 'users.id')
+                ->select('cajas.*', 'users.name')
+                ->where('cajas.users_id', '=', $query)
+                ->latest()
+                ->paginate(10);
         }
+
+        return $cajas;
     }
 
 
     public function store(Request $request)
-    { {
-            $request->validate([
-                'montoApertura' => 'required|numeric|min:1',
-            ]);
+    {
+        $request->validate([
+            'montoApertura' => 'required|numeric|min:1',
+        ]);
 
-            $cajaActiva = Caja::where('cajaActiva', 1)->first();
-            if ($cajaActiva) {
-                abort(400, "Ya hay una caja activa");
-            } else {
-                $caja = new Caja();
-                $caja->montoApertura = $request->montoApertura;
-                $caja->cajaActiva = 1;
-                $caja->saldo = $request->montoApertura;
-                $caja->users_id = Auth::user()->id;
-                $caja->save();
+        $cajaActiva = Caja::where('cajaActiva', 1)->first();
+        if ($cajaActiva) {
+            abort(400, "Ya hay una caja activa");
+        } else {
+            $caja = new Caja();
+            $caja->montoApertura = $request->montoApertura;
+            $caja->cajaActiva = 1;
+            $caja->saldo = $request->montoApertura;
+            $caja->users_id = Auth::user()->id;
+            $caja->save();
 
-                return $caja;
-            }
+            return $caja;
         }
     }
 
-    public function show(Caja $caja)
+    public function show($id)
     {
-        //
+        $caja = Caja::where('id',  $id)->leftJoin('users', 'cajas.users_id', '=', 'users.id')
+            ->select('cajas.*', 'users.name')->first();
+
+        return $caja;
     }
 
 
-    public function update(Request $request, Caja $caja)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'montoCierre' => 'required|numeric|min:1',
+        ]);
+
+        $cajaActiva = Caja::findOrFail($id);
+        if ($cajaActiva->cajaActiva != 1) {
+            abort(400, "No hay caja activa");
+        } else {
+            $cajaActiva->montoCierre = $request->montoCierre;
+            $cajaActiva->cajaActiva = 0;
+            $cajaActiva->horaCierre = Carbon::now();
+
+            $cajaActiva->save();
+
+            return $cajaActiva;
+        }
     }
 
 
-    public function destroy(Caja $caja)
+    public function destroy($id)
     {
-        //
+        $caja = Caja::findOrFail($id);
+        $caja->delete();
+        return $caja;
     }
 
     public function getCajaActiva()
@@ -72,7 +101,7 @@ class CajaController extends Controller
         if ($caja) {
             return $caja;
         } else {
-            abort(404, "No hay caja activa");
+            return null;
         }
     }
 }

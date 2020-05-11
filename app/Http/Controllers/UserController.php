@@ -85,4 +85,9 @@ class UserController extends Controller
     {
         return Auth::user();
     }
+
+    public function getAllUsers()
+    {
+        return User::orderBy('name')->select('id', 'name')->get();
+    }
 }

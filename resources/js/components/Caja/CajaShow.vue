@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="card-header mb-3">
                         <router-link
-                            :to="{ name: 'reserva' }"
+                            :to="{ name: 'caja' }"
                             class="btn btn-danger btn-sm"
                             style="width: 100px"
                         >

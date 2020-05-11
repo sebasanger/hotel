@@ -27,11 +27,16 @@
                                             >Editar reserva</a
                                         >
 
-                                        <a
-                                            @click="createPago(reserva)"
+                                        <button
+                                            :disabled="
+                                                pagosReservas.length != 0 &&
+                                                    consumosReserva.length != 0
+                                            "
+                                            @click="deleteReserva(reserva.id)"
                                             class="btn btn-primary btn-danger text-white col-5 ml-2"
-                                            >Eliminar reserva</a
                                         >
+                                            Eliminar reserva
+                                        </button>
                                         <a
                                             v-if="caja.cajaActiva == 1"
                                             style="margin-left: 30px"
@@ -83,7 +88,7 @@
                                             </li>
                                             <li
                                                 class="nav-item"
-                                                v-if="pagos.length >= 1"
+                                                v-if="pagosReservas.length >= 1"
                                             >
                                                 <a
                                                     class="nav-link text-white"
@@ -94,7 +99,9 @@
                                             </li>
                                             <li
                                                 class="nav-item"
-                                                v-if="consumos.length >= 1"
+                                                v-if="
+                                                    consumosReserva.length >= 1
+                                                "
                                             >
                                                 <a
                                                     class="nav-link text-white"
@@ -121,19 +128,23 @@
                                             <div
                                                 class="tab-pane"
                                                 id="activity"
-                                                v-if="pagos.length >= 1"
+                                                v-if="pagosReservas.length >= 1"
                                             >
-                                                <pago-list :pagos="pagos" />
+                                                <pago-list
+                                                    :pagos="pagosReservas"
+                                                />
                                             </div>
                                             <!-- cierre de tabla de pagos -->
                                             <!-- tabla de consumos -->
                                             <div
                                                 class="tab-pane"
                                                 id="timeline"
-                                                v-if="consumos.length >= 1"
+                                                v-if="
+                                                    consumosReserva.length >= 1
+                                                "
                                             >
                                                 <consumo-list
-                                                    :consumos="consumos"
+                                                    :consumos="consumosReserva"
                                                 />
                                             </div>
                                             <!-- cierre tabla de consumos -->
@@ -239,8 +250,8 @@ export default {
         ...mapState("habitacion", ["habitaciones"]),
         ...mapState("cliente", ["cliente"]),
         ...mapState(["reserva"]),
-        ...mapState("pago", ["pagos"]),
-        ...mapState("consumo", ["consumos"]),
+        ...mapState("pago", ["pagosReservas"]),
+        ...mapState("consumo", ["consumosReserva"]),
         ...mapState("producto", ["productos"]),
         ...mapState("carga", [
             "motivos",
@@ -275,6 +286,28 @@ export default {
         createConsumo(reserva) {
             this.formConsumo.reset();
             $("#addConsumo").modal("show");
+        },
+        deleteReserva(id) {
+            Swal.fire({
+                title: "¿Esta seguro que desea eliminar esta reserva?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, eliminar!"
+            }).then(result => {
+                if (result.value) {
+                    axios.delete("/reserva/" + id).then(() => {
+                        this.$router.push({ name: "reserva" });
+                        this.$store.dispatch("fetchReservas");
+                        Swal.fire(
+                            "Eliminado!",
+                            "La reserva se elimino correctamente.",
+                            "success"
+                        );
+                    });
+                }
+            });
         }
     }
 };

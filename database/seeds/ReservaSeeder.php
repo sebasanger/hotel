@@ -98,25 +98,7 @@ class ReservaSeeder extends Seeder
 
         $reserva->save();
 
-        $reserva = new Reserva();
-        $reserva->procedencia = "cordoba";
-        $reserva->destino = "santa fe";
-        $reserva->huespedes = 4;
-        $reserva->precio = 2400;
-        $reserva->egreso = now()->addDays(3);
-        $reserva->estado = 0;
-        $reserva->totalPagar = 2400;
-        $reserva->clientes_id = 25;
-        $reserva->motivos_id = 1;
-        $reserva->preciosHabitaciones_id = 4;
-        $reserva->pagado = 2400;
-        $reserva->habitaciones_id = 9;
-        $reserva->users_id  = 1;
-        $reserva->color = 'green';
-        $reserva->ingreso = now()->addDays(1);
-        $reserva->created_at = now()->addDays(1);
 
-        $reserva->save();
 
 
         $reserva = new Reserva();
@@ -139,25 +121,7 @@ class ReservaSeeder extends Seeder
 
         $reserva->save();
 
-        $reserva = new Reserva();
-        $reserva->procedencia = "brasil";
-        $reserva->destino = "corrientes";
-        $reserva->huespedes = 3;
-        $reserva->precio = 2000;
-        $reserva->egreso = now()->addDays(1);
-        $reserva->estado = 1;
-        $reserva->totalPagar = 2100;
-        $reserva->clientes_id = 8;
-        $reserva->motivos_id = 2;
-        $reserva->preciosHabitaciones_id = 2;
-        $reserva->pagado = 2100;
-        $reserva->habitaciones_id = 13;
-        $reserva->users_id  = 4;
-        $reserva->color = 'green';
-        $reserva->ingreso = now();
-        $reserva->created_at = now()->addDays(1);
 
-        $reserva->save();
 
         $reserva = new Reserva();
         $reserva->procedencia = "iguazu";
@@ -176,46 +140,6 @@ class ReservaSeeder extends Seeder
         $reserva->color = 'green';
         $reserva->ingreso = now();
         $reserva->created_at = now();
-
-        $reserva->save();
-
-        $reserva = new Reserva();
-        $reserva->procedencia = "iguazu";
-        $reserva->destino = "formosa";
-        $reserva->huespedes = 1;
-        $reserva->precio = 1200;
-        $reserva->egreso = now()->addDays(5);
-        $reserva->estado = 1;
-        $reserva->totalPagar = 1250;
-        $reserva->clientes_id = 12;
-        $reserva->motivos_id = 1;
-        $reserva->preciosHabitaciones_id = 1;
-        $reserva->pagado = 0;
-        $reserva->habitaciones_id = 15;
-        $reserva->users_id  = 4;
-        $reserva->color = 'green';
-        $reserva->ingreso = now()->addDays(1);
-        $reserva->created_at = now(1);
-
-        $reserva->save();
-
-        $reserva = new Reserva();
-        $reserva->procedencia = "neuquen";
-        $reserva->destino = "tierra del fuego";
-        $reserva->huespedes = 4;
-        $reserva->precio = 2400;
-        $reserva->egreso = now()->addDays(3);
-        $reserva->estado = 1;
-        $reserva->totalPagar = 2400;
-        $reserva->clientes_id = 17;
-        $reserva->motivos_id = 2;
-        $reserva->preciosHabitaciones_id = 4;
-        $reserva->pagado = 0;
-        $reserva->habitaciones_id = 14;
-        $reserva->users_id  = 5;
-        $reserva->color = 'red';
-        $reserva->ingreso = now();
-        $reserva->created_at = now()->addDays(1);
 
         $reserva->save();
 

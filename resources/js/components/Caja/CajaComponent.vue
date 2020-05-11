@@ -4,31 +4,24 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <button
-                            class="btn-success float-right"
-                            @click="newModal"
-                        >
-                            Agregar cliente
-                        </button>
-
                         <div
                             class="input-group input-group-sm"
-                            style="width: 200px;"
+                            style="width: 250px;"
                         >
-                            <input
-                                autocomplete="off"
-                                type="text"
-                                name="table_search"
-                                class="form-control float-lg-left"
-                                placeholder="Nombre, apellido, email..."
+                            <select
                                 v-model="search"
-                                @keydown="buscar()"
-                            />
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
+                                name="categorias_id"
+                                @change="buscar()"
+                                class="form-control"
+                            >
+                                <option value>Filtrar por usuario</option>
+                                <option
+                                    v-for="u in users"
+                                    :key="u.id"
+                                    :value="u.id"
+                                    >{{ u.name }}</option
+                                >
+                            </select>
                         </div>
                     </div>
 
@@ -39,167 +32,116 @@
                         >
                             <thead>
                                 <tr>
-                                    <th>DNI</th>
-                                    <th>Nombre y apellido</th>
-                                    <th>Celular</th>
-                                    <th>Domicio</th>
-                                    <th>Profecion</th>
-                                    <th>Factura</th>
-                                    <th>Acciones</th>
+                                    <th>Encargado</th>
+                                    <th>Monto de apertura</th>
+                                    <th>Fecha de apertura</th>
+                                    <th>Monto de cierre</th>
+                                    <th>Fecha de cierre</th>
+                                    <th>Saldo</th>
+                                    <th>Detalles</th>
                                 </tr>
                             </thead>
                             <transition-group tag="tbody" name="fade-list">
                                 <tr
-                                    v-for="(item, index) in cliente.clientes
-                                        .data"
+                                    v-for="item in cajas.data"
                                     :key="item.id"
                                     class="list-complete-item"
                                 >
-                                    <td>
-                                        <router-link
-                                            :to="{
-                                                name: 'clienteShow',
-                                                params: { id: item.id }
-                                            }"
-                                            >{{ item.dni }}
-                                        </router-link>
-                                    </td>
-
-                                    <td>
-                                        <router-link
-                                            :to="{
-                                                name: 'clienteShow',
-                                                params: { id: item.id }
-                                            }"
-                                        >
-                                            {{
-                                                (item.nombre +
-                                                    " " +
-                                                    item.apellido)
-                                                    | capitalize
-                                            }}
-                                        </router-link>
-                                    </td>
-                                    <td>{{ item.celular }}</td>
-                                    <td>
-                                        {{ item.domicilio | capitalize }}
+                                    <td>{{ item.name | capitalize }}</td>
+                                    <td class="text-center">
+                                        {{ item.montoApertura }}
                                     </td>
                                     <td>
-                                        {{ item.profecion | capitalize }}
+                                        {{ item.created_at }}
+                                    </td>
+                                    <td
+                                        class="text-center"
+                                        :class="[
+                                            item.montoCierre <=
+                                            item.montoApertura
+                                                ? 'text-danger'
+                                                : 'text-success'
+                                        ]"
+                                    >
+                                        {{ item.montoCierre }}
                                     </td>
                                     <td>
-                                        {{ item.tipoFactura | capitalize }}
+                                        {{ item.horaCierre }}
+                                    </td>
+                                    <td
+                                        class="text-center "
+                                        :class="[
+                                            item.montoCierre == item.saldo
+                                                ? 'text-success'
+                                                : 'text-danger'
+                                        ]"
+                                    >
+                                        {{ item.saldo }}
                                     </td>
                                     <td class="text-center">
                                         <button
                                             class="btn"
-                                            @click="editModal(item)"
+                                            @click="cajaShow(item.id)"
                                         >
-                                            <i class="fa fa-edit blue"></i>
+                                            <i class="fa fa-eye green"></i>
                                         </button>
-                                        <delete
-                                            :id="item.id"
-                                            :index="index"
-                                            :paginaActual="paginaActual"
-                                            :search="search"
-                                        />
                                     </td>
                                 </tr>
                             </transition-group>
                         </table>
                     </div>
-                    <!-- /.card-body -->
+
                     <div class="card-footer">
                         <pagination
-                            :data="cliente.clientes"
+                            :data="cajas"
                             :limit="3"
                             @pagination-change-page="getResults"
                         ></pagination>
                     </div>
                 </div>
-                <!-- /.card -->
-                <ModalCliente
-                    :paginaActual="paginaActual"
-                    :search="search"
-                    :form="form"
-                    :facturas="facturas"
-                    :editMode="editMode"
-                />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
-import Delete from "./ClienteDelete.vue";
-import ModalCliente from "./clienteModal.vue";
+import { mapState } from "vuex";
+
 export default {
-    components: {
-        Delete,
-        ModalCliente
-    },
     data() {
         return {
-            //sirtve para mantener la pagina que se esta viendo al realizar las consultas
             paginaActual: 1,
-            editMode: false,
             search: "",
-            facturas: [],
-            form: new Form({
-                id: "",
-                nombre: "",
-                apellido: "",
-                dni: "",
-                facturas_id: "",
-                celular: "",
-                domicilio: "",
-                profecion: ""
-            })
+            users: {}
         };
     },
     created() {
+        this.loadUsers();
         this.getResults(this.paginaActual);
-        this.loadFacturas();
     },
     computed: {
-        ...mapState(["cliente"])
+        ...mapState("caja", ["cajas"])
     },
     mounted() {
         this.$Progress.finish();
     },
 
     methods: {
-        editModal(cliente) {
-            //abre el mismo modal pero con la opcion de edit modal en true lo que cambia a que metodo pasamos la info y rellena el modal
-            this.editMode = true;
-            this.form.reset();
-            $("#addEditCliente").modal("show");
-            this.form.fill(cliente);
+        cajaShow(cajaId) {
+            this.$router.push({
+                name: "cajaShow",
+                params: { id: cajaId }
+            });
         },
-
-        loadFacturas() {
-            axios.get("getAllFacturas").then(res => (this.facturas = res.data));
-        },
-
-        newModal() {
-            //abre el modal, lo limpia y saca el modo de edicion si es que estaba activo
-            this.editMode = false;
-            this.form.reset();
-            $("#addEditCliente").modal("show");
-        },
-
-        //busca los clientes por pagina y por filtrado
         getResults(page) {
-            //busca cualquier filtro que estemos usando y lo mantiene
             let query = this.search;
-            //se actualiza la pagina actual con lo que nos da el metodo del componente de la paginacion
             this.paginaActual = page;
-            //es la manera de pasar dos parametros al misma action
             let payload = { query: query, pagina: this.paginaActual };
-            this.$store.dispatch("cliente/fetchClientes", payload);
+            this.$store.dispatch("caja/fetchCajas", payload);
         },
-        //busca cada 50ms cada vez que se escribe una tecla
+        loadUsers() {
+            axios.get("getAllUsers").then(res => (this.users = res.data));
+        },
         buscar: _.debounce(function() {
             this.getResults();
         }, 50)

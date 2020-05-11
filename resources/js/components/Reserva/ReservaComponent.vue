@@ -33,6 +33,8 @@
             :preciosHabitaciones="preciosHabitaciones"
             :motivos="motivos"
             :editMode="editMode"
+            :modosPagos="modosPagos"
+            :caja="caja"
         />
     </div>
 </template>
@@ -62,6 +64,7 @@ export default {
                 preciosHabitaciones_id: "",
                 motivos_id: "",
                 habitaciones_id: "",
+                modosPagos_id: "",
                 ingreso: "",
                 egreso: "",
                 pagado: "",
@@ -218,8 +221,14 @@ export default {
     },
     computed: {
         ...mapState(["reservas", "elementos"]),
+        ...mapState("caja", ["caja"]),
         ...mapState("habitacion", ["habitaciones", "habitacion"]),
-        ...mapState("carga", ["motivos", "clientes", "preciosHabitaciones"])
+        ...mapState("carga", [
+            "motivos",
+            "clientes",
+            "preciosHabitaciones",
+            "modosPagos"
+        ])
     },
     watch: {
         elementos(newValue, oldValue) {

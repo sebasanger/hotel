@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Caja;
 use App\Pago;
 use App\Reserva;
 use Illuminate\Http\Request;
@@ -54,6 +55,12 @@ class PagoController extends Controller
         $reserva->save();
         //fin parte de reservas
 
+        //sumando al saldo de la caja
+        $caja = Caja::findOrFail($request->cajas_id);
+        $caja->saldo += $request->monto;
+        $caja->save();
+        //sumando al saldo de la caja
+
         $pago->save();
 
         return $pago;
@@ -102,6 +109,14 @@ class PagoController extends Controller
         //reduccion de la cantidad pagada de la reserva
         $reserva->pagado = $nuevoPagado;
         $reserva->save();
+        //reduccion de la cantidad pagada de la reserva
+
+        //reduccion del saldo de la caja
+        $caja = Caja::findOrFail($pago->cajas->id);
+        $caja->saldo -= $pago->monto;
+        $caja->save();
+        //reduccion del saldo de la caja
+
         $pago->delete();
         return $pago;
     }
@@ -110,8 +125,22 @@ class PagoController extends Controller
     {
         $pago = Pago::leftJoin('users', 'pagos.users_id', '=', 'users.id')
             ->leftJoin('modosPagos', 'pagos.modosPagos_id', '=', 'modosPagos.id')
-            ->where('reservas_id', $reservaId)
             ->select('pagos.*', 'users.name', 'modosPagos.modoPago')
+            ->where('pagos.reservas_id', $reservaId)
+            ->latest()
+            ->get();
+        return $pago;
+    }
+
+    public function getPagosByCaja($cajaId)
+    {
+        $pago = Pago::leftJoin('users', 'pagos.users_id', '=', 'users.id')
+            ->leftJoin('modosPagos', 'pagos.modosPagos_id', '=', 'modosPagos.id')
+            ->leftJoin('reservas', 'pagos.reservas_id', '=', 'reservas.id')
+            ->leftJoin('clientes', 'reservas.clientes_id', '=', 'clientes.id')
+            ->leftJoin('habitaciones', 'reservas.habitaciones_id', '=', 'habitaciones.id')
+            ->select('pagos.*', 'users.name', 'modosPagos.modoPago', 'reservas.estado', 'clientes.nombre', 'clientes.apellido', 'habitaciones.numeroHabitacion')
+            ->where('pagos.cajas_id', $cajaId)
             ->latest()
             ->get();
         return $pago;

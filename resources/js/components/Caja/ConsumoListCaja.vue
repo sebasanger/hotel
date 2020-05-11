@@ -17,6 +17,9 @@
                                 <th>Total</th>
                                 <th>Encargado de la transaccion</th>
                                 <th>Fecha</th>
+                                <th>Cliente</th>
+                                <th>Habitacion</th>
+                                <th>Estado de la reserva</th>
                                 <th>Eliminar</th>
                             </tr>
                         </thead>
@@ -45,6 +48,17 @@
                                 <td>
                                     {{ consumo.created_at }}
                                 </td>
+                                <td>
+                                    {{
+                                        consumo.nombre + " " + consumo.apellido
+                                    }}
+                                </td>
+                                <td>
+                                    {{ consumo.numeroHabitacion }}
+                                </td>
+                                <td>
+                                    {{ consumo.estado | estadoReserva }}
+                                </td>
                                 <td class="text-center">
                                     <button
                                         class="btn ml-2"
@@ -67,7 +81,7 @@
 export default {
     props: ["consumos"],
     methods: {
-        deleteConsumo(consumo) {
+        deleteConsumo(pago) {
             Swal.fire({
                 title: "¿Esta seguro que desea eliminar este consumo?",
                 icon: "warning",
@@ -77,18 +91,24 @@ export default {
                 confirmButtonText: "Si, eliminar!"
             }).then(result => {
                 if (result.value) {
-                    axios.delete("/consumo/" + consumo.id).then(() => {
-                        this.$store.dispatch(
-                            "fetchReserva",
-                            consumo.reservas_id
-                        );
-                        this.$store.dispatch("fetchReservas");
-                        Swal.fire(
-                            "Eliminado!",
-                            "El consumo se elimino correctamente.",
-                            "success"
-                        );
-                    });
+                    axios
+                        .delete("/consumo/" + pago.id)
+                        .then(() => {
+                            this.$store.dispatch("caja/fetchCajaActiva");
+                            this.$store.dispatch("fetchReservas");
+                            Swal.fire(
+                                "Eliminado!",
+                                "El consumo se elimino correctamente.",
+                                "success"
+                            );
+                        })
+                        .catch(() => {
+                            Swal.fire(
+                                "Error!",
+                                "No se pudo eliminar el consumo.",
+                                "error"
+                            );
+                        });
                 }
             });
         }

@@ -43,7 +43,7 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'nombre' => 'required|string|min:2|max:30',
             'apellido' => 'required|string|min:2|max:30',
             'dni' => 'required|numeric',

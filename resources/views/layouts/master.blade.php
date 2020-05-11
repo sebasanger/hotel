@@ -64,8 +64,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <aside class="main-sidebar elevation-4 sidebar-dark-danger">
                 <!-- Brand Logo -->
                 <router-link to="/" class="brand-link navbar-navy">
-                    <img src="./img/hl.png" class="brand-image img-circle elevation-3" style="opacity: .8">
-                    <span class="brand-text font-weight-light">Hotel</span>
+                    <i class="fas fa-hotel fa-lg cyan brand-image img-circle elevation-3 pt-1"></i>
+                    <span class="brand-text font-italic">Hotel Vito Primero</span>
                 </router-link>
 
 
@@ -74,7 +74,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- Sidebar user panel (optional) -->
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                         <div class="image">
-                            <img src="./img/perro.jpg" class="img-circle elevation-2">
+                            <i class="fa fa-user fa-lg red pt-2"></i>
                         </div>
                         <div class="info">
                             <a href="#" class="d-block">
@@ -125,6 +125,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <router-link :to="{ name : 'caja'}" class="nav-link">
+                                            <i class="nav-icon fas fa-cash-register red"></i>
+                                            <p>Cajas</p>
+                                        </router-link>
+                                    </li>
+
                                     <li class="nav-item">
                                         <router-link :to="{ name : 'user'}" class="nav-link">
                                             <i class="far fa-circle nav-icon fas fa-user yellow"></i>

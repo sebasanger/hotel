@@ -39,6 +39,12 @@ Vue.filter("estado", function(value) {
     if (value === 3) return "Para limpiar";
 });
 
+Vue.filter("estadoReserva", function(value) {
+    if (!value) return "";
+    if (value === 0) return "Finalizada";
+    if (value === 1) return "Pendiente";
+});
+
 Vue.filter("single", function(value) {
     if (!value) return "";
     if (value === 1) return '<i class="fa fa-bed red"></i>';

@@ -33,11 +33,11 @@ class Caja extends Model
 
     protected $casts = [
         'created_at' => 'datetime:d/m/Y H:i',
-        'updated_at' => 'datetime:d-m-Y H:i',
-        'horaCierre' => 'datetime:d-m-Y H:i',
+        'updated_at' => 'datetime:d/m/Y H:i',
+        'horaCierre' => 'datetime:d/m/Y H:i',
     ];
 
     protected $fillable = [
-        'saldo', 'horaCierre', 'montoCierre', 'cajaActiva', 'users_id'
+        'saldo', 'horaCierre', 'montoCierre', 'cajaActiva', 'users_id', 'created_at', 'updated_at'
     ];
 }

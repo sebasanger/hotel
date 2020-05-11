@@ -31,7 +31,7 @@ class CreateConsumosTable extends Migration
             $table->unsignedSmallInteger('users_id');
             $table->foreign('users_id')->references('id')->on('users');
 
-            $table->unsignedSmallInteger('modosPagos_id')->default(1);
+            $table->unsignedSmallInteger('modosPagos_id')->nullable();
             $table->foreign('modospagos_id')->references('id')->on('modospagos');
 
             $table->timestamps();

@@ -2,7 +2,7 @@
     <div>
         <div class="text-center"></div>
         <h4 class="profile-username text-center">
-            Datos de la caja actual
+            Datos de la caja
         </h4>
 
         <ul class="list-group list-group-unbordered mb-3">

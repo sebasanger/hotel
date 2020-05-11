@@ -24,201 +24,103 @@
         <div class="album py-5 bg-light">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm">
-                            <img
-                                class="bd-placeholder-img card-img-top"
-                                width="100%"
-                                height="225"
-                                preserveAspectRatio="xMidYMid slice"
-                                focusable="false"
-                                src="img/hab1.jpg"
-                                aria-label="Placeholder: Thumbnail"
-                            />
-                            <div class="card-body">
-                                <p class="card-text">
-                                    Habitacion 101
-                                </p>
-                                <div
-                                    class="d-flex justify-content-between align-items-center"
-                                >
-                                    <div class="btn-group">
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-outline-secondary"
-                                        >
-                                            Ver
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-outline-secondary"
-                                        >
-                                            Mas detalles
-                                        </button>
+                    <div
+                        class="col-md-4"
+                        v-for="habitacion in habitaciones"
+                        :key="habitacion.id"
+                    >
+                        <div
+                            class="card mb-4 shadow-sm"
+                            v-if="habitacion.image_path"
+                        >
+                            <div
+                                id="carouselExampleSlidesOnly"
+                                class="carousel slide"
+                                data-ride="carousel"
+                            >
+                                <div class="carousel-inner">
+                                    <div
+                                        data-interval="10000"
+                                        class="carousel-item active"
+                                        v-if="habitacion.image_path"
+                                    >
+                                        <img
+                                            class="bd-placeholder-img card-img-top"
+                                            width="100%"
+                                            height="225"
+                                            preserveAspectRatio="xMidYMid slice"
+                                            focusable="false"
+                                            :src="
+                                                'img/habitaciones/' +
+                                                    habitacion.image_path
+                                            "
+                                            aria-label="Placeholder: Thumbnail"
+                                        />
+                                    </div>
+                                    <div
+                                        data-interval="10000"
+                                        class="carousel-item"
+                                        v-if="habitacion.image_path2"
+                                    >
+                                        <img
+                                            class="bd-placeholder-img card-img-top"
+                                            width="100%"
+                                            height="225"
+                                            preserveAspectRatio="xMidYMid slice"
+                                            focusable="false"
+                                            :src="
+                                                'img/habitaciones/' +
+                                                    habitacion.image_path
+                                            "
+                                            aria-label="Placeholder: Thumbnail"
+                                        />
+                                    </div>
+                                    <div
+                                        data-interval="10000"
+                                        class="carousel-item"
+                                        v-if="habitacion.image_path3"
+                                    >
+                                        <img
+                                            class="bd-placeholder-img card-img-top"
+                                            width="100%"
+                                            height="225"
+                                            preserveAspectRatio="xMidYMid slice"
+                                            focusable="false"
+                                            :src="
+                                                'img/habitaciones/' +
+                                                    habitacion.image_path
+                                            "
+                                            aria-label="Placeholder: Thumbnail"
+                                        />
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm">
-                            <img
-                                class="bd-placeholder-img card-img-top"
-                                width="100%"
-                                height="225"
-                                preserveAspectRatio="xMidYMid slice"
-                                focusable="false"
-                                src="img/hab2.jpg"
-                                aria-label="Placeholder: Thumbnail"
-                            />
+
                             <div class="card-body">
                                 <p class="card-text">
-                                    Habitacion 102
+                                    Habitacion numero:
+                                    {{ habitacion.numeroHabitacion }}
                                 </p>
-                                <div
-                                    class="d-flex justify-content-between align-items-center"
-                                >
-                                    <div class="btn-group">
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-outline-secondary"
-                                        >
-                                            Ver
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-outline-secondary"
-                                        >
-                                            Mas detalles
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm">
-                            <img
-                                class="bd-placeholder-img card-img-top"
-                                width="100%"
-                                height="225"
-                                preserveAspectRatio="xMidYMid slice"
-                                focusable="false"
-                                src="img/hab3.jpg"
-                                aria-label="Placeholder: Thumbnail"
-                            />
-                            <div class="card-body">
                                 <p class="card-text">
-                                    Habitacion 103
+                                    Capacidad:
+                                    {{ habitacion.capacidad | capacidad }}
                                 </p>
-                                <div
-                                    class="d-flex justify-content-between align-items-center"
-                                >
-                                    <div class="btn-group">
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-outline-secondary"
-                                        >
-                                            Ver
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-outline-secondary"
-                                        >
-                                            Mas detalles
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm">
-                            <img
-                                class="bd-placeholder-img card-img-top"
-                                width="100%"
-                                height="225"
-                                preserveAspectRatio="xMidYMid slice"
-                                focusable="false"
-                                src="img/hab4.jpg"
-                                aria-label="Placeholder: Thumbnail"
-                            />
-                            <div class="card-body">
                                 <p class="card-text">
-                                    Habitacion 104
+                                    {{ habitacion.piso | piso }}
                                 </p>
-                                <div
-                                    class="d-flex justify-content-between align-items-center"
-                                >
-                                    <div class="btn-group">
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-outline-secondary"
-                                        >
-                                            Ver
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-outline-secondary"
-                                        >
-                                            Mas detalles
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm">
-                            <img
-                                class="bd-placeholder-img card-img-top"
-                                width="100%"
-                                height="225"
-                                preserveAspectRatio="xMidYMid slice"
-                                focusable="false"
-                                src="img/hab5.jpg"
-                                aria-label="Placeholder: Thumbnail"
-                            />
-                            <div class="card-body">
                                 <p class="card-text">
-                                    Habitacion 105
+                                    <i
+                                        v-for="cs in habitacion.single"
+                                        :key="cs.id"
+                                        class="fa fa-bed red ml-1"
+                                    ></i>
+                                    <i
+                                        v-for="cd in habitacion.doble"
+                                        :key="cd"
+                                        class="fa fa-bed blue ml-1"
+                                    ></i>
                                 </p>
-                                <div
-                                    class="d-flex justify-content-between align-items-center"
-                                >
-                                    <div class="btn-group">
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-outline-secondary"
-                                        >
-                                            Ver
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-outline-secondary"
-                                        >
-                                            Mas detalles
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm">
-                            <img
-                                class="bd-placeholder-img card-img-top"
-                                width="100%"
-                                height="225"
-                                preserveAspectRatio="xMidYMid slice"
-                                focusable="false"
-                                src="img/hab6.jpg"
-                                aria-label="Placeholder: Thumbnail"
-                            />
-                            <div class="card-body">
-                                <p class="card-text">
-                                    Habitacion 106
-                                </p>
+
                                 <div
                                     class="d-flex justify-content-between align-items-center"
                                 >
@@ -252,6 +154,13 @@ import { mapState } from "vuex";
 export default {
     mounted() {
         this.$Progress.finish();
+    },
+    computed: {
+        ...mapState("habitacion", ["habitaciones"]),
+
+        getFoto() {
+            return "img/habitaciones/" + this.habitacion.image_path;
+        }
     }
 };
 </script>

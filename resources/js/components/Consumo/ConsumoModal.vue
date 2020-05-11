@@ -82,7 +82,31 @@
                             </div>
 
                             <div class="form-row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-2">
+                                    <label>Pagado</label>
+                                    <select
+                                        v-model="formConsumo.pagado"
+                                        name="pagado"
+                                        class="form-control"
+                                        :class="{
+                                            'is-invalid': formConsumo.errors.has(
+                                                'pagado'
+                                            )
+                                        }"
+                                    >
+                                        <option value="0">No</option>
+                                        <option value="1">Si</option></select
+                                    >
+                                    <has-error
+                                        :form="formConsumo"
+                                        field="pagado"
+                                    ></has-error>
+                                </div>
+
+                                <div
+                                    class="form-group col-md-6"
+                                    v-if="formConsumo.pagado == 1"
+                                >
                                     <label>Modos de pago</label>
                                     <select
                                         v-model="formConsumo.modosPagos_id"
@@ -108,27 +132,6 @@
                                     <has-error
                                         :form="formConsumo"
                                         field="modosPagos_id"
-                                    ></has-error>
-                                </div>
-
-                                <div class="form-group col-md-2">
-                                    <label>Pagado</label>
-                                    <select
-                                        v-model="formConsumo.pagado"
-                                        name="pagado"
-                                        class="form-control"
-                                        :class="{
-                                            'is-invalid': formConsumo.errors.has(
-                                                'pagado'
-                                            )
-                                        }"
-                                    >
-                                        <option value="0">No</option>
-                                        <option value="1">Si</option></select
-                                    >
-                                    <has-error
-                                        :form="formConsumo"
-                                        field="pagado"
                                     ></has-error>
                                 </div>
 
@@ -244,11 +247,18 @@ export default {
                             res.data.reservas_id
                         );
                         this.$store.dispatch("fetchReservas");
+                        this.$store.dispatch("producto/fetchAllProductos");
                         $("#addConsumo").modal("hide");
                         Toast.fire({
                             icon: "success",
-                            title: "Pago agregado correctamente"
+                            title: "Consumo agregado correctamente"
                         });
+                        if (res.data.pagado == 1) {
+                            Toast.fire({
+                                icon: "success",
+                                title: "Consumo y pago agregado a la reserva"
+                            });
+                        }
                         this.$Progress.finish();
                     })
                     .catch(() => {
@@ -267,7 +277,6 @@ export default {
         },
         getProduct(event) {
             this.$store.dispatch("producto/fetchProducto", event.target.value);
-            console.log(this.producto);
         }
     }
 };

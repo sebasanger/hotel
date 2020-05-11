@@ -42,6 +42,7 @@ export default {
             })
         };
     },
+
     methods: {
         abrirCaja() {
             this.formCaja.reset();

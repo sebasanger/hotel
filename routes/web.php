@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(["register" => false]);
 
 Route::middleware(['auth'])->group(function () {
-
+    //rutas de carga
     Route::get('getAllCategorias', 'CategoriaController@getAllCategorias');
     Route::get('getAllFacturas', 'FacturaController@getAllFacturas');
     Route::get('getAllMarcas', 'MarcaController@getAllMarcas');
@@ -27,19 +27,28 @@ Route::middleware(['auth'])->group(function () {
     Route::get('getAllClientes', 'ClienteController@getAllClientes');
     Route::get('getAllHabitaciones', 'HabitacionController@getAllHabitaciones');
     Route::get('getAllProductos', 'ProductoController@getAllProductos');
+    Route::get('getAllUsers', 'UserController@getAllUsers');
+    //rutas de carga
 
+    //rutas de caja
     Route::get('getCajaActiva', 'CajaController@getCajaActiva');
+    Route::get('getPagosByCaja/{cajaId}', 'PagoController@getPagosByCaja');
+    Route::get('getConsumosByCaja/{cajaId}', 'ConsumoController@getConsumosByCaja');
+    //rutas de caja
 
+    //rutas de reserva
     Route::get('getPagosByReserva/{reservaId}', 'PagoController@getPagosByReserva');
     Route::get('getConsumosByReserva/{reservaId}', 'ConsumoController@getConsumosByReserva');
     Route::get('getProducto/{productoId}', 'ProductoController@getProducto');
+    //rutas de reserva
 
+    //rutas de user
     Route::get('userFind', 'UserController@userFind');
-
     Route::get('findCliente/{id}', 'ClienteController@findCliente');
+    //rutas de user
 
     Route::middleware(['role:1'])->group(function () {
-        Route::apiResource('caja', 'CajaController');
+
 
         Route::apiResource('categoria', 'CategoriaController');
 
@@ -69,6 +78,10 @@ Route::middleware(['auth'])->group(function () {
             'index'
         ]);
     });
+    Route::get('caja/{filtro?}', 'CajaController@index');
+
+    Route::apiResource('caja', 'CajaController');
+
     Route::get('cliente/{filtro?}', 'ClienteController@index');
 
     Route::apiResource('cliente', 'ClienteController');

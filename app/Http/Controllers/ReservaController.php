@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Caja;
 use App\Consumo;
 use App\Pago;
 use App\Reserva;
@@ -76,7 +77,26 @@ class ReservaController extends Controller
             $reserva->users_id = Auth::user()->id;
             $reserva->save();
 
-            return $reserva;
+            if ($request->pagado >= 1) {
+                $cajaId = Caja::where('cajaActiva', 1)->first();
+                $caja = Caja::findOrFail($cajaId->id);
+                //si fue pagado se actualiza el saldo de la caja
+                $caja->saldo += $request->pagado;
+                $caja->save();
+                //fin parte de cajas
+
+                //Agregado de pago en la reserva en caso de que este pagada o almenos en parte
+                $pago = new Pago();
+                $pago->monto = $request->pagado;
+                $pago->reservas_id = $reserva->id;
+                $pago->modosPagos_id = $request->modosPagos_id;
+                $pago->cajas_id = $cajaId->id;
+                $pago->users_id = Auth::user()->id;
+                $pago->save();
+                //Agregado de pago en la reserva en caso de que este pagada o almenos en parte
+            }
+
+            return $reserva->id;
         } else {
             abort(400, 'Hay una reserva en esa fecha');
         }
@@ -166,9 +186,11 @@ class ReservaController extends Controller
      * @param  \App\Reserva  $reserva
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reserva $reserva)
+    public function destroy($id)
     {
-        //
+        $reserva = Reserva::findOrFail($id);
+        $reserva->delete();
+        return $reserva;
     }
 
     public function checkColor($pagado, $porPagar)

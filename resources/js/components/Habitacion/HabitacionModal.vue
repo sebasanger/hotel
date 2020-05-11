@@ -203,30 +203,30 @@
                                     :form="form"
                                     field="image_path"
                                 ></has-error>
-                            </div>
-                            <div class="imagenes">
-                                <figure v-if="imagenMiniatrua">
-                                    <img
-                                        :src="imagenMiniatrua"
-                                        width="250"
-                                        height="150"
-                                    />
-                                </figure>
-                                <figure v-else-if="form.image_path">
-                                    <img
-                                        :src="getFoto()"
-                                        width="250"
-                                        height="150"
-                                    />
-                                </figure>
-                                <div v-else class="preview">
-                                    <p>
-                                        No hay ninguna imagen aún
-                                    </p>
+                                <div class="imagenes">
+                                    <figure v-if="imagenMiniatrua">
+                                        <img
+                                            :src="imagenMiniatrua"
+                                            width="250"
+                                            height="150"
+                                        />
+                                    </figure>
+                                    <figure v-else-if="form.image_path">
+                                        <img
+                                            :src="getFoto()"
+                                            width="250"
+                                            height="150"
+                                        />
+                                    </figure>
+                                    <div v-else class="preview">
+                                        <p>
+                                            No hay ninguna imagen aún
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" v-if="form.image_path">
                                 <label>Segunda imagen de la habitacion</label>
                                 <input
                                     @change="obtenerImagen2"
@@ -244,30 +244,30 @@
                                     :form="form"
                                     field="image_path2"
                                 ></has-error>
-                            </div>
-                            <div class="imagenes">
-                                <figure v-if="imagenMiniatrua2">
-                                    <img
-                                        :src="imagenMiniatrua2"
-                                        width="250"
-                                        height="150"
-                                    />
-                                </figure>
-                                <figure v-else-if="form.image_path2">
-                                    <img
-                                        :src="getFoto2()"
-                                        width="250"
-                                        height="150"
-                                    />
-                                </figure>
-                                <div v-else class="preview">
-                                    <p>
-                                        No hay ninguna imagen aún
-                                    </p>
+                                <div class="imagenes">
+                                    <figure v-if="imagenMiniatrua2">
+                                        <img
+                                            :src="imagenMiniatrua2"
+                                            width="250"
+                                            height="150"
+                                        />
+                                    </figure>
+                                    <figure v-else-if="form.image_path2">
+                                        <img
+                                            :src="getFoto2()"
+                                            width="250"
+                                            height="150"
+                                        />
+                                    </figure>
+                                    <div v-else class="preview">
+                                        <p>
+                                            No hay ninguna imagen aún
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" v-if="form.image_path2">
                                 <label>Terecera imagen de la habitacion</label>
                                 <input
                                     @change="obtenerImagen3"
@@ -285,26 +285,26 @@
                                     :form="form"
                                     field="image_path3"
                                 ></has-error>
-                            </div>
-                            <div class="imagenes">
-                                <figure v-if="imagenMiniatrua3">
-                                    <img
-                                        :src="imagenMiniatrua3"
-                                        width="250"
-                                        height="150"
-                                    />
-                                </figure>
-                                <figure v-else-if="form.image_path3">
-                                    <img
-                                        :src="getFoto3()"
-                                        width="250"
-                                        height="150"
-                                    />
-                                </figure>
-                                <div v-else class="preview">
-                                    <p>
-                                        No hay ninguna imagen aún
-                                    </p>
+                                <div class="imagenes">
+                                    <figure v-if="imagenMiniatrua3">
+                                        <img
+                                            :src="imagenMiniatrua3"
+                                            width="250"
+                                            height="150"
+                                        />
+                                    </figure>
+                                    <figure v-else-if="form.image_path3">
+                                        <img
+                                            :src="getFoto3()"
+                                            width="250"
+                                            height="150"
+                                        />
+                                    </figure>
+                                    <div v-else class="preview">
+                                        <p>
+                                            No hay ninguna imagen aún
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>

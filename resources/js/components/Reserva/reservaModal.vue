@@ -114,6 +114,9 @@
                                                 )
                                             }"
                                         >
+                                            <option disabled selected value>
+                                                Seleccionar la habitacion
+                                            </option>
                                             <option
                                                 v-for="h in habitaciones"
                                                 :key="h.id"
@@ -122,9 +125,6 @@
                                                     h.numeroHabitacion
                                                 }}</option
                                             >
-                                            <option disabled selected value>
-                                                Seleccionar la habitacion
-                                            </option>
                                         </select>
                                         <has-error
                                             :form="form"
@@ -281,13 +281,16 @@
                                 </div>
 
                                 <div class="form-row" v-if="!editMode">
-                                    <div class="form-group col-md-6">
+                                    <div
+                                        class="form-group col-md-3"
+                                        v-if="caja.cajaActiva == 1"
+                                    >
                                         <label>Pagado</label>
                                         <input
                                             v-model.number="form.pagado"
                                             type="number"
                                             name="pagado"
-                                            placeholder="Cantidad que pago el huesped"
+                                            placeholder="Dinero pagado"
                                             class="form-control"
                                             :class="{
                                                 'is-invalid': form.errors.has(
@@ -301,7 +304,39 @@
                                         ></has-error>
                                     </div>
 
-                                    <div class="form-group col-md-3 ">
+                                    <div
+                                        class="form-group col-md-5"
+                                        v-if="form.pagado >= 1"
+                                    >
+                                        <label>Modo de pago</label>
+                                        <select
+                                            required
+                                            v-model="form.modosPagos_id"
+                                            name="modosPagos_id"
+                                            class="form-control"
+                                            :class="{
+                                                'is-invalid': form.errors.has(
+                                                    'modosPagos_id'
+                                                )
+                                            }"
+                                        >
+                                            <option disabled selected value>
+                                                Seleccionar el modo de pago
+                                            </option>
+                                            <option
+                                                v-for="mp in modosPagos"
+                                                :key="mp.id"
+                                                :value="mp.id"
+                                                >{{ mp.modoPago }}</option
+                                            >
+                                        </select>
+                                        <has-error
+                                            :form="form"
+                                            field="modosPagos_id"
+                                        ></has-error>
+                                    </div>
+
+                                    <div class="form-group col-md-2">
                                         <label>Total a pagar</label>
                                         <input
                                             type="number"
@@ -311,7 +346,7 @@
                                         />
                                     </div>
 
-                                    <div class="form-group col-md-3 ">
+                                    <div class="form-group col-md-2">
                                         <label>Faltante</label>
                                         <input
                                             type="number"
@@ -463,7 +498,9 @@ export default {
         "habitaciones",
         "clientes",
         "motivos",
-        "preciosHabitaciones"
+        "preciosHabitaciones",
+        "modosPagos",
+        "caja"
     ],
     data() {
         return {

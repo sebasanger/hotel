@@ -32,7 +32,7 @@ class Pago extends Model
     protected $table = 'Pagos';
 
     protected $casts = [
-        'created_at' => 'datetime:d-m-Y',
+        'created_at' => 'datetime:d-m-Y H:i',
         'updated_at' => 'datetime:d-m-Y'
     ];
 
