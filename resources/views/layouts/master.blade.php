@@ -45,13 +45,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="wrapper">
 
             <!-- Navbar -->
-            <nav class="main-header navbar navbar-expand navbar-dark navbar-navy">
+            <nav class="main-header navbar navbar-expand navbar-dark navbar-navy ">
                 <!-- Left navbar links -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
                     </li>
-                    {{-- < <cambio></cambio>  --}}
+                    <cambio></cambio>
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <Caja-icon />
@@ -114,8 +114,46 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </p>
                                 </router-link>
                             </li>
-
                             @can('isAdmin')
+
+                            <li class="nav-item">
+                                <router-link :to="{ name : 'graficos'}" class="nav-link">
+                                    <i class="nav-icon fas fa-chart-bar red"></i>
+                                    <p>
+                                        Graficas
+                                    </p>
+                                </router-link>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <router-link :to="{ name : 'producto'}" class="nav-link">
+                                    <i class="nav-icon fas fa-box indigo"></i>
+                                    <p>
+                                        Productos
+                                    </p>
+                                </router-link>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <router-link :to="{ name : 'habitacion'}" class="nav-link">
+                                    <i class="nav-icon fas fa-door-open orange"></i>
+                                    <p>
+                                        Habitaciones
+                                    </p>
+                                </router-link>
+                            </li>
+
+                            <li class="nav-item">
+                                <router-link :to="{ name : 'caja'}" class="nav-link">
+                                    <i class="nav-icon fas fa-cash-register red"></i>
+                                    <p>
+                                        Cajas
+                                    </p>
+                                </router-link>
+                            </li>
+
                             <li class="nav-item has-treeview">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fa fa-cog green"></i>
@@ -125,12 +163,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <router-link :to="{ name : 'caja'}" class="nav-link">
-                                            <i class="nav-icon fas fa-cash-register red"></i>
-                                            <p>Cajas</p>
-                                        </router-link>
-                                    </li>
+
 
                                     <li class="nav-item">
                                         <router-link :to="{ name : 'user'}" class="nav-link">
@@ -202,23 +235,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </router-link>
                                     </li>
 
-                                    <li class="nav-item">
-                                        <router-link :to="{ name : 'producto'}" class="nav-link">
-                                            <i class="nav-icon fas fa-box indigo"></i>
-                                            <p>
-                                                Productos
-                                            </p>
-                                        </router-link>
-                                    </li>
 
-                                    <li class="nav-item">
-                                        <router-link :to="{ name : 'habitacion'}" class="nav-link">
-                                            <i class="nav-icon fas fa-door-open orange"></i>
-                                            <p>
-                                                Habitaciones
-                                            </p>
-                                        </router-link>
-                                    </li>
                                 </ul>
                             </li>
                             @endcan
@@ -246,7 +263,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </aside>
 
             <!-- content -->
-            <div class="content-wrapper">
+            <div class="content-wrapper cambiarColor">
                 <div class="container-fluid">
                     <vue-progress-bar></vue-progress-bar>
                     <transition name="component-fade" mode="out-in">
@@ -267,7 +284,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 ♣♠♥♦
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2020 <a href="https://adminlte.io">Sebastian Sangermano</a>.</strong> todos los derechos reservados.
+            <strong>Copyright &copy; 2020 <a href="#">Sebastian Sangermano</a>.</strong> todos los derechos reservados.
         </footer>
     </div>
     <!-- ./wrapper -->

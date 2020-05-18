@@ -5,13 +5,13 @@
                 <div class="card">
                     <div class="card-header">
                         <button
-                            class="btn-success float-right"
+                            class="btn-info text-white float-right "
                             @click="newModal"
                         >
                             Agregar usuario
                         </button>
                         <div
-                            class="input-group input-group-sm"
+                            class="input-group input-group-sm float-left pt-2"
                             style="width: 200px;"
                         >
                             <input
@@ -23,22 +23,17 @@
                                 v-model="search"
                                 @keydown="buscar()"
                             />
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
                         </div>
+                        <h5>Usuarios</h5>
                     </div>
 
                     <!-- /.card-header -->
-                    <div class="card-body table-responsive p-0">
+                    <div class="card-body table-responsive ">
                         <table
                             class="table table-bordered table-hover dataTable"
                         >
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Nombre</th>
                                     <th>Email</th>
                                     <th>Rol</th>
@@ -50,7 +45,6 @@
                             </thead>
                             <tbody>
                                 <tr v-for="item in users.data" :key="item.id">
-                                    <td>{{ item.id }}</td>
                                     <td>{{ item.name | capitalize }}</td>
                                     <td>{{ item.email }}</td>
                                     <td>{{ item.role | roleText }}</td>

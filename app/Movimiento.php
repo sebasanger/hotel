@@ -26,11 +26,6 @@ class Movimiento extends Model
 
     protected $table = 'Movimientos';
 
-    protected $casts = [
-        'created_at' => 'datetime:d-m-Y',
-        'updated_at' => 'datetime:d-m-Y'
-    ];
-
     protected $fillable = [
         'descripcion', 'monto', 'ingreso', 'egreso', 'users_id', 'modosPagos_id'
     ];

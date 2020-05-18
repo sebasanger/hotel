@@ -8,6 +8,7 @@ import * as carga from "./modules/carga.js";
 import * as caja from "./modules/caja.js";
 import * as pago from "./modules/pago.js";
 import * as consumo from "./modules/consumo.js";
+import * as movimiento from "./modules/movimiento.js";
 import * as producto from "./modules/producto.js";
 import * as notification from "./modules/notification.js";
 
@@ -23,7 +24,8 @@ export default new Vuex.Store({
         caja,
         pago,
         consumo,
-        producto
+        producto,
+        movimiento
     },
     state: {
         reservas: [],

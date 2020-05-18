@@ -33,16 +33,10 @@ class Consumo extends Model
     }
 
     protected $fillable = [
-        'cantidad', 'precio', 'pagado', 'productos_id', 'cajas_id', 'modosPagos_id','reservas_id'
+        'cantidad', 'precio', 'pagado', 'productos_id', 'cajas_id', 'modosPagos_id', 'reservas_id'
     ];
-
 
     use SoftDeletes;
 
     protected $table = 'Consumos';
-
-    protected $casts = [
-        'created_at' => 'datetime:d-m-Y',
-        'updated_at' => 'datetime:d-m-Y'
-    ];
 }

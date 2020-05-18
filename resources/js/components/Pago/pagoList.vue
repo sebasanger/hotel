@@ -1,48 +1,42 @@
 <template>
     <div>
         <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Pagos de la reserva</h3>
-                </div>
-                <div class="card-body table-responsive p-0">
-                    <table class="table table-hover table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Monto</th>
-                                <th>Modo de pago</th>
-                                <th>Encargado de la transaccion</th>
-                                <th>Fecha</th>
-                                <th>Eliminar</th>
-                            </tr>
-                        </thead>
+            <h5>Pagos de la reserva</h5>
 
-                        <tr
-                            v-for="pago in pagos"
-                            :key="pago.id"
-                            class="list-complete-item"
-                        >
-                            <td>{{ pago.monto }}</td>
-                            <td>
-                                {{ pago.modoPago }}
-                            </td>
-                            <td>
-                                {{ pago.name | capitalize }}
-                            </td>
-                            <td>
-                                {{ pago.created_at }}
-                            </td>
-                            <td class="text-center">
-                                <button
-                                    class="btn ml-2"
-                                    @click="deletePago(pago)"
-                                >
-                                    <i class="fa fa-trash red"></i>
-                                </button>
-                            </td>
+            <div class="card-body table-responsive p-0 text-black-50">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Monto</th>
+                            <th>Modo de pago</th>
+                            <th>Encargado de la transaccion</th>
+                            <th>Fecha</th>
+                            <th>Eliminar</th>
                         </tr>
-                    </table>
-                </div>
+                    </thead>
+
+                    <tr
+                        v-for="pago in pagos"
+                        :key="pago.id"
+                        class="list-complete-item"
+                    >
+                        <td>{{ pago.monto }}</td>
+                        <td>
+                            {{ pago.modoPago }}
+                        </td>
+                        <td>
+                            {{ pago.name | capitalize }}
+                        </td>
+                        <td>
+                            {{ pago.created_at | formatDateTime }}
+                        </td>
+                        <td class="text-center">
+                            <button class="btn ml-2" @click="deletePago(pago)">
+                                <i class="fa fa-trash red"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
@@ -89,7 +83,7 @@ export default {
 };
 </script>
 <style scoped>
-table {
-    text-align: center;
+.table tr th {
+    font-size: 15px;
 }
 </style>

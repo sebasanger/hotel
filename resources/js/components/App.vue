@@ -45,7 +45,7 @@ export default {
         this.$store.dispatch("carga/fetchAllMotivos");
         this.$store.dispatch("carga/fetchAllPreciosHabitaciones");
         this.$store.dispatch("carga/fetchAllClientes");
-        this.$store.dispatch("caja/fetchCajaActiva");
+        this.$store.dispatch("caja/getCajaActiva");
         this.$store.dispatch("carga/fetchAllModosPagos");
         this.$store.dispatch("carga/fetchAllFacturas");
         this.$store.dispatch("producto/fetchAllProductos");
@@ -62,5 +62,73 @@ export default {
 }
 table th {
     text-align: center;
+}
+
+.cambiarColor {
+    animation: colorchange 50s infinite;
+}
+@keyframes colorchange {
+    0% {
+        background: rgba(133, 240, 240, 0.1);
+    }
+    25% {
+        background: rgba(136, 123, 245, 0.1);
+    }
+    50% {
+        background: rgba(236, 108, 219, 0.1);
+    }
+    75% {
+        background: rgba(236, 83, 83, 0.1);
+    }
+    100% {
+        background: rgba(230, 191, 84, 0.1);
+    }
+}
+
+.Chart {
+    background: #212733;
+    border-radius: 15px;
+    box-shadow: 0px 2px 15px rgba(25, 25, 25, 0.27);
+    margin-bottom: 25px;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+.Chart h2 {
+    margin-top: 0;
+    padding: 15px 0;
+    color: rgba(255, 0, 0, 0.5);
+    border-bottom: 1px solid #323d54;
+}
+
+.card {
+    margin-top: 4px;
+    background: #343a40;
+    border-radius: 10px;
+    box-shadow: 1px 2px 15px rgba(25, 25, 25, 0.27);
+    margin-bottom: 25px;
+}
+
+.card h5 {
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+.card .table {
+    background: #ffffff;
+    text-align: center;
+}
+
+.card .card-header .btn-info {
+    margin-top: 5px;
+}
+
+.card thead tr th {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.minh-100 {
+    height: 100vh;
 }
 </style>

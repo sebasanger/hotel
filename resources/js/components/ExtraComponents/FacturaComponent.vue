@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div class="row">
-            <div class="col-md-10">
+        <div class="row justify-content-center minh-100">
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
                         <button
-                            class="btn-success float-right"
+                            class="btn-info text-white float-right"
                             @click="newModal"
                         >
                             Agregar nueva
@@ -19,7 +19,6 @@
                         >
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Tipo de factura</th>
                                     <th>Fecha de creacion</th>
                                     <th>fecha de modificacion</th>
@@ -31,7 +30,6 @@
                                     v-for="item in facturas.data"
                                     :key="item.id"
                                 >
-                                    <td>{{ item.id }}</td>
                                     <td>{{ item.tipoFactura | capitalize }}</td>
                                     <td>{{ item.created_at }}</td>
                                     <td>{{ item.updated_at }}</td>

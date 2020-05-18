@@ -2,133 +2,170 @@
     <div>
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header mb-3">
-                        <router-link
-                            :to="{ name: 'caja' }"
-                            class="btn btn-danger btn-sm"
-                            style="width: 100px"
-                        >
-                            <i class="fa fa-backspace mr-1 fa-lg"></i>Volver
-                        </router-link>
-                    </div>
-                    <div class="container-fluid">
-                        <div class="row justify-content-center">
-                            <!-- data de la caja -->
-                            <div class="col-md-5">
-                                <div class="card card-primary card-outline">
-                                    <div class="card-body box-profile">
-                                        <caja-data :caja="caja" />
-
-                                        <a
-                                            @click="cerrarCaja()"
-                                            style="margin-left: 30px"
-                                            class="btn btn-primary text-white col-5"
-                                            >Cerrar caja</a
-                                        >
-
-                                        <button
-                                            :disabled="
-                                                pagosCajas.length != 0 &&
-                                                    consumosCaja.length != 0
-                                            "
-                                            @click="deleteCaja(caja.id)"
-                                            class="btn btn-primary btn-danger text-white col-5 ml-2"
-                                        >
-                                            Eliminar
-                                        </button>
-                                    </div>
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <!-- data de la caja -->
+                        <div class="col-md-5">
+                            <div class="card card-primary card-outline">
+                                <div class="card-body box-profile">
+                                    <caja-data :caja="cajaShow" />
                                 </div>
                             </div>
-                            <!-- cierre data de la reserva -->
-
-                            <!-- data multiple -->
-                            <div class="col-md-12">
-                                <div class="card card-secondary">
-                                    <!--  para cambiar de tablas -->
-                                    <div class="card-header p-2">
-                                        <ul class="nav nav-pills">
-                                            <li class="nav-item">
-                                                <a
-                                                    class="nav-link active text-white"
-                                                    href="#settings"
-                                                    data-toggle="tab"
-                                                    >default</a
-                                                >
-                                            </li>
-                                            <li
-                                                class="nav-item"
-                                                v-if="pagosCajas.length >= 1"
-                                            >
-                                                <a
-                                                    class="nav-link text-white"
-                                                    href="#activity"
-                                                    data-toggle="tab"
-                                                    >Pagos</a
-                                                >
-                                            </li>
-                                            <li
-                                                class="nav-item"
-                                                v-if="consumosCaja.length >= 1"
-                                            >
-                                                <a
-                                                    class="nav-link text-white"
-                                                    href="#timeline"
-                                                    data-toggle="tab"
-                                                    >Consumos</a
-                                                >
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!-- cierre para cambiar de tablas -->
-                                    <!-- multiples tablas -->
-                                    <div class="card-body">
-                                        <!-- tabla default -->
-                                        <div class="tab-content">
-                                            <div
-                                                class="tab-pane active"
-                                                id="settings"
-                                            >
-                                                default data
-                                            </div>
-                                            <!-- cierre tabla default -->
-                                            <!--  tabla de pagos -->
-                                            <div
-                                                class="tab-pane"
-                                                id="activity"
-                                                v-if="pagosCajas.length >= 1"
-                                            >
-                                                <pago-list
-                                                    :pagos="pagosCajas"
-                                                />
-                                            </div>
-                                            <!-- cierre de tabla de pagos -->
-
-                                            <!-- tabla de consumos -->
-                                            <div
-                                                class="tab-pane"
-                                                id="timeline"
-                                                v-if="consumosCaja.length >= 1"
-                                            >
-                                                <consumo-list
-                                                    :consumos="consumosCaja"
-                                                />
-                                            </div>
-                                            <!-- cierre tabla de consumos -->
-                                        </div>
-                                    </div>
-                                    <!-- cierre de multiples tablas -->
-                                </div>
-                            </div>
-                            <!-- data multiple -->
                         </div>
+                        <!-- cierre data de la reserva -->
+
+                        <!-- data multiple -->
+                        <div
+                            class="col-md-12"
+                            v-if="
+                                ingresosCaja.length != 0 ||
+                                    egresosCaja.length != 0 ||
+                                    pagosCajas.length != 0 ||
+                                    consumosCaja.length != 0
+                            "
+                        >
+                            <div class="card card-dark">
+                                <!--  para cambiar de tablas -->
+                                <div class="card-header p-2">
+                                    <ul class="nav nav-pills">
+                                        <li
+                                            class="nav-item"
+                                            v-if="ingresosCaja.length >= 1"
+                                        >
+                                            <a
+                                                class="nav-link active text-white"
+                                                href="#ingresos"
+                                                data-toggle="tab"
+                                                >Ingresos</a
+                                            >
+                                        </li>
+                                        <li
+                                            class="nav-item"
+                                            v-if="egresosCaja.length >= 1"
+                                        >
+                                            <a
+                                                :class="[
+                                                    ingresosCaja.length == 0
+                                                        ? 'active'
+                                                        : ''
+                                                ]"
+                                                class="nav-link text-white"
+                                                href="#egresos"
+                                                data-toggle="tab"
+                                                >Egresos</a
+                                            >
+                                        </li>
+                                        <li
+                                            class="nav-item"
+                                            v-if="pagosCajas.length >= 1"
+                                        >
+                                            <a
+                                                :class="[
+                                                    ingresosCaja.length == 0 &&
+                                                    egresosCaja.length == 0
+                                                        ? 'active'
+                                                        : ''
+                                                ]"
+                                                class="nav-link text-white"
+                                                href="#pagos"
+                                                data-toggle="tab"
+                                                >Pagos</a
+                                            >
+                                        </li>
+                                        <li
+                                            class="nav-item"
+                                            v-if="consumosCaja.length >= 1"
+                                        >
+                                            <a
+                                                :class="[
+                                                    ingresosCaja.length == 0 &&
+                                                    egresosCaja.length == 0 &&
+                                                    pagosCajas.length == 0
+                                                        ? 'active'
+                                                        : ''
+                                                ]"
+                                                class="nav-link text-white"
+                                                href="#consumos"
+                                                data-toggle="tab"
+                                                >Consumos</a
+                                            >
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- cierre para cambiar de tablas -->
+                                <!-- multiples tablas -->
+                                <div class="card-body">
+                                    <div class="tab-content">
+                                        <!-- tabla ingresos -->
+                                        <div
+                                            class="tab-pane active"
+                                            id="ingresos"
+                                            v-if="ingresosCaja.length >= 1"
+                                        >
+                                            <movimiento-list
+                                                :movimientos="ingresosCaja"
+                                            />
+                                        </div>
+                                        <!-- cierre tabla de ingresos -->
+                                        <!-- tabla egresos -->
+                                        <div
+                                            class="tab-pane"
+                                            id="egresos"
+                                            :class="[
+                                                ingresosCaja.length == 0
+                                                    ? 'active'
+                                                    : ''
+                                            ]"
+                                            v-if="egresosCaja.length >= 1"
+                                        >
+                                            <movimiento-list
+                                                :movimientos="egresosCaja"
+                                            />
+                                        </div>
+                                        <!-- cierre tabla de egresos -->
+                                        <!--  tabla de pagos -->
+                                        <div
+                                            :class="[
+                                                ingresosCaja.length == 0 &&
+                                                egresosCaja.length == 0
+                                                    ? 'active'
+                                                    : ''
+                                            ]"
+                                            class="tab-pane"
+                                            id="pagos"
+                                            v-if="pagosCajas.length >= 1"
+                                        >
+                                            <pago-list :pagos="pagosCajas" />
+                                        </div>
+                                        <!-- cierre de tabla de pagos -->
+
+                                        <!-- tabla de consumos -->
+                                        <div
+                                            :class="[
+                                                ingresosCaja.length == 0 &&
+                                                egresosCaja.length == 0 &&
+                                                pagosCajas.length == 0
+                                                    ? 'active'
+                                                    : ''
+                                            ]"
+                                            class="tab-pane"
+                                            id="consumos"
+                                            v-if="consumosCaja.length >= 1"
+                                        >
+                                            <consumo-list
+                                                :consumos="consumosCaja"
+                                            />
+                                        </div>
+                                        <!-- cierre tabla de consumos -->
+                                    </div>
+                                </div>
+                                <!-- cierre de multiples tablas -->
+                            </div>
+                        </div>
+                        <!-- data multiple -->
                     </div>
                 </div>
             </div>
-            <modal-cerrar-caja
-                :formCerrarCaja="formCerrarCaja"
-                :cajaActiva="caja"
-            />
         </div>
     </div>
 </template>
@@ -139,36 +176,41 @@ import cajaData from "./cajaData.vue";
 import PagoList from "./pagoListCaja.vue";
 import ConsumoList from "./ConsumoListCaja.vue";
 import ModalCerrarCaja from "./CerarCajaModal.vue";
+import MovimientoList from "../Movimiento/MovimientoList.vue";
 export default {
     components: {
         cajaData,
         ConsumoList,
         PagoList,
-        ModalCerrarCaja
+        ModalCerrarCaja,
+        MovimientoList
     },
-    data() {
-        return {
-            formCerrarCaja: new Form({
-                montoCierre: 0
-            })
-        };
-    },
+
     computed: {
-        ...mapState("caja", ["caja"]),
+        ...mapState("caja", ["cajaShow"]),
+        ...mapState("movimiento", ["ingresosCaja", "egresosCaja"]),
+        ...mapState("carga", ["modosPagos"]),
         ...mapState("pago", ["pagosCajas"]),
         ...mapState("consumo", ["consumosCaja"])
     },
     created() {
-        this.$store
-            .dispatch("caja/fetchCajaActiva")
-            .then(res => {
-                this.$Progress.finish();
-            })
-            .catch(() => {
-                this.$Progress.fail();
-            });
+        this.cargar();
     },
     methods: {
+        async cargar() {
+            try {
+                this.$store
+                    .dispatch("caja/fetchCajaShow", this.$route.params.id)
+                    .then(res => {
+                        this.$Progress.finish();
+                    })
+                    .catch(() => {
+                        this.$Progress.fail();
+                    });
+            } catch (e) {
+                console.error(e);
+            }
+        },
         cerrarCaja() {
             this.formCerrarCaja.reset();
             $("#cerrarCaja").modal("show");
@@ -198,4 +240,8 @@ export default {
     }
 };
 </script>
-<style scoped></style>
+<style scoped>
+.card {
+    color: white;
+}
+</style>

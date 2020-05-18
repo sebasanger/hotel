@@ -4,14 +4,8 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <button
-                            class="btn-success float-right"
-                            @click="newModal"
-                        >
-                            Agregar producto
-                        </button>
                         <div
-                            class="input-group input-group-sm"
+                            class="input-group input-group-sm float-left pt-2"
                             style="width: 200px;"
                         >
                             <select
@@ -29,6 +23,13 @@
                                 >
                             </select>
                         </div>
+                        <button
+                            class="btn-info text-white float-right"
+                            @click="newModal"
+                        >
+                            Agregar producto
+                        </button>
+                        <h5>Productos</h5>
                     </div>
 
                     <!-- /.card-header -->
@@ -38,7 +39,6 @@
                         >
                             <thead>
                                 <tr>
-                                    <th>Id</th>
                                     <th>Producto</th>
                                     <th>Precio</th>
                                     <th>Stock</th>
@@ -56,16 +56,19 @@
                                     v-for="item in productos.data"
                                     :key="item.id"
                                 >
-                                    <td>{{ item.id }}</td>
                                     <td>{{ item.producto | capitalize }}</td>
                                     <td>{{ item.precio }}</td>
                                     <td>{{ item.stock }}</td>
                                     <td>{{ item.codigoProducto }}</td>
                                     <td>{{ item.marca | capitalize }}</td>
                                     <td>{{ item.categoria | capitalize }}</td>
-                                    <td>{{ item.created_at }}</td>
-                                    <td>{{ item.updated_at }}</td>
                                     <td>
+                                        {{ item.created_at | formatDate }}
+                                    </td>
+                                    <td>
+                                        {{ item.updated_at | formatDateTime }}
+                                    </td>
+                                    <td class="text-center">
                                         <button
                                             @click="ingresoModal(item.id)"
                                             class="btn"

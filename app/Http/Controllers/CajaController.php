@@ -6,6 +6,7 @@ use App\Caja;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CajaController extends Controller
 {
@@ -57,9 +58,9 @@ class CajaController extends Controller
         }
     }
 
-    public function show($id)
+    public function getCajaData($id)
     {
-        $caja = Caja::where('id',  $id)->leftJoin('users', 'cajas.users_id', '=', 'users.id')
+        $caja = Caja::where('cajas.id',  $id)->leftJoin('users', 'cajas.users_id', '=', 'users.id')
             ->select('cajas.*', 'users.name')->first();
 
         return $caja;
@@ -103,5 +104,20 @@ class CajaController extends Controller
         } else {
             return null;
         }
+    }
+
+    public function getSaldosDiarios()
+    {
+        $saldos = Caja::where('created_at', '>=', Carbon::now()->subWeeks(2))
+            ->select(
+                DB::raw('Date(created_at) as date'),
+                DB::raw('SUM(saldo) as "total"'),
+            )
+            ->groupBy(['date'])
+            ->orderBy('created_at', 'ASC')
+            ->get();
+
+
+        return $saldos;
     }
 }

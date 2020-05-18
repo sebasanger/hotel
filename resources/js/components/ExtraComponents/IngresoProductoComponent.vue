@@ -1,17 +1,11 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <button
-                            class="btn-success float-right"
-                            @click="newModal"
-                        >
-                            Agregar ingreso
-                        </button>
                         <div
-                            class="input-group input-group-sm"
+                            class="input-group input-group-sm float-left pt-2"
                             style="width: 250px;"
                         >
                             <select
@@ -29,6 +23,13 @@
                                 >
                             </select>
                         </div>
+                        <button
+                            class="btn-info text-white float-right"
+                            @click="newModal"
+                        >
+                            Agregar ingreso
+                        </button>
+                        <h5>Ingresos de productos</h5>
                     </div>
 
                     <!-- /.card-header -->
@@ -38,7 +39,6 @@
                         >
                             <thead>
                                 <tr>
-                                    <th>Id</th>
                                     <th>Producto</th>
                                     <th>Cantidad de ingreso</th>
                                     <th>Precio de compra</th>
@@ -54,16 +54,19 @@
                                     v-for="item in ingresosProductos.data"
                                     :key="item.id"
                                 >
-                                    <td>{{ item.id }}</td>
                                     <td>{{ item.producto }}</td>
-                                    <td>{{ item.cantidadIngreso }}</td>
+                                    <td class="text-center">
+                                        {{ item.cantidadIngreso }}
+                                    </td>
                                     <td>
                                         {{ item.precioCompra | capitalize }}
                                     </td>
                                     <td>{{ item.modoPago }}</td>
                                     <td>{{ item.name }}</td>
-                                    <td>{{ item.created_at }}</td>
-                                    <td>{{ item.updated_at }}</td>
+                                    <td>
+                                        {{ item.created_at | formatDateTime }}
+                                    </td>
+                                    <td>{{ item.updated_at | formatDate }}</td>
                                     <td>
                                         <button
                                             @click="editModal(item)"

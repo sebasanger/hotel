@@ -9,7 +9,7 @@
             <!-- /.card-header -->
             <div class="card-body">
                 <strong><i class="fas fa-user mr-1"></i> Nombre</strong>
-                <p class="text-muted">
+                <p>
                     {{ (cliente.nombre + " " + cliente.apellido) | capitalize }}
                 </p>
 
@@ -17,7 +17,7 @@
                     <hr />
                     <strong><i class="fas fa-passport mr-1"></i> DNI</strong>
 
-                    <p class="text-muted">
+                    <p>
                         {{ cliente.dni }}
                     </p>
                 </div>
@@ -29,7 +29,7 @@
                         factura</strong
                     >
 
-                    <p class="text-muted">
+                    <p>
                         {{ cliente.tipoFactura }}
                     </p>
                 </div>
@@ -38,7 +38,7 @@
                     <hr />
                     <strong><i class="fas fa-phone mr-1"></i> Celular</strong>
 
-                    <p class="text-muted">
+                    <p>
                         {{ cliente.celular }}
                     </p>
                 </div>
@@ -49,7 +49,7 @@
                         ><i class="fas fa-home mr-1"></i> Domicilio del
                         cliente</strong
                     >
-                    <p class="text-muted">
+                    <p>
                         {{ cliente.domicilio }}
                     </p>
                 </div>
@@ -60,7 +60,7 @@
                         ><i class="fas fa-briefcase mr-1"></i> Profecion del
                         cliente</strong
                     >
-                    <p class="text-muted">
+                    <p>
                         {{ cliente.profecion }}
                     </p>
                 </div>
@@ -119,6 +119,13 @@ p {
     font-size: medium;
 }
 table {
+    text-align: center;
+}
+.card {
+    color: white;
+}
+
+.card p {
     text-align: center;
 }
 </style>

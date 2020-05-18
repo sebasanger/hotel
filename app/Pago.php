@@ -31,13 +31,7 @@ class Pago extends Model
 
     protected $table = 'Pagos';
 
-    protected $casts = [
-        'created_at' => 'datetime:d-m-Y H:i',
-        'updated_at' => 'datetime:d-m-Y'
-    ];
-
     protected $fillable = [
         'reservas_id', 'users_id', 'modosPagos_id', 'monto', 'cajas_id'
     ];
-
 }

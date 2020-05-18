@@ -10,7 +10,7 @@ use App\PrecioHabitacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\DB;
 
 class ReservaController extends Controller
 {
@@ -242,4 +242,39 @@ class ReservaController extends Controller
             return false;
         }
     }
+    //graficas
+    public function getReservasMensuales($cantidad)
+    {
+        if ($cantidad) {
+            $meses = $cantidad + 1;
+        }
+
+        $reservas = Reserva::where('ingreso', '>=', Carbon::now()->subMonths($meses))
+            ->where('ingreso', '<=', Carbon::now()->addMonth(2))
+            ->groupBy('date', 'year')
+            ->orderBy('ingreso', 'ASC')
+            ->get(array(
+                DB::raw('YEAR(ingreso) as year'),
+                DB::raw('MONTH(ingreso) -1 as date'),
+                DB::raw('COUNT(*) as "cantidad"')
+            ));
+        return $reservas;
+    }
+
+
+    public function getReservasDiarias()
+    {
+        $saldos = Reserva::where('ingreso', '>=', Carbon::now()->subWeeks(2))
+            ->select(
+                DB::raw('Date(ingreso) as date'),
+                DB::raw('COUNT(*) as "cantidad"'),
+            )
+            ->groupBy('date')
+            ->orderBy('ingreso', 'ASC')
+            ->get();
+
+
+        return $saldos;
+    }
+    //graficas
 }

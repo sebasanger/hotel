@@ -23,7 +23,7 @@ class ModoPagoSeeder extends Seeder
 
         $modoPago = new ModoPago();
 
-        $modoPago->modoPago = "debito 1 cuota";
+        $modoPago->modoPago = "Debito 1 cuota";
         $modoPago->cantidadPagos = 1;
         $modoPago->descripcion = "debito a una cuota";
         $modoPago->created_at = now();
@@ -32,7 +32,7 @@ class ModoPagoSeeder extends Seeder
 
         $modoPago = new ModoPago();
 
-        $modoPago->modoPago = "credito 1 cuota";
+        $modoPago->modoPago = "credito a 1 cuota";
         $modoPago->cantidadPagos = 1;
         $modoPago->descripcion = "credito a una cuota";
         $modoPago->created_at = now();
@@ -41,36 +41,9 @@ class ModoPagoSeeder extends Seeder
 
         $modoPago = new ModoPago();
 
-        $modoPago->modoPago = "credito 3 cuotas";
+        $modoPago->modoPago = "Debito a 3 cuotas";
         $modoPago->cantidadPagos = 3;
         $modoPago->descripcion = "credito a tres cuotas";
-        $modoPago->created_at = now();
-
-        $modoPago->save();
-
-        $modoPago = new ModoPago();
-
-        $modoPago->modoPago = "credito 6 cuotas";
-        $modoPago->cantidadPagos = 6;
-        $modoPago->descripcion = "credito a seis cuotas";
-        $modoPago->created_at = now();
-
-        $modoPago->save();
-
-        $modoPago = new ModoPago();
-
-        $modoPago->modoPago = "credito 10 cuotas";
-        $modoPago->cantidadPagos = 10;
-        $modoPago->descripcion = "credito a diez cuotas";
-        $modoPago->created_at = now();
-
-        $modoPago->save();
-
-        $modoPago = new ModoPago();
-
-        $modoPago->modoPago = "credito 12 cuotas";
-        $modoPago->cantidadPagos = 12;
-        $modoPago->descripcion = "credito a doce cuotas";
         $modoPago->created_at = now();
 
         $modoPago->save();

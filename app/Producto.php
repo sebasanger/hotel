@@ -26,11 +26,6 @@ class Producto extends Model
 
     protected $table = 'Productos';
 
-    protected $casts = [
-        'created_at' => 'datetime:d-m-Y',
-        'updated_at' => 'datetime:d-m-Y'
-    ];
-
     protected $fillable = [
         'stock', 'producto', 'precio', 'codigoProducto', 'categorias_id', 'marcas_id'
     ];

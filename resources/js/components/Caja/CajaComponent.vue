@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div
-                            class="input-group input-group-sm"
+                            class="input-group input-group-sm float-right"
                             style="width: 250px;"
                         >
                             <select
@@ -23,6 +23,7 @@
                                 >
                             </select>
                         </div>
+                        <h5>Cajas</h5>
                     </div>
 
                     <!-- /.card-header -->
@@ -51,8 +52,11 @@
                                     <td class="text-center">
                                         {{ item.montoApertura }}
                                     </td>
-                                    <td>
-                                        {{ item.created_at }}
+                                    <td class="text-center">
+                                        {{
+                                            item.created_at
+                                                | formatDateTimeComplete
+                                        }}
                                     </td>
                                     <td
                                         class="text-center"
@@ -65,7 +69,7 @@
                                     >
                                         {{ item.montoCierre }}
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         {{ item.horaCierre }}
                                     </td>
                                     <td
@@ -80,6 +84,7 @@
                                     </td>
                                     <td class="text-center">
                                         <button
+                                            v-show="item.cajaActiva != 1"
                                             class="btn"
                                             @click="cajaShow(item.id)"
                                         >

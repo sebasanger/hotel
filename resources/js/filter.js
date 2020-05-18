@@ -56,9 +56,25 @@ Vue.filter("single", function(value) {
 import moment from "moment"; //Import Moment
 
 Vue.filter("formatDate", function(date) {
-    return moment(date).format("DD/MM/YYYY");
+    return moment(date)
+        .locale("es")
+        .format("L");
 });
 
-Vue.filter("fromatDateTime", function(date) {
-    return moment(date).format("DD/MM/YYYY hh:ss");
+Vue.filter("formatDateComplete", function(date) {
+    return moment(date)
+        .locale("es")
+        .format("LL");
+});
+
+Vue.filter("formatDateTime", function(date) {
+    return moment(date)
+        .locale("es")
+        .format("LLL");
+});
+
+Vue.filter("formatDateTimeComplete", function(date) {
+    return moment(date)
+        .locale("es")
+        .format("LLLL");
 });

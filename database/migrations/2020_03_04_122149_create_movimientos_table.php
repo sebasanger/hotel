@@ -15,23 +15,22 @@ class CreateMovimientosTable extends Migration
     {
         Schema::create('movimientos', function (Blueprint $table) {
             $table->id();
-            $table->string('descripcion',150);
+            $table->string('descripcion', 150);
             $table->double('monto');
-            $table->boolean('ingreso');
-            $table->boolean('egreso');
+            $table->boolean('tipo')->default(1);
 
             $table->unsignedSmallInteger('users_id');
             $table->unsignedBigInteger('cajas_id');
             $table->unsignedSmallInteger('modosPagos_id');
 
             $table->foreign('modosPagos_id')
-            ->references('id')->on('modosPagos');
+                ->references('id')->on('modosPagos');
 
             $table->foreign('cajas_id')
-            ->references('id')->on('cajas');
+                ->references('id')->on('cajas');
 
             $table->foreign('users_id')
-            ->references('id')->on('users');
+                ->references('id')->on('users');
 
             $table->timestamps();
             $table->softDeletes();

@@ -1,18 +1,28 @@
 <template>
     <div>
         <div class="text-center"></div>
-        <h4 class="profile-username text-center">
+        <h3 class="profile-username text-center">
             Datos de la caja
-        </h4>
+        </h3>
 
         <ul class="list-group list-group-unbordered mb-3">
             <li class="list-group-item">
                 <b>Fecha y hora de apertura:</b>
-                <a class="float-right"> {{ caja.created_at }}</a>
+                <a class="float-right">
+                    {{ caja.created_at | formatDateTimeComplete }}</a
+                >
+            </li>
+            <li class="list-group-item" v-show="caja.horaCierre">
+                <b>Fecha y hora de cierre:</b>
+                <a class="float-right"> {{ caja.horaCierre }}</a>
             </li>
             <li class="list-group-item">
                 <b>Monto de apertura:</b>
                 <a class="float-right">{{ caja.montoApertura }}</a>
+            </li>
+            <li class="list-group-item" v-show="caja.montoCierre">
+                <b>Monto de apertura:</b>
+                <a class="float-right">{{ caja.montoCierre }}</a>
             </li>
             <li class="list-group-item">
                 <b>Encargado:</b>
@@ -31,10 +41,20 @@ export default {
 };
 </script>
 <style scoped>
-b {
+p {
     font-size: medium;
 }
-a {
-    font-size: medium;
+table {
+    text-align: center;
+}
+.card {
+    color: white;
+}
+
+.card p {
+    text-align: center;
+}
+.list-group-item {
+    background: rgba(52, 58, 64, 1);
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
                         <button
-                            class="btn-success float-right"
+                            class="btn-info text-white float-right"
                             @click="newModal"
                         >
                             Agregar habitacion
@@ -13,7 +13,6 @@
                         <h5>Habitaciones</h5>
                     </div>
 
-                    <!-- /.card-header -->
                     <div class="card-body table-responsive p-0">
                         <table
                             class="table table-bordered table-hover dataTable"

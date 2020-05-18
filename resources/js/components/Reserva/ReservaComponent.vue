@@ -1,29 +1,23 @@
 <template>
     <div>
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header"></div>
-
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <GSTC
-                            :config="config"
-                            @state="onState"
-                            @click="console.log(config)"
-                        />
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
+                <div class="card ">
+                    <div class="card-header">
                         <button
-                            class="btn-success float-right"
+                            class="btn-info float-right text-white"
                             @click="newModal"
                         >
                             Agregar reserva
                         </button>
+                        <h5>Reservas</h5>
                     </div>
+                    <GSTC
+                        :config="config"
+                        @state="onState"
+                        @click="console.log(config)"
+                    />
                 </div>
-                <!-- /.card -->
             </div>
         </div>
         <reserva-modal
@@ -211,7 +205,7 @@ export default {
                                     12 * 24 * 60 * 60 * 1000,
                                 end:
                                     new Date().getTime() +
-                                    14 * 24 * 60 * 60 * 1000
+                                    20 * 24 * 60 * 60 * 1000
                             }
                         }
                     }
@@ -240,9 +234,13 @@ export default {
     },
 
     methods: {
-        cargar() {
-            this.config.list.rows = this.habitaciones;
-            this.config.chart.items = this.elementos;
+        async cargar() {
+            try {
+                this.config.list.rows = this.habitaciones;
+                this.config.chart.items = this.elementos;
+            } catch (e) {
+                console.error(e);
+            }
         },
         newModal() {
             this.editMode = false;

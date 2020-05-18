@@ -4,32 +4,27 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <button
-                            class="btn-success float-right"
-                            @click="newModal"
-                        >
-                            Agregar cliente
-                        </button>
-
                         <div
-                            class="input-group input-group-sm"
+                            class="input-group input-group-sm float-left pt-2"
                             style="width: 200px;"
                         >
                             <input
                                 autocomplete="off"
                                 type="text"
                                 name="table_search"
-                                class="form-control float-lg-left"
+                                class="form-control "
                                 placeholder="Nombre, apellido, email..."
                                 v-model="search"
                                 @keydown="buscar()"
                             />
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
                         </div>
+                        <button
+                            class="btn-info float-right text-white"
+                            @click="newModal"
+                        >
+                            Agregar cliente
+                        </button>
+                        <h5>Clientes</h5>
                     </div>
 
                     <!-- /.card-header -->
@@ -111,8 +106,9 @@
                     <!-- /.card-body -->
                     <div class="card-footer">
                         <pagination
+                            class="float-left"
                             :data="cliente.clientes"
-                            :limit="3"
+                            :limit="2"
                             @pagination-change-page="getResults"
                         ></pagination>
                     </div>

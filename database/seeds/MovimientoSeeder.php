@@ -12,16 +12,15 @@ class MovimientoSeeder extends Seeder
      */
     public function run()
     {
-        
+
         $movimiento = new Movimiento();
-        $movimiento->descripcion = "luz";
+        $movimiento->descripcion = "alquiler";
         $movimiento->monto = 1500;
         $movimiento->cajas_id = 1;
-        $movimiento->ingreso = 0;
-        $movimiento->egreso = 1;
+        $movimiento->tipo = 1;
         $movimiento->users_id = 1;
         $movimiento->modosPagos_id = 1;
-        $movimiento->created_at = now();
+        $movimiento->created_at = now()->subDays(5);
 
         $movimiento->save();
 
@@ -29,11 +28,10 @@ class MovimientoSeeder extends Seeder
         $movimiento->descripcion = "agua";
         $movimiento->monto = 2500;
         $movimiento->cajas_id = 1;
-        $movimiento->ingreso = 0;
-        $movimiento->egreso = 1;
+        $movimiento->tipo = 0;
         $movimiento->users_id = 1;
         $movimiento->modosPagos_id = 1;
-        $movimiento->created_at = now();
+        $movimiento->created_at = now()->subDays(5);
 
         $movimiento->save();
 
@@ -41,11 +39,10 @@ class MovimientoSeeder extends Seeder
         $movimiento->descripcion = "canal";
         $movimiento->monto = 2000;
         $movimiento->cajas_id = 2;
-        $movimiento->ingreso = 0;
-        $movimiento->egreso = 1;
+        $movimiento->tipo = 0;
         $movimiento->users_id = 2;
         $movimiento->modosPagos_id = 1;
-        $movimiento->created_at = now();
+        $movimiento->created_at = now()->subDays(4);
 
         $movimiento->save();
 
@@ -53,11 +50,10 @@ class MovimientoSeeder extends Seeder
         $movimiento->descripcion = "limpieza de ropa";
         $movimiento->monto = 80;
         $movimiento->cajas_id = 1;
-        $movimiento->ingreso = 1;
-        $movimiento->egreso = 0;
+        $movimiento->tipo = 0;
         $movimiento->users_id = 3;
         $movimiento->modosPagos_id = 1;
-        $movimiento->created_at = now();
+        $movimiento->created_at = now()->subDays(3);
 
         $movimiento->save();
 
@@ -65,11 +61,10 @@ class MovimientoSeeder extends Seeder
         $movimiento->descripcion = "limpieza de ropa";
         $movimiento->monto = 100;
         $movimiento->cajas_id = 1;
-        $movimiento->ingreso = 1;
-        $movimiento->egreso = 0;
+        $movimiento->tipo = 0;
         $movimiento->users_id = 3;
         $movimiento->modosPagos_id = 1;
-        $movimiento->created_at = now();
+        $movimiento->created_at = now()->subDays(1);
 
         $movimiento->save();
 
@@ -77,11 +72,10 @@ class MovimientoSeeder extends Seeder
         $movimiento->descripcion = "limpieza de ropa";
         $movimiento->monto = 150;
         $movimiento->cajas_id = 1;
-        $movimiento->ingreso = 1;
-        $movimiento->egreso = 0;
+        $movimiento->tipo = 0;
         $movimiento->users_id = 4;
         $movimiento->modosPagos_id = 1;
-        $movimiento->created_at = now();
+        $movimiento->created_at = now()->subDays(1);
 
         $movimiento->save();
 
@@ -89,11 +83,10 @@ class MovimientoSeeder extends Seeder
         $movimiento->descripcion = "mancharon una toalla";
         $movimiento->monto = 120;
         $movimiento->cajas_id = 1;
-        $movimiento->ingreso = 1;
-        $movimiento->egreso = 0;
+        $movimiento->tipo = 1;
         $movimiento->users_id = 4;
         $movimiento->modosPagos_id = 1;
-        $movimiento->created_at = now();
+        $movimiento->created_at = now()->subDays(1);
 
         $movimiento->save();
 
@@ -101,8 +94,7 @@ class MovimientoSeeder extends Seeder
         $movimiento->descripcion = "pago de la antena";
         $movimiento->monto = 5000;
         $movimiento->cajas_id = 1;
-        $movimiento->ingreso = 1;
-        $movimiento->egreso = 0;
+        $movimiento->tipo = 1;
         $movimiento->users_id = 1;
         $movimiento->modosPagos_id = 2;
         $movimiento->created_at = now();

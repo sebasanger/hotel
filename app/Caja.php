@@ -32,9 +32,8 @@ class Caja extends Model
     protected $table = 'Cajas';
 
     protected $casts = [
-        'created_at' => 'datetime:d/m/Y H:i',
-        'updated_at' => 'datetime:d/m/Y H:i',
         'horaCierre' => 'datetime:d/m/Y H:i',
+        'cajaActiva' => 'boolean',
     ];
 
     protected $fillable = [

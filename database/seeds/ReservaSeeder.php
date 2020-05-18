@@ -162,5 +162,170 @@ class ReservaSeeder extends Seeder
         $reserva->created_at = now()->addDays(3);
 
         $reserva->save();
+
+        $reserva = new Reserva();
+        $reserva->huespedes = 2;
+        $reserva->precio = 2400;
+        $reserva->ingreso = "2020/03/20";
+        $reserva->egreso = "2020/03/23";
+        $reserva->estado = 0;
+        $reserva->clientes_id = 20;
+        $reserva->preciosHabitaciones_id = 4;
+        $reserva->habitaciones_id = 14;
+        $reserva->users_id  = 2;
+        $reserva->color = 'green';
+        $reserva->created_at = now();
+
+        $reserva->save();
+
+        $reserva = new Reserva();
+        $reserva->huespedes = 3;
+        $reserva->precio = 2400;
+        $reserva->ingreso = "2020/02/15";
+        $reserva->egreso = "2020/02/18";
+        $reserva->estado = 0;
+        $reserva->clientes_id = 28;
+        $reserva->preciosHabitaciones_id = 2;
+        $reserva->habitaciones_id = 11;
+        $reserva->users_id  = 1;
+        $reserva->color = 'green';
+        $reserva->created_at = now();
+
+        $reserva->save();
+
+        $reserva = new Reserva();
+        $reserva->huespedes = 3;
+        $reserva->precio = 5000;
+        $reserva->ingreso = "2020/01/10";
+        $reserva->egreso = "2020/01/12";
+        $reserva->estado = 0;
+        $reserva->clientes_id = 28;
+        $reserva->preciosHabitaciones_id = 2;
+        $reserva->habitaciones_id = 8;
+        $reserva->users_id  = 1;
+        $reserva->color = 'green';
+        $reserva->created_at = now();
+
+        $reserva->save();
+
+        $reserva = new Reserva();
+        $reserva->huespedes = 3;
+        $reserva->precio = 1500;
+        $reserva->ingreso = "2019/11/15";
+        $reserva->egreso = "2019/11/18";
+        $reserva->estado = 0;
+        $reserva->clientes_id = 50;
+        $reserva->preciosHabitaciones_id = 3;
+        $reserva->habitaciones_id = 2;
+        $reserva->users_id  = 2;
+        $reserva->color = 'green';
+        $reserva->created_at = now();
+
+        $reserva->save();
+
+        $reserva = new Reserva();
+        $reserva->huespedes = 3;
+        $reserva->precio = 1500;
+        $reserva->ingreso = "2019/12/03";
+        $reserva->egreso = "2019/12/05";
+        $reserva->estado = 0;
+        $reserva->clientes_id = 29;
+        $reserva->preciosHabitaciones_id = 4;
+        $reserva->habitaciones_id = 2;
+        $reserva->users_id  = 2;
+        $reserva->color = 'green';
+        $reserva->created_at = now();
+
+        $reserva->save();
+
+        $reserva = new Reserva();
+        $reserva->huespedes = 3;
+        $reserva->precio = 1500;
+        $reserva->ingreso = "2019/10/3";
+        $reserva->egreso = "2019/10/6";
+        $reserva->estado = 0;
+        $reserva->clientes_id = 55;
+        $reserva->preciosHabitaciones_id = 2;
+        $reserva->habitaciones_id = 2;
+        $reserva->users_id  = 2;
+        $reserva->color = 'green';
+        $reserva->created_at = now();
+
+        $reserva->save();
+
+        $reserva = new Reserva();
+        $reserva->huespedes = 3;
+        $reserva->precio = 1500;
+        $reserva->ingreso = "2020/04/15";
+        $reserva->egreso = "2020/04/18";
+        $reserva->estado = 0;
+        $reserva->clientes_id = 50;
+        $reserva->preciosHabitaciones_id = 3;
+        $reserva->habitaciones_id = 2;
+        $reserva->users_id  = 2;
+        $reserva->color = 'green';
+        $reserva->created_at = now();
+
+        $reserva->save();
+
+        $reserva = new Reserva();
+        $reserva->huespedes = 3;
+        $reserva->precio = 1500;
+        $reserva->ingreso = "2020/04/20";
+        $reserva->egreso = "2020/04/23";
+        $reserva->estado = 0;
+        $reserva->clientes_id = 4;
+        $reserva->preciosHabitaciones_id = 4;
+        $reserva->habitaciones_id = 4;
+        $reserva->users_id  = 1;
+        $reserva->color = 'green';
+        $reserva->created_at = now();
+
+        $reserva->save();
+
+        $reserva = new Reserva();
+        $reserva->huespedes = 3;
+        $reserva->precio = 1500;
+        $reserva->ingreso = "2020/02/25";
+        $reserva->egreso = "2020/02/26";
+        $reserva->estado = 0;
+        $reserva->clientes_id = 57;
+        $reserva->preciosHabitaciones_id = 2;
+        $reserva->habitaciones_id = 7;
+        $reserva->users_id  = 1;
+        $reserva->color = 'green';
+        $reserva->created_at = now();
+
+        $reserva->save();
+
+        $reserva = new Reserva();
+        $reserva->huespedes = 3;
+        $reserva->precio = 1500;
+        $reserva->ingreso = "2020/02/5";
+        $reserva->egreso = "2020/02/6";
+        $reserva->estado = 0;
+        $reserva->clientes_id = 57;
+        $reserva->preciosHabitaciones_id = 2;
+        $reserva->habitaciones_id = 6;
+        $reserva->users_id  = 1;
+        $reserva->color = 'green';
+        $reserva->created_at = now();
+
+        $reserva->save();
+
+        $reserva = new Reserva();
+        $reserva->huespedes = 3;
+        $reserva->precio = 1500;
+        $reserva->ingreso = "2020/05/5";
+        $reserva->egreso = "2020/05/6";
+        $reserva->estado = 0;
+        $reserva->clientes_id = 57;
+        $reserva->preciosHabitaciones_id = 2;
+        $reserva->habitaciones_id = 9;
+        $reserva->users_id  = 1;
+        $reserva->color = 'green';
+        $reserva->created_at = now();
+
+        $reserva->save();
     }
 }

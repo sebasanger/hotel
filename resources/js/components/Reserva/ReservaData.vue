@@ -5,8 +5,8 @@
             Datos de la reserva
         </h4>
 
-        <ul class="list-group list-group-unbordered mb-3">
-            <li class="list-group-item">
+        <ul class="list-group list-group-unbordered mb-3 ">
+            <li class="list-group-item ">
                 <b>Numero de la habitacion:</b>
                 <a class="float-right"> {{ reserva.numeroHabitacion }}</a>
             </li>
@@ -14,25 +14,50 @@
                 <b>Precio por dia:</b>
                 <a class="float-right">{{ reserva.precio }}</a>
             </li>
-            <li class="list-group-item">
+            <li
+                class="list-group-item"
+                :class="[
+                    reserva.pagado >= reserva.totalPagar
+                        ? 'text-green'
+                        : 'text-red'
+                ]"
+            >
                 <b>Total a pagar:</b>
                 <a class="float-right"> {{ reserva.totalPagar }}</a>
             </li>
-            <li class="list-group-item">
+            <li
+                class="list-group-item"
+                :class="[
+                    reserva.pagado >= reserva.totalPagar
+                        ? 'text-green'
+                        : 'text-red'
+                ]"
+            >
                 <b>Total pagado:</b>
                 <a class="float-right"> {{ reserva.pagado }}</a>
             </li>
-            <li class="list-group-item">
+            <li
+                class="list-group-item"
+                :class="[
+                    reserva.pagado >= reserva.totalPagar
+                        ? 'text-green'
+                        : 'text-red'
+                ]"
+            >
                 <b>Falta pagar:</b>
                 <a class="float-right"> {{ faltante }}</a>
             </li>
             <li class="list-group-item">
                 <b>Ingreso:</b>
-                <a class="float-right"> {{ reserva.ingreso | formatDate }}</a>
+                <a class="float-right">
+                    {{ reserva.ingreso | formatDateComplete }}</a
+                >
             </li>
             <li class="list-group-item">
                 <b>Egreso:</b>
-                <a class="float-right"> {{ reserva.egreso | formatDate }}</a>
+                <a class="float-right">
+                    {{ reserva.egreso | formatDateComplete }}</a
+                >
             </li>
             <li class="list-group-item">
                 <b>Dias totales:</b>
@@ -74,10 +99,20 @@ export default {
 };
 </script>
 <style scoped>
-b {
+p {
     font-size: medium;
 }
-a {
-    font-size: medium;
+table {
+    text-align: center;
+}
+.card {
+    color: white;
+}
+
+.card p {
+    text-align: center;
+}
+.list-group-item {
+    background: rgba(52, 58, 64, 1);
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <li class="nav-item dropdown" v-if="caja.cajaActiva">
+        <li class="nav-item dropdown" v-if="cajaActiva.cajaActiva">
             <router-link
                 class="nav-link"
                 data-toggle="dropdown"
@@ -33,7 +33,7 @@ export default {
         ModalAbrirCaja
     },
     computed: {
-        ...mapState("caja", ["caja"])
+        ...mapState("caja", ["cajaActiva"])
     },
     data() {
         return {

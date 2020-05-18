@@ -1,65 +1,58 @@
 <template>
     <div>
         <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Consumos de la reserva</h3>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
-                    <table class="table table-hover table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Producto</th>
-                                <th>Modo de pago</th>
-                                <th>Precio</th>
-                                <th>Cantidad</th>
-                                <th>Total</th>
-                                <th>Encargado de la transaccion</th>
-                                <th>Fecha</th>
-                                <th>Eliminar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr
-                                v-for="consumo in consumos"
-                                :key="consumo.id"
-                                class="list-complete-item"
-                            >
-                                <td>{{ consumo.producto }}</td>
-                                <td>
-                                    {{ consumo.modoPago }}
-                                </td>
-                                <td>
-                                    {{ consumo.precio }}
-                                </td>
-                                <td>
-                                    {{ consumo.cantidad }}
-                                </td>
-                                <td>
-                                    {{ consumo.precio * consumo.cantidad }}
-                                </td>
-                                <td>
-                                    {{ consumo.name | capitalize }}
-                                </td>
-                                <td>
-                                    {{ consumo.created_at }}
-                                </td>
-                                <td class="text-center">
-                                    <button
-                                        class="btn ml-2"
-                                        @click="deleteConsumo(consumo)"
-                                    >
-                                        <i class="fa fa-trash red"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.card-body -->
+            <h5>Consumos de la reserva</h5>
+            <div class="card-body table-responsive p-0 text-black-50">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Modo de pago</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Total</th>
+                            <th>Encargado de la transaccion</th>
+                            <th>Fecha</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            v-for="consumo in consumos"
+                            :key="consumo.id"
+                            class="list-complete-item"
+                        >
+                            <td>{{ consumo.producto }}</td>
+                            <td>
+                                {{ consumo.modoPago }}
+                            </td>
+                            <td>
+                                {{ consumo.precio }}
+                            </td>
+                            <td>
+                                {{ consumo.cantidad }}
+                            </td>
+                            <td>
+                                {{ consumo.precio * consumo.cantidad }}
+                            </td>
+                            <td>
+                                {{ consumo.name | capitalize }}
+                            </td>
+                            <td>
+                                {{ consumo.created_at | formatDateTime }}
+                            </td>
+                            <td class="text-center">
+                                <button
+                                    class="btn ml-2"
+                                    @click="deleteConsumo(consumo)"
+                                >
+                                    <i class="fa fa-trash red"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <!-- /.card -->
         </div>
     </div>
 </template>
@@ -96,7 +89,7 @@ export default {
 };
 </script>
 <style scoped>
-table {
-    text-align: center;
+.table tr th {
+    font-size: 15px;
 }
 </style>
