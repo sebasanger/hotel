@@ -6,7 +6,11 @@ import reservashow from "./components/Reserva/reservaShow.vue";
 
 import Reserva from "./components/Reserva/ReservaComponent.vue";
 
-import Graficos from "./components/Grafico/Graficos.vue";
+import GraficosReservas from "./components/Grafico/GraficosReserva/Reservas.vue";
+
+import GraficosProductos from "./components/Grafico/GraficosProducto/Productos.vue";
+
+import GraficosBalance from "./components/Grafico/GraficosBalance/Balances.vue";
 
 import cajaActiva from "./components/Caja/CajaActiva.vue";
 
@@ -72,9 +76,21 @@ export default new Router({
         },
 
         {
-            path: "/graficas",
-            component: Graficos,
-            name: "graficos"
+            path: "/graficas/reservas",
+            component: GraficosReservas,
+            name: "graficosReserva"
+        },
+
+        {
+            path: "/graficas/productos",
+            component: GraficosProductos,
+            name: "graficosProducto"
+        },
+
+        {
+            path: "/graficas/balances",
+            component: GraficosBalance,
+            name: "graficosBalance"
         },
 
         {

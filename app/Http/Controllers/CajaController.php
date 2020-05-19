@@ -106,14 +106,30 @@ class CajaController extends Controller
         }
     }
 
-    public function getSaldosDiarios()
+    public function getSaldosDiarios($year, $mes)
     {
-        $saldos = Caja::where('created_at', '>=', Carbon::now()->subWeeks(2))
+        $saldos = Caja::where('created_at', '>=', Carbon::now()->year($year)->month($mes)->startOfMonth())
+            ->where('created_at', '<=', Carbon::now()->year($year)->month($mes)->endOfMonth())
             ->select(
                 DB::raw('Date(created_at) as date'),
-                DB::raw('SUM(saldo) as "total"'),
+                DB::raw('SUM(saldo - montoApertura) as "total"'),
             )
             ->groupBy(['date'])
+            ->orderBy('created_at', 'ASC')
+            ->get();
+
+        return $saldos;
+    }
+
+    public function getSaldosMensuales($año)
+    {
+        $saldos = Caja::where('created_at', '>=', Carbon::now()->year($año)->startOfYear())
+            ->where('created_at', '<=', Carbon::now()->year($año)->endOfYear())
+            ->select(
+                DB::raw('YEAR(created_at) as  year, MONTH(created_at) as month'),
+                DB::raw('SUM(saldo - montoApertura) as "total"'),
+            )
+            ->groupBy(['month', 'year'])
             ->orderBy('created_at', 'ASC')
             ->get();
 

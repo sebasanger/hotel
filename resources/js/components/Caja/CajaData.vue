@@ -32,6 +32,12 @@
                 <b>Saldo:</b>
                 <a class="float-right"> {{ caja.saldo }}</a>
             </li>
+            <li class="list-group-item">
+                <b>Ganancia:</b>
+                <a class="float-right">
+                    {{ caja.saldo - caja.montoApertura }}</a
+                >
+            </li>
         </ul>
     </div>
 </template>

@@ -92,7 +92,7 @@
                                                 class="nav-link text-white"
                                                 :class="[
                                                     consumosReserva.length == 1
-                                                        ? active
+                                                        ? 'active'
                                                         : ''
                                                 ]"
                                                 href="#consumos"

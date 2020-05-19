@@ -32,11 +32,12 @@ Route::middleware(['auth'])->group(function () {
 
     //rutas para graficas
     Route::get('getIngresosDiarios', 'MovimientoController@getIngresosDiarios');
-    Route::get('getSaldosDiarios', 'CajaController@getSaldosDiarios');
+    Route::get('getSaldosDiarios/{year}/{month}', 'CajaController@getSaldosDiarios');
+    Route::get('getSaldosMensuales/{year}', 'CajaController@getSaldosMensuales');
     Route::get('getIngresosMensuales/{meses?}', 'MovimientoController@getIngresosMensuales');
 
-    Route::get('getReservasDiarias', 'ReservaController@getReservasDiarias');
-    Route::get('getReservasMensuales/{meses?}', 'ReservaController@getReservasMensuales');
+    Route::get('getReservasDiarias/{year}/{month}', 'ReservaController@getReservasDiarias');
+    Route::get('getReservasMensuales/{year}', 'ReservaController@getReservasMensuales');
     //rutas para graficas
 
     //rutas de caja

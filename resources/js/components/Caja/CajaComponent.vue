@@ -39,6 +39,7 @@
                                     <th>Monto de cierre</th>
                                     <th>Fecha de cierre</th>
                                     <th>Saldo</th>
+                                    <th>Ganancia</th>
                                     <th>Detalles</th>
                                 </tr>
                             </thead>
@@ -81,6 +82,16 @@
                                         ]"
                                     >
                                         {{ item.saldo }}
+                                    </td>
+                                    <td
+                                        class="text-center "
+                                        :class="[
+                                            item.saldo - item.montoApertura >= 0
+                                                ? 'text-success'
+                                                : 'text-danger'
+                                        ]"
+                                    >
+                                        {{ item.saldo - item.montoApertura }}
                                     </td>
                                     <td class="text-center">
                                         <button

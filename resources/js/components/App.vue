@@ -99,6 +99,16 @@ table th {
     border-bottom: 1px solid #323d54;
 }
 
+.select-chart {
+    float: left;
+    padding-top: 15px;
+    padding-left: 20px;
+}
+.select-chart label {
+    color: red;
+    font-size: 20px;
+}
+
 .card {
     margin-top: 4px;
     background: #343a40;

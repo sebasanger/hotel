@@ -14,6 +14,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <title>Hotel | Sistema de gestion</title>
 
+    <link rel="icon" href="images/icono.png" type="image/png" />
     <link rel="stylesheet" href="/css/app.css">
 
 </head>
@@ -117,16 +118,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             @can('isAdmin')
 
                             <li class="nav-item">
-                                <router-link :to="{ name : 'graficos'}" class="nav-link">
-                                    <i class="nav-icon fas fa-chart-bar red"></i>
-                                    <p>
-                                        Graficas
-                                    </p>
-                                </router-link>
-                            </li>
-
-
-                            <li class="nav-item">
                                 <router-link :to="{ name : 'producto'}" class="nav-link">
                                     <i class="nav-icon fas fa-box indigo"></i>
                                     <p>
@@ -152,6 +143,45 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         Cajas
                                     </p>
                                 </router-link>
+                            </li>
+
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-chart-area blue"></i>
+                                    <p>
+                                        Graficas
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+
+
+                                    <li class="nav-item">
+                                        <router-link :to="{ name : 'graficosBalance'}" class="nav-link">
+                                            <i class="nav-icon fa fa-chart-line red"></i>
+                                            <p>Graficas de balance</p>
+                                        </router-link>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <router-link :to="{ name : 'graficosReserva'}" class="nav-link">
+                                            <i class="nav-icon fa fa-chart-pie teal"></i>
+                                            <p>
+                                                Graficas de las reservas
+                                            </p>
+                                        </router-link>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <router-link :to="{ name : 'graficosProducto'}" class="nav-link">
+                                            <i class="nav-icon fa fa-chart-bar yellow"></i>
+                                            <p>
+                                                Graficas de los productos
+                                            </p>
+                                        </router-link>
+                                    </li>
+
+                                </ul>
                             </li>
 
                             <li class="nav-item has-treeview">

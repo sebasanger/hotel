@@ -243,38 +243,35 @@ class ReservaController extends Controller
         }
     }
     //graficas
-    public function getReservasMensuales($cantidad)
+    public function getReservasMensuales($año)
     {
-        if ($cantidad) {
-            $meses = $cantidad + 1;
-        }
-
-        $reservas = Reserva::where('ingreso', '>=', Carbon::now()->subMonths($meses))
-            ->where('ingreso', '<=', Carbon::now()->addMonth(2))
-            ->groupBy('date', 'year')
-            ->orderBy('ingreso', 'ASC')
-            ->get(array(
-                DB::raw('YEAR(ingreso) as year'),
-                DB::raw('MONTH(ingreso) -1 as date'),
-                DB::raw('COUNT(*) as "cantidad"')
-            ));
-        return $reservas;
-    }
-
-
-    public function getReservasDiarias()
-    {
-        $saldos = Reserva::where('ingreso', '>=', Carbon::now()->subWeeks(2))
+        $reservas = Reserva::where('ingreso', '>=', Carbon::now()->year($año)->startOfYear())
+            ->where('ingreso', '<=', Carbon::now()->year($año)->endOfYear())
             ->select(
-                DB::raw('Date(ingreso) as date'),
-                DB::raw('COUNT(*) as "cantidad"'),
+                DB::raw('YEAR(ingreso) as  year, MONTH(ingreso) as month'),
+                DB::raw('COUNT(*) as "cantidad"')
             )
-            ->groupBy('date')
+            ->groupBy(['month', 'year'])
             ->orderBy('ingreso', 'ASC')
             ->get();
 
 
-        return $saldos;
+        return $reservas;
+    }
+
+    public function getReservasDiarias($year, $mes)
+    {
+        $reservas = Reserva::where('ingreso', '>=', Carbon::now()->year($year)->month($mes)->startOfMonth())
+            ->where('ingreso', '<=', Carbon::now()->year($year)->month($mes)->endOfMonth())
+            ->select(
+                DB::raw('Date(ingreso) as date'),
+                DB::raw('COUNT(*) as "cantidad"'),
+            )
+            ->groupBy(['date'])
+            ->orderBy('ingreso', 'ASC')
+            ->get();
+
+        return $reservas;
     }
     //graficas
 }
