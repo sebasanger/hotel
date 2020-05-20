@@ -274,4 +274,14 @@ class ReservaController extends Controller
         return $reservas;
     }
     //graficas
+
+    public function getReservasByCliente($clienteId)
+    {
+        $reservas = Reserva::leftJoin('habitaciones', 'reservas.habitaciones_id', '=', 'habitaciones.id')
+            ->leftJoin('users', 'reservas.users_id', '=', 'users.id')
+            ->select('reservas.*', 'habitaciones.numeroHabitacion', 'users.name')
+            ->where('clientes_id', '=', $clienteId)
+            ->get();
+        return $reservas;
+    }
 }

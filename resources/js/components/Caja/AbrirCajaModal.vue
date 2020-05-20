@@ -75,7 +75,7 @@ export default {
             this.formCaja
                 .post("/caja")
                 .then(() => {
-                    this.$store.dispatch("caja/fetchCajaActiva");
+                    this.$store.dispatch("caja/getCajaActiva");
                     $("#abrirCaja").modal("hide");
                     Toast.fire({
                         icon: "success",

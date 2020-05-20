@@ -130,7 +130,7 @@ class ClienteController extends Controller
 
     public function getAllClientes()
     {
-        $clientes = Cliente::orderBy('nombre')->get();
+        $clientes = Cliente::orderBy('id', 'DESC')->get();
         return $clientes;
     }
 

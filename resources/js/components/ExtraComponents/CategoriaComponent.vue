@@ -40,7 +40,6 @@
                                         >
                                             <i class="fa fa-edit blue"></i>
                                         </button>
-
                                         <button
                                             class="btn ml-2"
                                             @click="deleteCategoria(item.id)"

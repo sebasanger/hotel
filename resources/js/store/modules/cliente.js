@@ -30,15 +30,12 @@ export const actions = {
                 dispatch("notification/add", notification, { root: true });
             });
     },
-    fetchCliente({ commit }, id) {
-        Axios.get("/findCliente/" + id)
-            .then(res => {
-                commit("SET_CLIENTE", res.data);
-            })
-            .catch(() => {
-                this.$router.push({
-                    name: "500"
-                });
+    fetchCliente({ commit, dispatch }, id) {
+        Axios.get("/findCliente/" + id).then(res => {
+            commit("SET_CLIENTE", res.data);
+            dispatch("fetchReservasByCliente", res.data.id, {
+                root: true
             });
+        });
     }
 };

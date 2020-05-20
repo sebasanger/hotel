@@ -39,13 +39,13 @@ export default {
         });
     },
     beforeCreate() {
+        this.$store.dispatch("caja/getCajaActiva");
         this.$store.dispatch("habitacion/fetchHabitaciones");
         this.$store.dispatch("fetchReservas");
         this.$store.dispatch("cliente/fetchClientes", 1);
         this.$store.dispatch("carga/fetchAllMotivos");
         this.$store.dispatch("carga/fetchAllPreciosHabitaciones");
         this.$store.dispatch("carga/fetchAllClientes");
-        this.$store.dispatch("caja/getCajaActiva");
         this.$store.dispatch("carga/fetchAllModosPagos");
         this.$store.dispatch("carga/fetchAllFacturas");
         this.$store.dispatch("producto/fetchAllProductos");
@@ -136,6 +136,17 @@ table th {
 .card thead tr th {
     font-size: 17px;
     font-weight: bold;
+}
+
+.card tr td {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.card tr td .btn {
+    padding-top: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .minh-100 {

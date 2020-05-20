@@ -40,6 +40,7 @@
                                     <th>Domicio</th>
                                     <th>Profecion</th>
                                     <th>Factura</th>
+                                    <th>Detalles</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -85,13 +86,22 @@
                                     <td>
                                         {{ item.tipoFactura | capitalize }}
                                     </td>
-                                    <td class="text-center">
+                                    <td>
+                                        <button
+                                            class="btn"
+                                            @click="clienteShow(item.id)"
+                                        >
+                                            <i class="fa fa-eye green"></i>
+                                        </button>
+                                    </td>
+                                    <td>
                                         <button
                                             class="btn"
                                             @click="editModal(item)"
                                         >
                                             <i class="fa fa-edit blue"></i>
                                         </button>
+
                                         <delete
                                             :id="item.id"
                                             :index="index"
@@ -166,6 +176,13 @@ export default {
     },
 
     methods: {
+        clienteShow(clienteId) {
+            this.$router.push({
+                name: "clienteShow",
+                params: { id: clienteId }
+            });
+        },
+
         editModal(cliente) {
             //abre el mismo modal pero con la opcion de edit modal en true lo que cambia a que metodo pasamos la info y rellena el modal
             this.editMode = true;

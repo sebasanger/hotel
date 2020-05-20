@@ -74,7 +74,6 @@
                                         >
                                             <i class="fa fa-edit blue"></i>
                                         </button>
-                                        |
                                         <button
                                             class="btn"
                                             @click="

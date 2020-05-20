@@ -55,6 +55,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('getProducto/{productoId}', 'ProductoController@getProducto');
     //rutas de reserva
 
+    //rutas para cliente
+    Route::get('getReservasByCliente/{clienteId}', 'ReservaController@getReservasByCliente');
+    //rutas para cliente
+
     //rutas de user
     Route::get('userFind', 'UserController@userFind');
     Route::get('findCliente/{id}', 'ClienteController@findCliente');

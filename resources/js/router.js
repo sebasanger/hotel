@@ -161,13 +161,13 @@ export default new Router({
         },
 
         {
-            path: "/clientes",
+            path: "/clientes/listado",
             component: Cliente,
             name: "cliente"
         },
 
         {
-            path: "/cliente/:id",
+            path: "/cliente/detalles/:id",
             component: clienteShow,
             name: "clienteShow",
             props: true

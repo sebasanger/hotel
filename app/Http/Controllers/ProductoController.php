@@ -124,7 +124,7 @@ class ProductoController extends Controller
 
     public function getAllProductos()
     {
-        return Producto::all()->where('stock', '>=', 1);
+        return Producto::where('stock', '>=', 1)->get();
     }
 
     public function getProducto($id)

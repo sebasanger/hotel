@@ -79,7 +79,7 @@ export default {
                 .then(() => {
                     //router.push({ name: "home", params: { userId: 123 } });
                     this.$router.push({ name: "home" });
-                    this.$store.dispatch("caja/fetchCajaActiva");
+                    this.$store.dispatch("caja/getCajaActiva");
                     $("#cerrarCaja").modal("hide");
                     Toast.fire({
                         icon: "success",

@@ -85,7 +85,7 @@
                                         </button>
 
                                         <button
-                                            class="btn mb-2"
+                                            class="btn"
                                             @click="deleteProducto(item.id)"
                                         >
                                             <i class="fa fa-trash red"></i>
@@ -574,7 +574,8 @@ export default {
                     });
                 });
         },
-        getResults(page = 1) {
+        getResults(page) {
+            let query = this.search;
             axios.get("producto/" + query + "?page=" + page).then(res => {
                 this.productos = res.data;
             });

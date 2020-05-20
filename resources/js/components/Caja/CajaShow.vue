@@ -8,7 +8,7 @@
                         <div class="col-md-5">
                             <div class="card card-primary card-outline">
                                 <div class="card-body box-profile">
-                                    <caja-data :caja="cajaShow" />
+                                    <data-caja :caja="cajaShow" />
                                 </div>
                             </div>
                         </div>
@@ -172,17 +172,15 @@
 
 <script>
 import { mapState } from "vuex";
-import cajaData from "./cajaData.vue";
+import dataCaja from "./CajaData.vue";
 import PagoList from "./pagoListCaja.vue";
 import ConsumoList from "./ConsumoListCaja.vue";
-import ModalCerrarCaja from "./CerarCajaModal.vue";
 import MovimientoList from "../Movimiento/MovimientoList.vue";
 export default {
     components: {
-        cajaData,
+        dataCaja,
         ConsumoList,
         PagoList,
-        ModalCerrarCaja,
         MovimientoList
     },
 

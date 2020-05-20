@@ -1,5 +1,5 @@
 <template>
-    <button class="btn ml-2" @click="deleteCliente(id, index)">
+    <button class="btn" @click="deleteCliente(id, index)">
         <i class="fa fa-trash red"></i>
     </button>
 </template>

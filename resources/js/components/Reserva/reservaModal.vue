@@ -281,12 +281,10 @@
                                 </div>
 
                                 <div class="form-row" v-if="!editMode">
-                                    <div
-                                        class="form-group col-md-3"
-                                        v-if="caja.cajaActiva == 1"
-                                    >
+                                    <div class="form-group col-md-3">
                                         <label>Pagado</label>
                                         <input
+                                            :disabled="caja.cajaActiva == null"
                                             v-model.number="form.pagado"
                                             type="number"
                                             name="pagado"
@@ -304,12 +302,13 @@
                                         ></has-error>
                                     </div>
 
-                                    <div
-                                        class="form-group col-md-5"
-                                        v-if="form.pagado >= 1"
-                                    >
+                                    <div class="form-group col-md-5">
                                         <label>Modo de pago</label>
                                         <select
+                                            :disabled="
+                                                caja.cajaActiva == null ||
+                                                    form.pagado == ''
+                                            "
                                             required
                                             v-model="form.modosPagos_id"
                                             name="modosPagos_id"
@@ -454,6 +453,13 @@
                             <div class="modal-footer">
                                 <button
                                     type="button"
+                                    class="btn btn-info float-left text-white"
+                                    @click="newCliente"
+                                >
+                                    Agregar cliente
+                                </button>
+                                <button
+                                    type="button"
                                     class="btn btn-danger"
                                     data-dismiss="modal"
                                 >
@@ -504,6 +510,16 @@ export default {
     ],
     data() {
         return {
+            formCliente: new Form({
+                id: "",
+                nombre: "",
+                apellido: "",
+                dni: "",
+                facturas_id: "",
+                celular: "",
+                domicilio: "",
+                profecion: ""
+            }),
             precioDia: 0,
             ingreso: "",
             egreso: "",
@@ -601,6 +617,10 @@ export default {
                     }
                     this.$Progress.fail();
                 });
+        },
+        newCliente() {
+            this.formCliente.reset();
+            $("#addEditCliente").modal("show");
         }
     },
     computed: {

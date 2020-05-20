@@ -31,7 +31,7 @@
                                         Eliminar reserva
                                     </button>
                                     <button
-                                        :disabled="caja.cajaActiva != 1"
+                                        :disabled="cajaActiva.cajaActiva != 1"
                                         style="margin-left: 30px"
                                         @click="createPago(reserva)"
                                         class="btn btn-primary btn-success text-white col-5 mt-2"
@@ -40,7 +40,7 @@
                                     </button>
 
                                     <button
-                                        :disabled="caja.cajaActiva != 1"
+                                        :disabled="cajaActiva.cajaActiva != 1"
                                         @click="createConsumo(reserva)"
                                         class="btn btn-primary btn-success text-white col-5 mt-2 ml-2"
                                     >
@@ -53,7 +53,7 @@
 
                         <!-- cliente -->
                         <div class="col-md-2">
-                            <cliente-show
+                            <cliente-details
                                 :reserva="reserva"
                                 :facturas="facturas"
                                 :cliente="cliente"
@@ -91,7 +91,7 @@
                                             <a
                                                 class="nav-link text-white"
                                                 :class="[
-                                                    consumosReserva.length == 1
+                                                    pagosReservas.length == 0
                                                         ? 'active'
                                                         : ''
                                                 ]"
@@ -119,6 +119,11 @@
                                         <!-- cierre de tabla de pagos -->
                                         <!-- tabla de consumos -->
                                         <div
+                                            :class="[
+                                                pagosReservas.length == 0
+                                                    ? 'active'
+                                                    : ''
+                                            ]"
                                             class="tab-pane"
                                             id="consumos"
                                             v-if="consumosReserva.length >= 1"
@@ -153,14 +158,14 @@
             :formPago="formPago"
             :reserva="reserva"
             :modosPagos="modosPagos"
-            :caja="caja"
+            :caja="cajaActiva"
         />
 
         <consumo-modal
             :formConsumo="formConsumo"
             :reserva="reserva"
             :modosPagos="modosPagos"
-            :caja="caja"
+            :caja="cajaActiva"
             :productos="productos"
         />
     </div>
@@ -174,7 +179,7 @@ import PagoModal from "../Pago/PagoModal.vue";
 import ConsumoModal from "../Consumo/ConsumoModal.vue";
 import PagoList from "../Pago/pagoList.vue";
 import ConsumoList from "../Consumo/ConsumoList.vue";
-import ClienteShow from "./ClienteShow.vue";
+import ClienteDetails from "./ClienteDetails.vue";
 import ReservaData from "./ReservaData.vue";
 
 export default {
@@ -182,7 +187,7 @@ export default {
         ReservaModal,
         PagoModal,
         PagoList,
-        ClienteShow,
+        ClienteDetails,
         ReservaData,
         ConsumoList,
         ConsumoModal
@@ -240,7 +245,7 @@ export default {
             "modosPagos",
             "facturas"
         ]),
-        ...mapState("caja", ["caja"])
+        ...mapState("caja", ["cajaActiva"])
     },
     methods: {
         async cargar() {

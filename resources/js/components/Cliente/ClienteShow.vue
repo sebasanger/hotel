@@ -1,38 +1,103 @@
 <template>
     <div>
-        <p>DNI: {{ cliente.dni }}</p>
-        <p>
-            Nombre completo:
-            {{ (cliente.nombre + " " + cliente.apellido) | toUpperCase }}
-        </p>
-        <p>Profesion: {{ cliente.profecion }}</p>
-        <p>Procedencia: {{ cliente.procedencia | toUpperCase }}</p>
-        <p>Destino: {{ cliente.destino | toUpperCase }}</p>
-        <p>Domicilio: {{ cliente.domicilio | toUpperCase }}</p>
-        <p>Tipo de factura: {{ cliente.tipoFactura }}</p>
-        <p>Fecha de nacimiento: {{ cliente.fechaNacimiento | formatDate }}</p>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <!-- data de la caja -->
+                        <div class="col-md-5">
+                            <div class="card card-primary card-outline">
+                                <div class="card-body box-profile">
+                                    <cliente-data
+                                        :cliente="cliente"
+                                        :cantidadReservas="
+                                            reservasByCliente.length
+                                        "
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- cierre data de la reserva -->
 
-        <router-link :to="{ name: 'cliente' }">atras</router-link>
+                        <!-- data multiple -->
+                        <div
+                            class="col-md-12"
+                            v-if="reservasByCliente.length >= 1"
+                        >
+                            <div class="card card-dark">
+                                <!--  para cambiar de tablas -->
+                                <div class="card-header p-2">
+                                    <ul class="nav nav-pills">
+                                        <li class="nav-item">
+                                            <a
+                                                class="nav-link active text-white"
+                                                href="#reservas"
+                                                data-toggle="tab"
+                                                >Reservas</a
+                                            >
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="card-body">
+                                    <div class="tab-content">
+                                        <div
+                                            class="tab-pane active"
+                                            id="reservas"
+                                            v-if="reservasByCliente.length >= 1"
+                                        >
+                                            <reservas-list
+                                                :reservas="reservasByCliente"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import clienteData from "./ClienteData.vue";
+import reservasList from "./ReservasList.vue";
 
 export default {
-    props: ["id"],
-    created() {
-        this.$store
-            .dispatch("cliente/fetchCliente", this.id)
-            .then(() => {
-                this.$Progress.finish();
-            })
-            .catch(() => {
-                this.$Progress.fail();
-            });
+    components: {
+        clienteData,
+        reservasList
     },
+
     computed: {
-        ...mapState("cliente", ["cliente"])
+        ...mapState("cliente", ["cliente"]),
+        ...mapState(["reservasByCliente"])
+    },
+    created() {
+        this.cargar();
+    },
+    methods: {
+        async cargar() {
+            try {
+                this.$store
+                    .dispatch("cliente/fetchCliente", this.$route.params.id)
+                    .then(res => {
+                        this.$Progress.finish();
+                    })
+                    .catch(() => {
+                        this.$Progress.fail();
+                    });
+            } catch (e) {
+                console.error(e);
+            }
+        }
     }
 };
 </script>
+<style scoped>
+.card {
+    color: white;
+}
+</style>

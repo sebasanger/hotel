@@ -218,7 +218,7 @@
 
 <script>
 import { mapState } from "vuex";
-import cajaData from "./cajaData.vue";
+import cajaData from "./CajaData.vue";
 import PagoList from "./pagoListCaja.vue";
 import ConsumoList from "./ConsumoListCaja.vue";
 import ModalCerrarCaja from "./CerarCajaModal.vue";
@@ -302,7 +302,7 @@ export default {
                 if (result.value) {
                     axios.delete("caja/" + id).then(() => {
                         this.$router.push({ name: "home" });
-                        this.$store.dispatch("caja/fetchCajaActiva");
+                        this.$store.dispatch("caja/getCajaActiva");
                         Swal.fire(
                             "Eliminado!",
                             "La caja se elimino correctamente.",

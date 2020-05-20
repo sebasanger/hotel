@@ -30,7 +30,8 @@ export default new Vuex.Store({
     state: {
         reservas: [],
         reserva: {},
-        elementos: []
+        elementos: [],
+        reservasByCliente: []
     },
     mutations: {
         SET_RESERVAS(state, reservas) {
@@ -41,6 +42,9 @@ export default new Vuex.Store({
         },
         SET_ELEMENTOS(state, elementos) {
             state.elementos = elementos;
+        },
+        SET_RESERVABYCLIENTE(state, reservas) {
+            state.reservasByCliente = reservas;
         }
     },
     actions: {
@@ -91,6 +95,20 @@ export default new Vuex.Store({
                     this.$router.push({
                         name: "500"
                     });
+                });
+        },
+        fetchReservasByCliente({ commit }, clienteId) {
+            Axios.get("/getReservasByCliente/" + clienteId)
+                .then(res => {
+                    commit("SET_RESERVABYCLIENTE", res.data);
+                })
+                .catch(err => {
+                    const notification = {
+                        type: "error",
+                        message:
+                            "No se pudieron cargar las reservas asociadas al cliente"
+                    };
+                    dispatch("notification/add", notification, { root: true });
                 });
         }
     }

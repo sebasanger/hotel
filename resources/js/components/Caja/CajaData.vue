@@ -1,9 +1,10 @@
 <template>
     <div>
         <div class="text-center"></div>
-        <h3 class="profile-username text-center">
-            Datos de la caja
-        </h3>
+        <h3
+            class="profile-username text-center "
+            v-text="caja.cajaActiva == 1 ? 'Caja activa' : 'Caja cerrada'"
+        ></h3>
 
         <ul class="list-group list-group-unbordered mb-3">
             <li class="list-group-item">
@@ -47,8 +48,8 @@ export default {
 };
 </script>
 <style scoped>
-p {
-    font-size: medium;
+ul li {
+    font-size: 18px;
 }
 table {
     text-align: center;

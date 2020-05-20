@@ -28,8 +28,9 @@
             :motivos="motivos"
             :editMode="editMode"
             :modosPagos="modosPagos"
-            :caja="caja"
+            :caja="cajaActiva"
         />
+        <ModalCliente :form="form" :facturas="facturas" :editMode="false" />
     </div>
 </template>
 
@@ -38,6 +39,7 @@ import GSTC from "vue-gantt-schedule-timeline-calendar";
 import CalendarScroll from "gantt-schedule-timeline-calendar/dist/CalendarScroll.plugin.js";
 import { mapState, mapGetters } from "vuex";
 import ReservaModal from "./reservaModal.vue";
+import ModalCliente from "../Cliente/clienteModal.vue";
 
 let router;
 let selectionApi;
@@ -47,7 +49,8 @@ export default {
     name: "reservas",
     components: {
         GSTC,
-        ReservaModal
+        ReservaModal,
+        ModalCliente
     },
     data() {
         return {
@@ -215,13 +218,14 @@ export default {
     },
     computed: {
         ...mapState(["reservas", "elementos"]),
-        ...mapState("caja", ["caja"]),
+        ...mapState("caja", ["cajaActiva"]),
         ...mapState("habitacion", ["habitaciones", "habitacion"]),
         ...mapState("carga", [
             "motivos",
             "clientes",
             "preciosHabitaciones",
-            "modosPagos"
+            "modosPagos",
+            "facturas"
         ])
     },
     watch: {
