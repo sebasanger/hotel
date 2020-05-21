@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="reservaComponent">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card ">
@@ -12,17 +12,19 @@
                         </button>
                         <h5>Reservas</h5>
                     </div>
+
                     <GSTC
                         :config="config"
                         @state="onState"
                         @click="console.log(config)"
                     />
+                    <div class="card-footer"></div>
                 </div>
             </div>
         </div>
         <reserva-modal
             :form="form"
-            :habitaciones="habitaciones"
+            :habitaciones="habitacionesDisponibles"
             :clientes="clientes"
             :preciosHabitaciones="preciosHabitaciones"
             :motivos="motivos"
@@ -219,21 +221,22 @@ export default {
     computed: {
         ...mapState(["reservas", "elementos"]),
         ...mapState("caja", ["cajaActiva"]),
-        ...mapState("habitacion", ["habitaciones", "habitacion"]),
+        ...mapState("habitacion", ["habitaciones"]),
         ...mapState("carga", [
             "motivos",
             "clientes",
             "preciosHabitaciones",
             "modosPagos",
             "facturas"
-        ])
+        ]),
+        ...mapGetters("habitacion", ["habitacionesDisponibles"])
     },
     watch: {
-        elementos(newValue, oldValue) {
-            this.config.chart.items = newValue;
+        elementos() {
+            this.config.chart.items = this.elementos;
         },
-        habitaciones(newValue, oldValue) {
-            this.config.list.rows = newValue;
+        habitaciones() {
+            this.config.list.rows = this.habitaciones;
         }
     },
 

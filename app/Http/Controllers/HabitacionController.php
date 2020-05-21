@@ -16,7 +16,7 @@ class HabitacionController extends Controller
      */
     public function index()
     {
-        return Habitacion::OrderBy('numeroHabitacion', 'ASC')->paginate(10);
+        return Habitacion::OrderBy('numeroHabitacion', 'ASC')->get();
     }
 
     /**
@@ -161,6 +161,6 @@ class HabitacionController extends Controller
 
     public function getAllHabitaciones()
     {
-        return Habitacion::orderBy('numeroHabitacion')->get();
+        return Habitacion::all();
     }
 }

@@ -23,7 +23,7 @@
             <div class="row">
                 <div
                     class="col-md-4"
-                    v-for="habitacion in habitaciones"
+                    v-for="habitacion in habitacionesReales"
                     :key="habitacion.id"
                 >
                     <div
@@ -142,14 +142,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
     mounted() {
         this.$Progress.finish();
     },
     computed: {
-        ...mapState("habitacion", ["habitaciones"]),
+        ...mapGetters("habitacion", ["habitacionesReales"]),
 
         getFoto() {
             return "img/habitaciones/" + this.habitacion.image_path;

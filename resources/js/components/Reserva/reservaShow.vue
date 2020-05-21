@@ -30,6 +30,7 @@
                                     >
                                         Eliminar reserva
                                     </button>
+
                                     <button
                                         :disabled="cajaActiva.cajaActiva != 1"
                                         style="margin-left: 30px"

@@ -30,7 +30,7 @@
                                 </tr>
                             </thead>
                             <tbody class="text-center">
-                                <tr v-for="item in habitaciones" :key="item.id">
+                                <tr v-for="item in habitacionesReales" :key="item.id">
                                     <td>
                                         <router-link
                                             :to="{
@@ -141,7 +141,7 @@ export default {
     },
 
     computed: {
-        ...mapState("habitacion", ["habitaciones"])
+        ...mapGetters("habitacion", ["habitacionesReales"])
     },
     methods: {
         newModal() {

@@ -54,6 +54,23 @@ export default {
 </script>
 
 <style>
+.modal .modal-content {
+    background: #343a40;
+    color: white;
+    font-size: 15px;
+}
+.modal .modal-header {
+    text-align: center;
+    align-content: center;
+}
+
+.modal h5 {
+    font-size: 28px;
+    color: white;
+    font-family: serif;
+    font-weight: bold;
+}
+
 .fade-list-enter {
     opacity: 0.05;
 }
@@ -113,15 +130,23 @@ table th {
     margin-top: 4px;
     background: #343a40;
     border-radius: 10px;
-    box-shadow: 1px 2px 15px rgba(25, 25, 25, 0.27);
+    box-shadow: 3px 3px 15px rgb(41, 41, 41);
     margin-bottom: 25px;
 }
 
 .card h5 {
-    color: white;
     font-size: 30px;
+    color: white;
+    font-family: serif;
+    font-weight: bold;
     text-align: center;
-    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+.tituloHotel {
+    color: white;
+    font-family: serif;
+    font-weight: bold;
+    text-align: center;
 }
 
 .card .table {

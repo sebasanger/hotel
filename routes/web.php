@@ -41,22 +41,22 @@ Route::middleware(['auth'])->group(function () {
     //rutas para graficas
 
     //rutas de caja
-    Route::get('getCajaData/{cajaId}', 'CajaController@getCajaData');
+    Route::get('getCajaData/{cajaId}', 'CajaController@getCajaData')->where('cajaId', '[0-9]+');
     Route::get('getCajaActiva', 'CajaController@getCajaActiva');
-    Route::get('getPagosByCaja/{cajaId}', 'PagoController@getPagosByCaja');
-    Route::get('getConsumosByCaja/{cajaId}', 'consumoController@getConsumosByCaja');
-    Route::get('getIngresos/{cajaId}', 'MovimientoController@getIngresos');
-    Route::get('getEgresos/{cajaId}', 'MovimientoController@getEgresos');
+    Route::get('getPagosByCaja/{cajaId}', 'PagoController@getPagosByCaja')->where('cajaId', '[0-9]+');
+    Route::get('getConsumosByCaja/{cajaId}', 'consumoController@getConsumosByCaja')->where('cajaId', '[0-9]+');
+    Route::get('getIngresos/{cajaId}', 'MovimientoController@getIngresos')->where('cajaId', '[0-9]+');
+    Route::get('getEgresos/{cajaId}', 'MovimientoController@getEgresos')->where('cajaId', '[0-9]+');
     //rutas de caja
 
     //rutas de reserva
-    Route::get('getPagosByReserva/{reservaId}', 'PagoController@getPagosByReserva');
-    Route::get('getConsumosByReserva/{reservaId}', 'ConsumoController@getConsumosByReserva');
+    Route::get('getPagosByReserva/{reservaId}', 'PagoController@getPagosByReserva')->where('reservaId', '[0-9]+');
+    Route::get('getConsumosByReserva/{reservaId}', 'ConsumoController@getConsumosByReserva')->where('reservaId', '[0-9]+');
     Route::get('getProducto/{productoId}', 'ProductoController@getProducto');
     //rutas de reserva
 
     //rutas para cliente
-    Route::get('getReservasByCliente/{clienteId}', 'ReservaController@getReservasByCliente');
+    Route::get('getReservasByCliente/{clienteId}', 'ReservaController@getReservasByCliente')->where('clienteId', '[0-9]+');
     //rutas para cliente
 
     //rutas de user

@@ -14,7 +14,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5
-                            class="modal-title"
+                            class="modal-title text-center"
                             id="addEditCliente"
                             v-text="
                                 editMode ? 'Editar cliente' : 'Crear cliente'

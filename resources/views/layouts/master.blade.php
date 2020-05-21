@@ -66,7 +66,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- Brand Logo -->
                 <router-link to="/" class="brand-link navbar-navy">
                     <i class="fas fa-hotel fa-lg cyan brand-image img-circle elevation-3 pt-1"></i>
-                    <span class="brand-text font-italic">Hotel Vito Primero</span>
+                    <span class="brand-text tituloHotel">Hotel Vito Primero</span>
                 </router-link>
 
 

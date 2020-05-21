@@ -70,6 +70,10 @@ export default {
                     ],
                     yAxes: [
                         {
+                            ticks: {
+                                beginAtZero: true,
+                                precision: 0
+                            },
                             display: true,
                             scaleLabel: {
                                 display: true,

@@ -57,10 +57,14 @@ export default {
                     ],
                     yAxes: [
                         {
+                            ticks: {
+                                beginAtZero: true,
+                                precision: 0
+                            },
                             display: true,
                             scaleLabel: {
                                 display: true,
-                                labelString: "$$$"
+                                labelString: "Cantidad de ingresos"
                             }
                         }
                     ]
@@ -102,7 +106,7 @@ export default {
                 this.chartData = {
                     datasets: [
                         {
-                            label: "Ganancia",
+                            label: "Ingresos",
                             backgroundColor: "rgba(255, 50, 20, 0.3)",
                             borderColor: "rgba(255, 50, 20, 0.6)",
                             borderWidth: 1,

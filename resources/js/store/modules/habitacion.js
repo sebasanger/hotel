@@ -11,6 +11,7 @@ export const mutations = {
     SET_HABITACIONES(state, habitaciones) {
         state.habitaciones = habitaciones;
     },
+
     SET_HABITACION(state, habitacion) {
         state.habitacion = habitacion;
     }
@@ -19,7 +20,8 @@ export const mutations = {
 export const actions = {
     fetchHabitaciones({ commit }) {
         Axios.get("/getAllHabitaciones").then(res => {
-            commit("SET_HABITACIONES", res.data);
+            let data = res.data;
+            commit("SET_HABITACIONES", data);
         });
     },
     fetchHabitacion({ commit, getters }, id) {
@@ -43,5 +45,13 @@ export const actions = {
 export const getters = {
     getHabitacionById: state => id => {
         return state.habitaciones.find(habitacion => habitacion.id == id);
+    },
+    habitacionesDisponibles: state => {
+        return state.habitaciones.filter(
+            habitacion => habitacion.estado == 1 && habitacion.id != 1
+        );
+    },
+    habitacionesReales: state => {
+        return state.habitaciones.filter(habitacion => habitacion.id != 1);
     }
 };

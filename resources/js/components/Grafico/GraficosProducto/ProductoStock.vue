@@ -26,6 +26,27 @@ export default {
             loaded: false,
             chartData: null,
             options: {
+                scales: {
+                    xAxes: [
+                        {
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Producto"
+                            }
+                        }
+                    ],
+                    yAxes: [
+                        {
+                            ticks: {
+                                beginAtZero: true
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Stock actual"
+                            }
+                        }
+                    ]
+                },
                 responsive: true,
                 maintainAspectRatio: false
             }
