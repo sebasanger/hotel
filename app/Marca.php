@@ -14,7 +14,7 @@ class Marca extends Model
 
     use SoftDeletes;
 
-    protected $table = 'Marcas';
+    protected $table = 'marcas';
 
     protected $casts = [
         'created_at' => 'datetime:d-m-Y',

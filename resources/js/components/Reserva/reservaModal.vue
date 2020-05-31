@@ -592,6 +592,7 @@ export default {
 
         createReserva() {
             this.$Progress.start();
+            this.formCliente.reset();
             this.form
                 .post("/reserva")
                 .then(() => {
@@ -620,6 +621,7 @@ export default {
         },
         newCliente() {
             this.formCliente.reset();
+            this.$store.dispatch("carga/fetchAllFacturas");
             $("#addEditCliente").modal("show");
         }
     },

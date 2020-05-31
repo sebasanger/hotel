@@ -24,7 +24,7 @@ class Movimiento extends Model
 
     use SoftDeletes;
 
-    protected $table = 'Movimientos';
+    protected $table = 'movimientos';
 
     protected $fillable = [
         'descripcion', 'monto', 'ingreso', 'egreso', 'users_id', 'modosPagos_id'

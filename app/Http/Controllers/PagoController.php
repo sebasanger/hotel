@@ -124,8 +124,8 @@ class PagoController extends Controller
     public function getPagosByReserva($reservaId)
     {
         $pago = Pago::leftJoin('users', 'pagos.users_id', '=', 'users.id')
-            ->leftJoin('modosPagos', 'pagos.modosPagos_id', '=', 'modosPagos.id')
-            ->select('pagos.*', 'users.name', 'modosPagos.modoPago')
+            ->leftJoin('modospagos', 'pagos.modosPagos_id', '=', 'modospagos.id')
+            ->select('pagos.*', 'users.name', 'modospagos.modoPago')
             ->where('pagos.reservas_id', $reservaId)
             ->latest()
             ->get();
@@ -135,11 +135,11 @@ class PagoController extends Controller
     public function getPagosByCaja($cajaId)
     {
         $pago = Pago::leftJoin('users', 'pagos.users_id', '=', 'users.id')
-            ->leftJoin('modosPagos', 'pagos.modosPagos_id', '=', 'modosPagos.id')
+            ->leftJoin('modospagos', 'pagos.modosPagos_id', '=', 'modospagos.id')
             ->leftJoin('reservas', 'pagos.reservas_id', '=', 'reservas.id')
             ->leftJoin('clientes', 'reservas.clientes_id', '=', 'clientes.id')
             ->leftJoin('habitaciones', 'reservas.habitaciones_id', '=', 'habitaciones.id')
-            ->select('pagos.*', 'users.name', 'modosPagos.modoPago', 'reservas.estado', 'clientes.nombre', 'clientes.apellido', 'habitaciones.numeroHabitacion')
+            ->select('pagos.*', 'users.name', 'modospagos.modoPago', 'reservas.estado', 'clientes.nombre', 'clientes.apellido', 'habitaciones.numeroHabitacion')
             ->where('pagos.cajas_id', $cajaId)
             ->latest()
             ->get();

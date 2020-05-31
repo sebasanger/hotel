@@ -169,8 +169,8 @@ class ConsumoController extends Controller
     {
         $consumo = Consumo::leftJoin('users', 'consumos.users_id', '=', 'users.id')
             ->leftJoin('productos', 'consumos.productos_id', '=', 'productos.id')
-            ->leftJoin('modosPagos', 'consumos.modosPagos_id', '=', 'modosPagos.id')
-            ->select('consumos.*', 'users.name', 'modosPagos.modoPago', 'productos.producto')
+            ->leftJoin('modospagos', 'consumos.modosPagos_id', '=', 'modospagos.id')
+            ->select('consumos.*', 'users.name', 'modospagos.modoPago', 'productos.producto')
             ->where('consumos.reservas_id', $reservaId)
             ->latest()
             ->get();
@@ -181,11 +181,11 @@ class ConsumoController extends Controller
     {
         $consumo = Consumo::leftJoin('users', 'consumos.users_id', '=', 'users.id')
             ->leftJoin('productos', 'consumos.productos_id', '=', 'productos.id')
-            ->leftJoin('modosPagos', 'consumos.modosPagos_id', '=', 'modosPagos.id')
+            ->leftJoin('modospagos', 'consumos.modosPagos_id', '=', 'modospagos.id')
             ->leftJoin('reservas', 'consumos.reservas_id', '=', 'reservas.id')
             ->leftJoin('clientes', 'reservas.clientes_id', '=', 'clientes.id')
             ->leftJoin('habitaciones', 'reservas.habitaciones_id', '=', 'habitaciones.id')
-            ->select('consumos.*', 'users.name', 'modosPagos.modoPago', 'productos.producto', 'reservas.estado', 'clientes.nombre', 'clientes.apellido', 'habitaciones.numeroHabitacion')
+            ->select('consumos.*', 'users.name', 'modospagos.modoPago', 'productos.producto', 'reservas.estado', 'clientes.nombre', 'clientes.apellido', 'habitaciones.numeroHabitacion')
             ->where('consumos.cajas_id', $cajaId)
             ->latest()
             ->get();

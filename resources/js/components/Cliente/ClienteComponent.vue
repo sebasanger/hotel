@@ -46,8 +46,7 @@
                             </thead>
                             <transition-group tag="tbody" name="fade-list">
                                 <tr
-                                    v-for="(item, index) in cliente.clientes
-                                        .data"
+                                    v-for="(item, index) in clientes.data"
                                     :key="item.id"
                                     class="list-complete-item"
                                 >
@@ -117,7 +116,7 @@
                     <div class="card-footer">
                         <pagination
                             class="float-left"
-                            :data="cliente.clientes"
+                            :data="clientes"
                             :limit="2"
                             @pagination-change-page="getResults"
                         ></pagination>
@@ -151,7 +150,6 @@ export default {
             paginaActual: 1,
             editMode: false,
             search: "",
-            facturas: [],
             form: new Form({
                 id: "",
                 nombre: "",
@@ -164,14 +162,12 @@ export default {
             })
         };
     },
-    created() {
-        this.getResults(this.paginaActual);
-        this.loadFacturas();
-    },
     computed: {
-        ...mapState(["cliente"])
+        ...mapState("cliente", ["clientes"]),
+        ...mapState("carga", ["facturas"])
     },
     mounted() {
+        this.getResults(this.paginaActual);
         this.$Progress.finish();
     },
 
@@ -186,18 +182,16 @@ export default {
         editModal(cliente) {
             //abre el mismo modal pero con la opcion de edit modal en true lo que cambia a que metodo pasamos la info y rellena el modal
             this.editMode = true;
+            this.$store.dispatch("carga/fetchAllFacturas");
             this.form.reset();
             $("#addEditCliente").modal("show");
             this.form.fill(cliente);
         },
 
-        loadFacturas() {
-            axios.get("getAllFacturas").then(res => (this.facturas = res.data));
-        },
-
         newModal() {
             //abre el modal, lo limpia y saca el modo de edicion si es que estaba activo
             this.editMode = false;
+            this.$store.dispatch("carga/fetchAllFacturas");
             this.form.reset();
             $("#addEditCliente").modal("show");
         },

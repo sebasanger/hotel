@@ -13,7 +13,7 @@ class PrecioHabitacion extends Model
     }
     use SoftDeletes;
 
-    protected $table = 'PreciosHabitaciones';
+    protected $table = 'precioshabitaciones';
 
     protected $casts = [
         'created_at' => 'datetime:d-m-Y',

@@ -30,7 +30,7 @@ class ModoPago extends Model
 
     use SoftDeletes;
 
-    protected $table = 'ModosPagos';
+    protected $table = 'modospagos';
 
     protected $casts = [
         'created_at' => 'datetime:d-m-Y',

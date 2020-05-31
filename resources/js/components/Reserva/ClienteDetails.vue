@@ -121,6 +121,7 @@ export default {
         editCliente(cliente) {
             this.editMode = true;
             this.formCliente.reset();
+            this.$store.dispatch("carga/fetchAllFacturas");
             $("#addEditCliente").modal("show");
             this.formCliente.fill(cliente);
         }

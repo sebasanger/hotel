@@ -24,5 +24,5 @@ class IngresoProducto extends Model
 
     use SoftDeletes;
 
-    protected $table = 'IngresosProductos';
+    protected $table = 'ingresosproductos';
 }

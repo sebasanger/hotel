@@ -44,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('getCajaData/{cajaId}', 'CajaController@getCajaData')->where('cajaId', '[0-9]+');
     Route::get('getCajaActiva', 'CajaController@getCajaActiva');
     Route::get('getPagosByCaja/{cajaId}', 'PagoController@getPagosByCaja')->where('cajaId', '[0-9]+');
-    Route::get('getConsumosByCaja/{cajaId}', 'consumoController@getConsumosByCaja')->where('cajaId', '[0-9]+');
+    Route::get('getConsumosByCaja/{cajaId}', 'ConsumoController@getConsumosByCaja')->where('cajaId', '[0-9]+');
     Route::get('getIngresos/{cajaId}', 'MovimientoController@getIngresos')->where('cajaId', '[0-9]+');
     Route::get('getEgresos/{cajaId}', 'MovimientoController@getEgresos')->where('cajaId', '[0-9]+');
     //rutas de caja

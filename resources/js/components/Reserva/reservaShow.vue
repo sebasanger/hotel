@@ -272,10 +272,13 @@ export default {
         },
         createPago(reserva) {
             this.formPago.reset();
+            this.$store.dispatch("carga/fetchAllModosPagos");
             $("#addPago").modal("show");
         },
         createConsumo(reserva) {
             this.formConsumo.reset();
+            this.$store.dispatch("producto/fetchAllProductos");
+            this.$store.dispatch("carga/fetchAllModosPagos");
             $("#addConsumo").modal("show");
         },
         deleteReserva(id) {

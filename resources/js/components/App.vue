@@ -14,10 +14,7 @@ export default {
         //  [App.vue specific] When App.vue is finish loading finish the progress bar
         this.$Progress.finish();
     },
-    computed: {},
     created() {
-        this.$store.dispatch("user/fetchUser");
-
         //  [App.vue specific] When App.vue is first loaded start the progress bar
         this.$Progress.start();
         //  hook the progress bar to start before we move router-view
@@ -38,17 +35,21 @@ export default {
             //  finish the progress bar
         });
     },
-    beforeCreate() {
-        this.$store.dispatch("caja/getCajaActiva");
-        this.$store.dispatch("habitacion/fetchHabitaciones");
-        this.$store.dispatch("fetchReservas");
-        this.$store.dispatch("cliente/fetchClientes", 1);
-        this.$store.dispatch("carga/fetchAllMotivos");
-        this.$store.dispatch("carga/fetchAllPreciosHabitaciones");
-        this.$store.dispatch("carga/fetchAllClientes");
-        this.$store.dispatch("carga/fetchAllModosPagos");
-        this.$store.dispatch("carga/fetchAllFacturas");
-        this.$store.dispatch("producto/fetchAllProductos");
+    async mounted() {
+        try {
+            this.$store.dispatch("user/fetchUser");
+            this.$store.dispatch("caja/getCajaActiva");
+            /*
+            this.$store.dispatch("carga/fetchAllClientes");
+            this.$store.dispatch("producto/fetchAllProductos");
+            this.$store.dispatch("carga/fetchAllMotivos");
+            this.$store.dispatch("carga/fetchAllPreciosHabitaciones");
+            this.$store.dispatch("carga/fetchAllModosPagos");
+            this.$store.dispatch("carga/fetchAllFacturas");
+            */
+        } catch (error) {
+            console.log(error);
+        }
     }
 };
 </script>

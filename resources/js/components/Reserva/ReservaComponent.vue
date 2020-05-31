@@ -243,14 +243,18 @@ export default {
     methods: {
         async cargar() {
             try {
-                this.config.list.rows = this.habitaciones;
-                this.config.chart.items = this.elementos;
+                this.$store.dispatch("habitacion/fetchHabitaciones");
+                this.$store.dispatch("fetchReservas");
             } catch (e) {
                 console.error(e);
             }
         },
         newModal() {
             this.editMode = false;
+            this.$store.dispatch("carga/fetchAllClientes");
+            this.$store.dispatch("carga/fetchAllMotivos");
+            this.$store.dispatch("carga/fetchAllPreciosHabitaciones");
+            this.$store.dispatch("carga/fetchAllModosPagos");
             this.form.reset();
             $("#addNew").modal("show");
         },

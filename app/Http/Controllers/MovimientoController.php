@@ -106,8 +106,8 @@ class MovimientoController extends Controller
     public function getIngresos($cajaId)
     {
         $movimiento = Movimiento::leftJoin('users', 'movimientos.users_id', '=', 'users.id')
-            ->leftJoin('modosPagos', 'movimientos.modosPagos_id', '=', 'modosPagos.id')
-            ->select('movimientos.*', 'users.name', 'modosPagos.modoPago')
+            ->leftJoin('modospagos', 'movimientos.modosPagos_id', '=', 'modospagos.id')
+            ->select('movimientos.*', 'users.name', 'modospagos.modoPago')
             ->where('movimientos.tipo', "=", 1)
             ->where('movimientos.cajas_id', $cajaId)
             ->latest()
@@ -118,8 +118,8 @@ class MovimientoController extends Controller
     public function getEgresos($cajaId)
     {
         $movimiento = Movimiento::leftJoin('users', 'movimientos.users_id', '=', 'users.id')
-            ->leftJoin('modosPagos', 'movimientos.modosPagos_id', '=', 'modosPagos.id')
-            ->select('movimientos.*', 'users.name', 'modosPagos.modoPago')
+            ->leftJoin('modospagos', 'movimientos.modosPagos_id', '=', 'modospagos.id')
+            ->select('movimientos.*', 'users.name', 'modospagos.modoPago')
             ->where('movimientos.tipo', "=", 0)
             ->where('movimientos.cajas_id', $cajaId)
             ->latest()

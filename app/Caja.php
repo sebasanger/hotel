@@ -29,7 +29,7 @@ class Caja extends Model
 
     use SoftDeletes;
 
-    protected $table = 'Cajas';
+    protected $table = 'cajas';
 
     protected $casts = [
         'horaCierre' => 'datetime:d/m/Y H:i',

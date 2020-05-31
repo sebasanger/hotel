@@ -38,5 +38,5 @@ class Consumo extends Model
 
     use SoftDeletes;
 
-    protected $table = 'Consumos';
+    protected $table = 'consumos';
 }

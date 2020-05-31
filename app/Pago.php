@@ -29,7 +29,7 @@ class Pago extends Model
 
     use SoftDeletes;
 
-    protected $table = 'Pagos';
+    protected $table = 'pagos';
 
     protected $fillable = [
         'reservas_id', 'users_id', 'modosPagos_id', 'monto', 'cajas_id'

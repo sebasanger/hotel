@@ -50,7 +50,7 @@ class Reserva extends Model
 
     use SoftDeletes;
 
-    protected $table = 'Reservas';
+    protected $table = 'reservas';
 
     protected $casts = [
         'created_at' => 'datetime:d/m/Y H:i',

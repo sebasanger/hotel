@@ -282,11 +282,13 @@ export default {
         },
         CreateIngreso() {
             this.ingreso = true;
+            this.$store.dispatch("carga/fetchAllModosPagos");
             this.formMovimiento.reset();
             $("#addMovimiento").modal("show");
         },
         CreateEgreso() {
             this.ingreso = false;
+            this.$store.dispatch("carga/fetchAllModosPagos");
             this.formMovimiento.reset();
             $("#addMovimiento").modal("show");
         },

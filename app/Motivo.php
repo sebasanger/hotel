@@ -14,7 +14,7 @@ class Motivo extends Model
 
     use SoftDeletes;
 
-    protected $table = 'Motivos';
+    protected $table = 'motivos';
 
     protected $casts = [
         'created_at' => 'datetime:d-m-Y',

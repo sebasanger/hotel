@@ -30,7 +30,10 @@
                                 </tr>
                             </thead>
                             <tbody class="text-center">
-                                <tr v-for="item in habitacionesReales" :key="item.id">
+                                <tr
+                                    v-for="item in habitacionesReales"
+                                    :key="item.id"
+                                >
                                     <td>
                                         <router-link
                                             :to="{
@@ -40,8 +43,8 @@
                                             >{{ item.numeroHabitacion }}
                                         </router-link>
                                     </td>
-                                    <td>{{ item.piso | piso }}</td>
-                                    <td>{{ item.capacidad | capacidad }}</td>
+                                    <td>{{ item.piso }}</td>
+                                    <td>{{ item.capacidad }}</td>
                                     <td>
                                         <i
                                             v-for="(cs, index) in item.single"
@@ -171,6 +174,7 @@ export default {
         }
     },
     mounted() {
+        this.$store.dispatch("habitacion/fetchHabitaciones");
         this.$Progress.finish();
     }
 };

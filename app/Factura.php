@@ -15,7 +15,7 @@ class Factura extends Model
 
     use SoftDeletes;
 
-    protected $table = 'Facturas';
+    protected $table = 'facturas';
 
     protected $casts = [
         'created_at' => 'datetime:d-m-Y',
