@@ -69,12 +69,6 @@
                                     <td>{{ item.updated_at | formatDate }}</td>
                                     <td>
                                         <button
-                                            @click="editModal(item)"
-                                            class="btn"
-                                        >
-                                            <i class="fa fa-edit blue"></i>
-                                        </button>
-                                        <button
                                             class="btn"
                                             @click="
                                                 deleteIngresoProducto(item.id)

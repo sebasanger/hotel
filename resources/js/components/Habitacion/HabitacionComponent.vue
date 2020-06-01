@@ -43,8 +43,8 @@
                                             >{{ item.numeroHabitacion }}
                                         </router-link>
                                     </td>
-                                    <td>{{ item.piso }}</td>
-                                    <td>{{ item.capacidad }}</td>
+                                    <td>{{ item.piso | piso }}</td>
+                                    <td>{{ item.capacidad | capacidad }}</td>
                                     <td>
                                         <i
                                             v-for="(cs, index) in item.single"

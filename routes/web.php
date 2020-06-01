@@ -66,7 +66,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['role:1'])->group(function () {
 
-
         Route::apiResource('categoria', 'CategoriaController');
 
         Route::apiResource('factura', 'FacturaController');

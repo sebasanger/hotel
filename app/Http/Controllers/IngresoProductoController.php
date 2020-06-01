@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Caja;
 use App\IngresoProducto;
+use App\Movimiento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -61,6 +63,26 @@ class IngresoProductoController extends Controller
         $stockFinal = $stockActual + $request->cantidadIngreso;
         $ingreso->productos->update(['stock' => $stockFinal]);
 
+
+        $cajaId = Caja::where('cajaActiva', 1)->first();
+        $caja = Caja::findOrFail($cajaId->id);
+        //si fue pagado se actualiza el saldo de la caja
+        $caja->saldo -= $request->cantidadIngreso * $request->precioCompra;
+        $caja->save();
+        //fin parte de cajas
+
+        //Agregado de pago en la reserva en caso de que este pagada o almenos en parte
+        $movimiento = new Movimiento();
+        $movimiento->monto = $request->cantidadIngreso * $request->precioCompra;
+        $movimiento->modosPagos_id = $request->modosPagos_id;
+        $movimiento->cajas_id = $cajaId->id;
+        $movimiento->tipo = 0;
+        $movimiento->descripcion = "ingreso de producto: " . $ingreso->productos->producto;
+        $movimiento->users_id = Auth::user()->id;
+        $movimiento->save();
+        //Agregado de pago en la reserva en caso de que este pagada o almenos en parte
+
+
         $ingreso->save();
 
         return $ingreso;
@@ -84,47 +106,7 @@ class IngresoProductoController extends Controller
      * @param  \App\IngresoProducto  $ingresoProducto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, IngresoProducto $ingresoProducto)
-    {
-        $id = $request->id;
 
-        $request->validate([
-            'id' => 'required',
-            'cantidadIngreso' => 'required|numeric',
-            'precioCompra' => 'required|numeric',
-            'productos_id' => 'required|numeric',
-            'modosPagos_id' => 'required|numeric',
-        ]);
-
-        $ingreso = IngresoProducto::find($request->id);
-        $ingreso->precioCompra = $request->precioCompra;
-        $ingreso->productos_id = $request->productos_id;
-        $ingreso->modosPagos_id = $request->modosPagos_id;
-        $ingreso->users_id = Auth::user()->id;
-
-        //se busca la cantidad anterior de entrada del producto
-        $ingresoAnterior = $ingreso->getOriginal('cantidadIngreso');
-        //se pone en una variable la cantidad de ingreso actual
-        $ingresoActual = $request->cantidadIngreso;
-        //se verifica que sea haya cambiado la cantidad para hacer un cambio en la cantidad de stock del producto
-        if ($ingresoActual != $ingresoAnterior) {
-            //al stock actual se le resta el anterior
-            $stockActual = $ingreso->productos->stock - $ingresoAnterior;
-            //y para sacar el nuevo stock del producto se le suma la nueva cantidad de entrada
-            $stockFinal = $stockActual + $ingresoActual;
-            //se actualiza el stock del producto
-            $ingreso->productos->update(['stock' => $stockFinal]);
-            //se guarda la cantidad en el ingreso de producto
-            $ingreso->cantidadIngreso = $ingresoActual;
-        } else {
-            //si la cantidad no es modificada no se realizan los pasos anteriores y solo se guarda nuevamente
-            $ingreso->cantidadIngreso = $request->cantidadIngreso;
-        }
-
-        $ingreso->save();
-
-        return $ingreso;
-    }
 
     /**
      * Remove the specified resource from storage.

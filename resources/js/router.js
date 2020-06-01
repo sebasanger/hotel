@@ -62,6 +62,12 @@ export default new Router({
             component: Home,
             name: "home"
         },
+
+        {
+            path: "/home",
+            redirect: { name: "home" }
+        },
+
         {
             path: "/reservaDetalles/:id",
             component: reservashow,
