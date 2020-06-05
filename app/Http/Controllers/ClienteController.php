@@ -46,7 +46,7 @@ class ClienteController extends Controller
         $request->validate([
             'nombre' => 'required|string|min:2|max:30',
             'apellido' => 'required|string|min:2|max:30',
-            'dni' => 'required|numeric',
+            'dni' => 'required|numeric|unique:clientes',
             'celular' => 'nullable|numeric',
             'domicilio' => 'nullable|string|min:2|max:30',
             'profecion' => 'nullable|string|min:2|max:30',

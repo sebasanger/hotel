@@ -126,18 +126,18 @@ class IngresoProductoController extends Controller
     public function ingresoFilter($query = null)
     {
         if (!empty($query)) {
-            $ingresosProductos = IngresoProducto::leftJoin('productos', 'ingresosProductos.productos_id', '=', 'productos.id')
-                ->leftJoin('users', 'ingresosProductos.users_id', '=', 'users.id')
-                ->leftJoin('modosPagos', 'ingresosProductos.modosPagos_id', '=', 'modosPagos.id')
-                ->select('ingresosProductos.*', 'modosPagos.modoPago', 'productos.producto', 'users.name')
+            $ingresosProductos = IngresoProducto::leftJoin('productos', 'ingresosproductos.productos_id', '=', 'productos.id')
+                ->leftJoin('users', 'ingresosproductos.users_id', '=', 'users.id')
+                ->leftJoin('modosPagos', 'ingresosproductos.modosPagos_id', '=', 'modosPagos.id')
+                ->select('ingresosproductos.*', 'modosPagos.modoPago', 'productos.producto', 'users.name')
                 ->where('productos_id', '=', $query)
                 ->latest()
                 ->paginate(40);
         } else {
-            $ingresosProductos = IngresoProducto::leftJoin('productos', 'ingresosProductos.productos_id', '=', 'productos.id')
-                ->leftJoin('users', 'ingresosProductos.users_id', '=', 'users.id')
-                ->leftJoin('modosPagos', 'ingresosProductos.modosPagos_id', '=', 'modosPagos.id')
-                ->select('ingresosProductos.*', 'modosPagos.modoPago', 'productos.producto', 'users.name')
+            $ingresosProductos = IngresoProducto::leftJoin('productos', 'ingresosproductos.productos_id', '=', 'productos.id')
+                ->leftJoin('users', 'ingresosproductos.users_id', '=', 'users.id')
+                ->leftJoin('modosPagos', 'ingresosproductos.modosPagos_id', '=', 'modosPagos.id')
+                ->select('ingresosproductos.*', 'modosPagos.modoPago', 'productos.producto', 'users.name')
                 ->latest()
                 ->paginate(10);
         }

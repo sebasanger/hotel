@@ -19,6 +19,8 @@ class CreateReservasTable extends Migration
             $table->double('precio');
             $table->date('egreso');
             $table->date('ingreso');
+            $table->dateTime('checkin')->nullable();
+            $table->dateTime('checkout')->nullable();
             $table->string('patenteAuto', 20)->nullable();
             $table->string('color', 40)->default('blue');
             $table->tinyInteger('estado')->default(1);

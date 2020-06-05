@@ -30,15 +30,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('getAllUsers', 'UserController@getAllUsers');
     //rutas de carga
 
-    //rutas para graficas
-    Route::get('getIngresosDiarios', 'MovimientoController@getIngresosDiarios');
-    Route::get('getSaldosDiarios/{year}/{month}', 'CajaController@getSaldosDiarios');
-    Route::get('getSaldosMensuales/{year}', 'CajaController@getSaldosMensuales');
-    Route::get('getIngresosMensuales/{meses?}', 'MovimientoController@getIngresosMensuales');
-
-    Route::get('getReservasDiarias/{year}/{month}', 'ReservaController@getReservasDiarias');
-    Route::get('getReservasMensuales/{year}', 'ReservaController@getReservasMensuales');
-    //rutas para graficas
 
     //rutas de caja
     Route::get('getCajaData/{cajaId}', 'CajaController@getCajaData')->where('cajaId', '[0-9]+');
@@ -49,10 +40,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('getEgresos/{cajaId}', 'MovimientoController@getEgresos')->where('cajaId', '[0-9]+');
     //rutas de caja
 
+
     //rutas de reserva
     Route::get('getPagosByReserva/{reservaId}', 'PagoController@getPagosByReserva')->where('reservaId', '[0-9]+');
     Route::get('getConsumosByReserva/{reservaId}', 'ConsumoController@getConsumosByReserva')->where('reservaId', '[0-9]+');
     Route::get('getProducto/{productoId}', 'ProductoController@getProducto');
+    Route::get('checkinReserva/{id}', 'ReservaController@checkinReserva');
+    Route::get('checkoutReserva/{id}', 'ReservaController@checkoutReserva');
     //rutas de reserva
 
     //rutas para cliente
@@ -64,7 +58,21 @@ Route::middleware(['auth'])->group(function () {
     Route::get('findCliente/{id}', 'ClienteController@findCliente');
     //rutas de user
 
+    Route::get('cambiarEstado/{id}/{estado}', 'HabitacionController@cambiarEstado');
+
     Route::middleware(['role:1'])->group(function () {
+        //rutas para graficas
+        Route::get('getIngresosDiarios', 'MovimientoController@getIngresosDiarios');
+        Route::get('getSaldosDiarios/{year}/{month}', 'CajaController@getSaldosDiarios');
+        Route::get('getSaldosMensuales/{year}', 'CajaController@getSaldosMensuales');
+        Route::get('getIngresosMensuales/{meses?}', 'MovimientoController@getIngresosMensuales');
+        Route::get('getReservasDiarias/{year}/{month}', 'ReservaController@getReservasDiarias');
+        Route::get('getReservasMensuales/{year}', 'ReservaController@getReservasMensuales');
+        //rutas para graficas
+
+        Route::get('caja/{filtro?}', 'CajaController@index');
+
+
 
         Route::apiResource('categoria', 'CategoriaController');
 
@@ -94,7 +102,6 @@ Route::middleware(['auth'])->group(function () {
             'index'
         ]);
     });
-    Route::get('caja/{filtro?}', 'CajaController@index');
 
     Route::apiResource('caja', 'CajaController');
 

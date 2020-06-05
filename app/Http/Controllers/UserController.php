@@ -68,7 +68,18 @@ class UserController extends Controller
             'telefono' => 'nullable|numeric',
             'celular' => 'nullable|numeric',
         ]);
-        $user->update($request->all());
+        $user = User::find($request->id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role = $request->role;
+        $user->telefono = $request->telefono;
+        $user->celular = $request->celular;
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
+        }
+
+
+        $user->save();
 
         return $user;
     }

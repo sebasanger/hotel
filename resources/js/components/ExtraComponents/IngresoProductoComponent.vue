@@ -45,7 +45,7 @@
                                     <th>Modo de pago</th>
                                     <th>Encargado</th>
                                     <th>Fecha</th>
-                                    <th>Modificado</th>
+
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -66,7 +66,6 @@
                                     <td>
                                         {{ item.created_at | formatDateTime }}
                                     </td>
-                                    <td>{{ item.updated_at | formatDate }}</td>
                                     <td>
                                         <button
                                             class="btn"

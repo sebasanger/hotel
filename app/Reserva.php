@@ -44,7 +44,7 @@ class Reserva extends Model
     }
 
     protected $fillable = [
-        'huespedes', 'precioDia', 'egreso', 'patenteAuto', 'estado', 'totalPagar','pagado','clientes_id','motivos_id','preciosHabitaciones_id','habitaciones_id','users_id'
+        'huespedes', 'precioDia', 'egreso', 'patenteAuto', 'estado', 'totalPagar', 'pagado', 'clientes_id', 'motivos_id', 'preciosHabitaciones_id', 'habitaciones_id', 'users_id'
     ];
 
 
@@ -57,6 +57,5 @@ class Reserva extends Model
         'updated_at' => 'datetime:d/m/Y H:i',
         'ingreso' => 'datetime',
         'egreso' => 'datetime',
-
     ];
 }

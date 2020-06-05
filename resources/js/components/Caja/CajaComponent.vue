@@ -62,10 +62,10 @@
                                     <td
                                         class="text-center"
                                         :class="[
-                                            item.montoCierre <=
+                                            item.montoCierre >=
                                             item.montoApertura
-                                                ? 'text-danger'
-                                                : 'text-success'
+                                                ? 'text-success'
+                                                : 'text-danger'
                                         ]"
                                     >
                                         {{ item.montoCierre }}

@@ -43,6 +43,7 @@
                             </td>
                             <td class="text-center">
                                 <button
+                                    :disabled="estado == 0"
                                     class="btn ml-2"
                                     @click="deleteConsumo(consumo)"
                                 >
@@ -58,7 +59,7 @@
 </template>
 <script>
 export default {
-    props: ["consumos"],
+    props: ["consumos", "estado"],
     methods: {
         deleteConsumo(consumo) {
             Swal.fire({

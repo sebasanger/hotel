@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Caja;
 use App\Consumo;
+use App\Habitacion;
 use App\Pago;
 use App\Reserva;
 use App\PrecioHabitacion;
@@ -48,6 +49,7 @@ class ReservaController extends Controller
             'destino' => 'string|nullable',
             'procedencia' => 'string|nullable',
             'pagado' => 'numeric|nullable',
+            'checkin' => 'numeric|nullable',
 
         ]);
         $fechaLibre = $this->verificacion($request->habitaciones_id, $request->ingreso, $request->egreso);
@@ -75,7 +77,12 @@ class ReservaController extends Controller
             $reserva->totalPagar = $precioTotal;
             $reserva->color = $colorGrafica;
             $reserva->users_id = Auth::user()->id;
+            if ($request->checkin == 1) {
+                $reserva->checkin = now();
+                $reserva->habitaciones->update(['estado' => 2]);
+            }
             $reserva->save();
+
 
             if ($request->pagado >= 1) {
                 $cajaId = Caja::where('cajaActiva', 1)->first();
@@ -283,5 +290,27 @@ class ReservaController extends Controller
             ->where('clientes_id', '=', $clienteId)
             ->get();
         return $reservas;
+    }
+
+    public function checkinReserva($id)
+    {
+        $reserva = Reserva::findOrFail($id);
+        $reserva->habitaciones->update(['estado' => 2]);
+        $reserva->checkin = now();
+        $reserva->save();
+
+        return $reserva;
+    }
+
+    public function checkoutReserva($id)
+    {
+        $reserva = Reserva::findOrFail($id);
+        $reserva->habitaciones->update(['estado' => 3]);
+        $reserva->checkout = now();
+        $reserva->color = 'blue';
+        $reserva->estado = 0;
+        $reserva->save();
+
+        return $reserva;
     }
 }

@@ -100,6 +100,9 @@ class PagoController extends Controller
         $pago = Pago::findOrFail($id);
         //revision del color de la grafica
         $reserva = Reserva::findOrFail($pago->reservas->id);
+        if ($reserva->estado == 0) {
+            abort(400, 'No se puede eliminar el pago de una reserva finalizada');
+        }
         $nuevoPagado = $reserva->pagado - $pago->monto;
         if ($nuevoPagado >= $reserva->totalPagar) {
             $reserva->color = "green";

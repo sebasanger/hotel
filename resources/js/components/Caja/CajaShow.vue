@@ -104,6 +104,8 @@
                                         >
                                             <movimiento-list
                                                 :movimientos="ingresosCaja"
+                                                :tipo="1"
+                                                :estado="0"
                                             />
                                         </div>
                                         <!-- cierre tabla de ingresos -->
@@ -120,6 +122,8 @@
                                         >
                                             <movimiento-list
                                                 :movimientos="egresosCaja"
+                                                :tipo="0"
+                                                :estado="0"
                                             />
                                         </div>
                                         <!-- cierre tabla de egresos -->

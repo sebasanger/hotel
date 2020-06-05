@@ -27,6 +27,7 @@ class HabitacionController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('isAdmin');
         $validatedData = $request->validate([
             'numeroHabitacion' => 'required|numeric|unique:habitaciones',
             'piso' => 'required|numeric|max:8',
@@ -76,6 +77,7 @@ class HabitacionController extends Controller
      */
     public function update(Request $request)
     {
+        $this->authorize('isAdmin');
         $id = $request->id;
 
         $request->validate([
@@ -128,9 +130,6 @@ class HabitacionController extends Controller
             }
         }
 
-
-
-
         $habitacion->numeroHabitacion = $request->numeroHabitacion;
         $habitacion->piso = $request->piso;
         $habitacion->capacidad = $request->capacidad;
@@ -154,6 +153,7 @@ class HabitacionController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('isAdmin');
         $habitacion = Habitacion::findOrFail($id);
         $habitacion->delete();
         return $habitacion;
@@ -161,6 +161,15 @@ class HabitacionController extends Controller
 
     public function getAllHabitaciones()
     {
-        return Habitacion::all();
+        return Habitacion::orderBy('numeroHabitacion')->get();
+    }
+
+    public function cambiarEstado($id, $estado)
+    {
+        $habitacion = Habitacion::find($id);
+        $habitacion->estado = $estado;
+        $habitacion->save();
+
+        return $habitacion;
     }
 }

@@ -101,7 +101,7 @@
                                 </div>
 
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                         <label>*Habitacion</label>
                                         <select
                                             required
@@ -132,7 +132,7 @@
                                         ></has-error>
                                     </div>
 
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                         <label>*Precio</label>
                                         <select
                                             required
@@ -160,6 +160,31 @@
                                                         ph.descripcion
                                                 }}</option
                                             >
+                                        </select>
+                                        <has-error
+                                            :form="form"
+                                            field="preciosHabitaciones_id"
+                                        ></has-error>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label>Ckeckin</label>
+                                        <select
+                                            v-model="form.checkin"
+                                            name="checkin"
+                                            class="form-control"
+                                            :class="{
+                                                'is-invalid': form.errors.has(
+                                                    'checkin'
+                                                )
+                                            }"
+                                        >
+                                            <option selected value="1">
+                                                Si
+                                            </option>
+                                            <option value="0">
+                                                No
+                                            </option>
                                         </select>
                                         <has-error
                                             :form="form"
@@ -227,6 +252,8 @@
                                             @check-out-changed="
                                                 egresoChanged($event)
                                             "
+                                            :startingDateValue="null"
+                                            :endingDateValue="null"
                                         >
                                         </HotelDatePicker>
                                         <has-error
@@ -523,8 +550,6 @@ export default {
             precioDia: 0,
             ingreso: "",
             egreso: "",
-            ingresoInicial: "",
-            egresoInicial: "",
             ptAr: {
                 night: "Noche",
                 nights: "Noches",
@@ -552,12 +577,12 @@ export default {
     methods: {
         ingresoChanged(newDate) {
             this.ingreso = newDate;
-            let newIngreso = moment(newDate).format("YYYY/MM/DD");
+            let newIngreso = moment(newDate).format("YYYY-MM-DD");
             this.form.ingreso = newIngreso;
         },
         egresoChanged(newDate) {
             this.egreso = newDate;
-            let newEgreso = moment(newDate).format("YYYY/MM/DD");
+            let newEgreso = moment(newDate).format("YYYY-MM-DD");
             this.form.egreso = newEgreso;
         },
         updateReserva() {

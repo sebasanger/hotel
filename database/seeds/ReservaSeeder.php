@@ -21,7 +21,7 @@ class ReservaSeeder extends Seeder
         $reserva->precio = 1200;
         $reserva->egreso = now()->addDays(2);
         $reserva->patenteAuto = "ase 125";
-        $reserva->estado = 0;
+        $reserva->estado = 1;
         $reserva->totalPagar = 1250;
         $reserva->clientes_id = 6;
         $reserva->motivos_id = 1;
@@ -43,7 +43,7 @@ class ReservaSeeder extends Seeder
         $reserva->precio = 1500;
         $reserva->egreso = now()->addDays(3);
         $reserva->patenteAuto = "sea 115";
-        $reserva->estado = 0;
+        $reserva->estado = 1;
         $reserva->totalPagar = 1700;
         $reserva->clientes_id = 2;
         $reserva->motivos_id = 2;
@@ -63,7 +63,7 @@ class ReservaSeeder extends Seeder
         $reserva->huespedes = 2;
         $reserva->precio = 1500;
         $reserva->egreso = now()->addDays(10);
-        $reserva->estado = 0;
+        $reserva->estado = 1;
         $reserva->totalPagar = 1700;
         $reserva->clientes_id = 5;
         $reserva->motivos_id = 2;
@@ -84,7 +84,7 @@ class ReservaSeeder extends Seeder
         $reserva->precio = 1700;
         $reserva->egreso = now()->addDays(5);
         $reserva->patenteAuto = "afe 125";
-        $reserva->estado = 0;
+        $reserva->estado = 1;
         $reserva->totalPagar = 1700;
         $reserva->clientes_id = 13;
         $reserva->motivos_id = 3;
@@ -168,7 +168,7 @@ class ReservaSeeder extends Seeder
         $reserva->precio = 2400;
         $reserva->ingreso = "2020/03/20";
         $reserva->egreso = "2020/03/23";
-        $reserva->estado = 0;
+        $reserva->estado = 1;
         $reserva->clientes_id = 20;
         $reserva->preciosHabitaciones_id = 4;
         $reserva->habitaciones_id = 14;
@@ -183,7 +183,7 @@ class ReservaSeeder extends Seeder
         $reserva->precio = 2400;
         $reserva->ingreso = "2020/02/15";
         $reserva->egreso = "2020/02/18";
-        $reserva->estado = 0;
+        $reserva->estado = 1;
         $reserva->clientes_id = 28;
         $reserva->preciosHabitaciones_id = 2;
         $reserva->habitaciones_id = 11;
@@ -198,7 +198,7 @@ class ReservaSeeder extends Seeder
         $reserva->precio = 5000;
         $reserva->ingreso = "2020/01/10";
         $reserva->egreso = "2020/01/12";
-        $reserva->estado = 0;
+        $reserva->estado = 1;
         $reserva->clientes_id = 28;
         $reserva->preciosHabitaciones_id = 2;
         $reserva->habitaciones_id = 8;
@@ -213,7 +213,7 @@ class ReservaSeeder extends Seeder
         $reserva->precio = 1500;
         $reserva->ingreso = "2019/11/15";
         $reserva->egreso = "2019/11/18";
-        $reserva->estado = 0;
+        $reserva->estado = 1;
         $reserva->clientes_id = 50;
         $reserva->preciosHabitaciones_id = 3;
         $reserva->habitaciones_id = 2;
@@ -228,7 +228,7 @@ class ReservaSeeder extends Seeder
         $reserva->precio = 1500;
         $reserva->ingreso = "2019/12/03";
         $reserva->egreso = "2019/12/05";
-        $reserva->estado = 0;
+        $reserva->estado = 1;
         $reserva->clientes_id = 29;
         $reserva->preciosHabitaciones_id = 4;
         $reserva->habitaciones_id = 2;
@@ -243,7 +243,7 @@ class ReservaSeeder extends Seeder
         $reserva->precio = 1500;
         $reserva->ingreso = "2019/10/3";
         $reserva->egreso = "2019/10/6";
-        $reserva->estado = 0;
+        $reserva->estado = 1;
         $reserva->clientes_id = 55;
         $reserva->preciosHabitaciones_id = 2;
         $reserva->habitaciones_id = 2;
@@ -258,7 +258,7 @@ class ReservaSeeder extends Seeder
         $reserva->precio = 1500;
         $reserva->ingreso = "2020/04/15";
         $reserva->egreso = "2020/04/18";
-        $reserva->estado = 0;
+        $reserva->estado = 1;
         $reserva->clientes_id = 50;
         $reserva->preciosHabitaciones_id = 3;
         $reserva->habitaciones_id = 2;
@@ -273,7 +273,7 @@ class ReservaSeeder extends Seeder
         $reserva->precio = 1500;
         $reserva->ingreso = "2020/04/20";
         $reserva->egreso = "2020/04/23";
-        $reserva->estado = 0;
+        $reserva->estado = 1;
         $reserva->clientes_id = 4;
         $reserva->preciosHabitaciones_id = 4;
         $reserva->habitaciones_id = 4;
@@ -288,7 +288,7 @@ class ReservaSeeder extends Seeder
         $reserva->precio = 1500;
         $reserva->ingreso = "2020/02/25";
         $reserva->egreso = "2020/02/26";
-        $reserva->estado = 0;
+        $reserva->estado = 1;
         $reserva->clientes_id = 57;
         $reserva->preciosHabitaciones_id = 2;
         $reserva->habitaciones_id = 7;
@@ -303,7 +303,7 @@ class ReservaSeeder extends Seeder
         $reserva->precio = 1500;
         $reserva->ingreso = "2020/02/5";
         $reserva->egreso = "2020/02/6";
-        $reserva->estado = 0;
+        $reserva->estado = 1;
         $reserva->clientes_id = 57;
         $reserva->preciosHabitaciones_id = 2;
         $reserva->habitaciones_id = 6;
@@ -318,7 +318,7 @@ class ReservaSeeder extends Seeder
         $reserva->precio = 1500;
         $reserva->ingreso = "2020/05/5";
         $reserva->egreso = "2020/05/6";
-        $reserva->estado = 0;
+        $reserva->estado = 1;
         $reserva->clientes_id = 57;
         $reserva->preciosHabitaciones_id = 2;
         $reserva->habitaciones_id = 9;

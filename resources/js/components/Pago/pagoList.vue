@@ -31,7 +31,11 @@
                             {{ pago.created_at | formatDateTime }}
                         </td>
                         <td class="text-center">
-                            <button class="btn ml-2" @click="deletePago(pago)">
+                            <button
+                                :disabled="estado == 0"
+                                class="btn ml-2"
+                                @click="deletePago(pago)"
+                            >
                                 <i class="fa fa-trash red"></i>
                             </button>
                         </td>
@@ -43,7 +47,7 @@
 </template>
 <script>
 export default {
-    props: ["pagos"],
+    props: ["pagos", "estado"],
     methods: {
         deletePago(pago) {
             Swal.fire({

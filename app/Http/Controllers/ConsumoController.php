@@ -134,6 +134,9 @@ class ConsumoController extends Controller
         $consumo = Consumo::findOrFail($id);
         //revision del color de la grafica
         $reserva = Reserva::findOrFail($consumo->reservas_id);
+        if ($reserva->estado == 0) {
+            abort(400, 'No se puede eliminar el consumo de una reserva finalizada');
+        }
         $total = $consumo->precio * $consumo->cantidad;
         $nuevoTotal = $reserva->totalPagar - $total;
         if ($reserva->totalPagado >= $nuevoTotal) {

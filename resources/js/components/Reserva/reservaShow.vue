@@ -12,41 +12,69 @@
                                 <div class="card-body box-profile">
                                     <reserva-data :reserva="reserva" />
 
-                                    <button
-                                        @click="editModal(reserva)"
-                                        style="margin-left: 30px"
-                                        class="btn btn-primary text-white col-5"
-                                    >
-                                        Editar reserva
-                                    </button>
+                                    <div v-if="!reserva.checkout">
+                                        <button
+                                            @click="editModal(reserva)"
+                                            class="btn btn-primary btn-block btn-info text-white"
+                                        >
+                                            Editar reserva
+                                        </button>
 
-                                    <button
-                                        :disabled="
-                                            pagosReservas.length != 0 &&
-                                                consumosReserva.length != 0
-                                        "
-                                        @click="deleteReserva(reserva.id)"
-                                        class="btn btn-primary btn-danger text-white col-5 ml-2"
-                                    >
-                                        Eliminar reserva
-                                    </button>
+                                        <button
+                                            :disabled="
+                                                pagosReservas.length != 0 ||
+                                                    consumosReserva.length !=
+                                                        0 ||
+                                                    reserva.checkin != null
+                                            "
+                                            @click="deleteReserva(reserva.id)"
+                                            class="btn btn-primary btn-block btn-danger text-white"
+                                        >
+                                            Eliminar reserva
+                                        </button>
 
-                                    <button
-                                        :disabled="cajaActiva.cajaActiva != 1"
-                                        style="margin-left: 30px"
-                                        @click="createPago(reserva)"
-                                        class="btn btn-primary btn-success text-white col-5 mt-2"
-                                    >
-                                        Nuevo pago
-                                    </button>
+                                        <button
+                                            :disabled="
+                                                cajaActiva.cajaActiva != 1
+                                            "
+                                            @click="createPago(reserva)"
+                                            class="btn btn-primary btn-block btn-success text-white"
+                                        >
+                                            Nuevo pago
+                                        </button>
 
-                                    <button
-                                        :disabled="cajaActiva.cajaActiva != 1"
-                                        @click="createConsumo(reserva)"
-                                        class="btn btn-primary btn-success text-white col-5 mt-2 ml-2"
-                                    >
-                                        Nuevo consumo
-                                    </button>
+                                        <button
+                                            :disabled="
+                                                cajaActiva.cajaActiva != 1
+                                            "
+                                            @click="createConsumo(reserva)"
+                                            class="btn btn-primary btn-block btn-success text-white"
+                                        >
+                                            Nuevo consumo
+                                        </button>
+                                        <button
+                                            v-if="!reserva.checkin"
+                                            @click="createCheckin(reserva.id)"
+                                            class="btn btn-primary btn-block btn-warning text-dark"
+                                        >
+                                            Realizar checkin
+                                        </button>
+
+                                        <button
+                                            :disabled="
+                                                reserva.pagado <
+                                                    reserva.totalPagar
+                                            "
+                                            v-if="
+                                                reserva.checkin &&
+                                                    !reserva.checkout
+                                            "
+                                            @click="createCheckout(reserva.id)"
+                                            class="btn btn-primary btn-block btn-warning text-dark"
+                                        >
+                                            Realizar checkout
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -115,7 +143,10 @@
                                             id="pagos"
                                             v-if="pagosReservas.length >= 1"
                                         >
-                                            <pago-list :pagos="pagosReservas" />
+                                            <pago-list
+                                                :pagos="pagosReservas"
+                                                :estado="reserva.estado"
+                                            />
                                         </div>
                                         <!-- cierre de tabla de pagos -->
                                         <!-- tabla de consumos -->
@@ -131,6 +162,7 @@
                                         >
                                             <consumo-list
                                                 :consumos="consumosReserva"
+                                                :estado="reserva.estado"
                                             />
                                         </div>
                                         <!-- cierre tabla de consumos -->
@@ -209,7 +241,8 @@ export default {
                 huespedes: "",
                 patenteAuto: "",
                 destino: "",
-                procedencia: ""
+                procedencia: "",
+                checkin: ""
             }),
             formPago: new Form({
                 id: "",
@@ -248,6 +281,7 @@ export default {
         ]),
         ...mapState("caja", ["cajaActiva"])
     },
+
     methods: {
         async cargar() {
             try {
@@ -266,6 +300,11 @@ export default {
         },
         editModal(reserva) {
             this.editMode = true;
+            this.$store.dispatch("carga/fetchAllClientes");
+            this.$store.dispatch("carga/fetchAllMotivos");
+            this.$store.dispatch("carga/fetchAllPreciosHabitaciones");
+            this.$store.dispatch("carga/fetchAllModosPagos");
+            this.$store.dispatch("habitacion/fetchHabitaciones");
             this.form.reset();
             $("#addNew").modal("show");
             this.form.fill(reserva);
@@ -297,6 +336,48 @@ export default {
                         Swal.fire(
                             "Eliminado!",
                             "La reserva se elimino correctamente.",
+                            "success"
+                        );
+                    });
+                }
+            });
+        },
+        createCheckin(id) {
+            Swal.fire({
+                title: "¿Realizar checkin?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si!"
+            }).then(result => {
+                if (result.value) {
+                    axios.get("/checkinReserva/" + id).then(res => {
+                        this.$store.dispatch("fetchReserva", res.data.id);
+                        Swal.fire(
+                            "Listo!",
+                            "Se realizo el checkin correctamente.",
+                            "success"
+                        );
+                    });
+                }
+            });
+        },
+        createCheckout(id) {
+            Swal.fire({
+                title: "¿Realizar checkout?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si!"
+            }).then(result => {
+                if (result.value) {
+                    axios.get("/checkoutReserva/" + id).then(res => {
+                        this.$store.dispatch("fetchReserva", res.data.id);
+                        Swal.fire(
+                            "Listo!",
+                            "Se finalizo al reserva correctamente",
                             "success"
                         );
                     });

@@ -82,9 +82,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         top: 50%;
         left: 50%;
         background: #191919;
-        ;
+
         text-align: center;
-        transition: 0.25s;
+        transition: 0.50s;
         margin-top: 100px
     }
 

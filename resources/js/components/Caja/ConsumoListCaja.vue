@@ -56,6 +56,7 @@
                             </td>
                             <td class="text-center">
                                 <button
+                                    :disabled="consumo.estado == 0"
                                     class="btn ml-2"
                                     @click="deleteConsumo(consumo)"
                                 >

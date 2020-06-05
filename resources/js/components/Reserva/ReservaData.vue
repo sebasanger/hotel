@@ -5,14 +5,22 @@
             Datos de la reserva
         </h4>
 
-        <ul class="list-group list-group-unbordered mb-3 ">
+        <ul class="list-group list-group-unbordered mb-3">
             <li class="list-group-item ">
                 <b>Numero de la habitacion:</b>
                 <a class="float-right"> {{ reserva.numeroHabitacion }}</a>
             </li>
+            <li class="list-group-item ">
+                <b>Estado de la reserva:</b>
+                <a class="float-right"> {{ reserva.estado | estadoReserva }}</a>
+            </li>
             <li class="list-group-item">
                 <b>Precio por dia:</b>
                 <a class="float-right">{{ reserva.precio }}</a>
+            </li>
+            <li class="list-group-item">
+                <b>Cantidad de huespedes:</b>
+                <a class="float-right">{{ reserva.huespedes }}</a>
             </li>
             <li
                 class="list-group-item"
@@ -57,6 +65,18 @@
                 <b>Egreso:</b>
                 <a class="float-right">
                     {{ reserva.egreso | formatDateComplete }}</a
+                >
+            </li>
+            <li class="list-group-item" v-show="reserva.checkin">
+                <b>Checkin:</b>
+                <a class="float-right">
+                    {{ reserva.checkin | formatDateTimeComplete }}</a
+                >
+            </li>
+            <li class="list-group-item" v-show="reserva.checkout">
+                <b>Checkout:</b>
+                <a class="float-right">
+                    {{ reserva.checkout | formatDateTimeComplete }}</a
                 >
             </li>
             <li class="list-group-item">

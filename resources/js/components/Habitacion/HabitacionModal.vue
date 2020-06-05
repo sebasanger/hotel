@@ -119,10 +119,11 @@
                                         'is-invalid': form.errors.has('single')
                                     }"
                                 >
-                                    <option value
+                                    <option value="0" selected
                                         >Seleccionar la cantidad de camas
                                         singles</option
                                     >
+                                    <option value="0">Cero</option>
                                     <option value="1">Una</option>
                                     <option value="2">Dos</option>
                                     <option value="3">Tres</option>
@@ -145,10 +146,11 @@
                                         'is-invalid': form.errors.has('doble')
                                     }"
                                 >
-                                    <option value
+                                    <option value="0" selected
                                         >Seleccionar la cantidad de camas
                                         matrimoñales</option
                                     >
+                                    <option value="0">Cero</option>
                                     <option value="1">Una</option>
                                     <option value="2">Dos</option>
                                     <option value="3">Tres</option>

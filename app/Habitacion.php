@@ -16,6 +16,10 @@ class Habitacion extends Model
 
     protected $table = 'habitaciones';
 
+    protected $fillable = [
+        'estado'
+    ];
+
     protected $casts = [
         'created_at' => 'datetime:d-m-Y',
         'updated_at' => 'datetime:d-m-Y'

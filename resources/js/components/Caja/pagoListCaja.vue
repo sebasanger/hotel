@@ -43,7 +43,11 @@
                             {{ pago.estado | estadoReserva }}
                         </td>
                         <td class="text-center">
-                            <button class="btn ml-2" @click="deletePago(pago)">
+                            <button
+                                :disabled="pago.estado == 0"
+                                class="btn ml-2"
+                                @click="deletePago(pago)"
+                            >
                                 <i class="fa fa-trash red"></i>
                             </button>
                         </td>

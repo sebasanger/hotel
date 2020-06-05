@@ -160,7 +160,7 @@
                                         )
                                     }"
                                 >
-                                    <option value
+                                    <option value selected disabled
                                         >Seleccionar una factura</option
                                     >
                                     <option
@@ -216,6 +216,7 @@ export default {
                 .put("/cliente/" + this.form.id)
                 .then(res => {
                     //actualiza los clientes manteniendo la pagina y filtros actuales
+                    this.$store.dispatch("cliente/findCliente", res.id);
                     this.getResults(this.paginaActual, this.search);
                     this.$store.dispatch("carga/fetchAllClientes");
                     $("#addEditCliente").modal("hide");

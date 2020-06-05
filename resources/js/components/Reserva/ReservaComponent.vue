@@ -24,7 +24,7 @@
         </div>
         <reserva-modal
             :form="form"
-            :habitaciones="habitacionesDisponibles"
+            :habitaciones="habitaciones"
             :clientes="clientes"
             :preciosHabitaciones="preciosHabitaciones"
             :motivos="motivos"
@@ -70,7 +70,8 @@ export default {
                 huespedes: "",
                 patenteAuto: "",
                 destino: "",
-                procedencia: ""
+                procedencia: "",
+                checkin: 1
             }),
             config: {
                 actions: {
@@ -228,8 +229,7 @@ export default {
             "preciosHabitaciones",
             "modosPagos",
             "facturas"
-        ]),
-        ...mapGetters("habitacion", ["habitacionesDisponibles"])
+        ])
     },
     watch: {
         elementos() {

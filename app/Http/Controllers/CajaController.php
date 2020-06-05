@@ -20,6 +20,8 @@ class CajaController extends Controller
 
     public function index($query = null)
     {
+        $this->authorize('isAdmin');
+
         if (empty($query)) {
             $cajas = Caja::leftJoin('users', 'cajas.users_id', '=', 'users.id')
                 ->select('cajas.*', 'users.name')

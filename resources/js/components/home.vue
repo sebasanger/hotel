@@ -120,16 +120,15 @@
                             >
                                 <div class="btn-group">
                                     <button
-                                        type="button"
+                                        v-if="
+                                            habitacion.image_path ||
+                                                habitacion.image_path2 ||
+                                                habitacion.image_path3
+                                        "
+                                        @click="galery(habitacion.id)"
                                         class="btn btn-sm btn-outline-secondary btn-danger text-white"
                                     >
-                                        Ver
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="btn btn-sm btn-outline-secondary btn-danger text-white"
-                                    >
-                                        Mas detalles
+                                        Ver imagenes
                                     </button>
                                 </div>
                             </div>
@@ -137,14 +136,19 @@
                     </div>
                 </div>
             </div>
+            <galeryModal />
         </div>
     </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import galeryModal from "./Habitacion/galeryModal.vue";
 
 export default {
+    components: {
+        galeryModal
+    },
     mounted() {
         this.$store.dispatch("habitacion/fetchHabitaciones");
         this.$Progress.finish();
@@ -154,6 +158,21 @@ export default {
 
         getFoto() {
             return "img/habitaciones/" + this.habitacion.image_path;
+        }
+    },
+    methods: {
+        galery(id) {
+            console.log("hola");
+            this.$store
+                .dispatch("habitacion/fetchHabitacion", id)
+                .then(() => {
+                    $("#galery").modal("show");
+                })
+                .catch(() => {
+                    this.$router.push({
+                        name: "500"
+                    });
+                });
         }
     }
 };

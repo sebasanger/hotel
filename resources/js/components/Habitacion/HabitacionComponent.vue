@@ -24,9 +24,10 @@
                                     <th>Capacidad maxima</th>
                                     <th>Camas Singles</th>
                                     <th>Camas Matrimoñales</th>
+                                    <th>Cambiar estado</th>
                                     <th>Estado</th>
                                     <th>Fotos</th>
-                                    <th>Acciones</th>
+                                    <th v-show="user.role == 1">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody class="text-center">
@@ -59,6 +60,28 @@
                                             class="fa fa-bed blue ml-1"
                                         ></i>
                                     </td>
+                                    <td>
+                                        <select
+                                            name="estado"
+                                            class="form-control"
+                                            @change="
+                                                cambiarEstado(item.id, $event)
+                                            "
+                                        >
+                                            <option value disabled selected
+                                                >Cambiar estado</option
+                                            >
+                                            <option value="1" class="bg-green"
+                                                >Disponible</option
+                                            >
+                                            <option class="bg-red" value="2"
+                                                >Ocupada</option
+                                            >
+                                            <option class="bg-yellow" value="3"
+                                                >Limpiar</option
+                                            >
+                                        </select>
+                                    </td>
                                     <td
                                         :style="[
                                             item.estado == 2 ? ocupada : '',
@@ -82,7 +105,10 @@
                                             <i class="fa fa-image orange"></i>
                                         </button>
                                     </td>
-                                    <td class="text-center">
+                                    <td
+                                        class="text-center"
+                                        v-show="user.role == 1"
+                                    >
                                         <button
                                             @click="editModal(item)"
                                             class="btn"
@@ -144,9 +170,33 @@ export default {
     },
 
     computed: {
-        ...mapGetters("habitacion", ["habitacionesReales"])
+        ...mapGetters("habitacion", ["habitacionesReales"]),
+        ...mapState("user", ["user"])
     },
     methods: {
+        cambiarEstado(id, event) {
+            this.$Progress.start();
+            axios
+                .get("/cambiarEstado/" + id + "/" + event.target.value)
+                .then(() => {
+                    this.$store.dispatch("habitacion/fetchHabitaciones");
+
+                    Swal.fire(
+                        "Listo!",
+                        "Se finalizo cambio el estado de la habitacion correctamente",
+                        "success"
+                    );
+                    this.$Progress.finish();
+                })
+                .catch(() => {
+                    this.$Progress.fail();
+                    Swal.fire(
+                        "Listo!",
+                        "No se pudo cambiar el estado de la habitacion",
+                        "error"
+                    );
+                });
+        },
         newModal() {
             this.editMode = false;
             this.form.reset();

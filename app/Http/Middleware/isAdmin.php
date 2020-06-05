@@ -18,7 +18,7 @@ class isAdmin
 
         //midleware para ver si el usuario tiene el rol que le asignamos como segundo parametro cuando declaramos el middleware, ejemplo role:admin\\
         if ($request->user()->role != $role) {
-           
+
 
             abort(403, "No tienes autorización para ingresar");
         }

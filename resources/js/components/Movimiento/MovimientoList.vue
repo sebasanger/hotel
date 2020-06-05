@@ -1,7 +1,12 @@
 <template>
     <div>
         <div class="col-12">
-            <h5>Movimientos de la caja</h5>
+            <div v-if="tipo == 1">
+                <h5>Ingresos de la caja</h5>
+            </div>
+            <div v-else-if="tipo == 0">
+                <h5>Egresos de la caja</h5>
+            </div>
             <div class="card-body table-responsive p-0 text-black-50">
                 <table class="table table-hover table-bordered">
                     <thead>
@@ -38,6 +43,7 @@
 
                             <td class="text-center">
                                 <button
+                                    :disabled="estado == 0"
                                     class="btn ml-2"
                                     @click="deleteMovimiento(movimiento)"
                                 >
@@ -53,7 +59,7 @@
 </template>
 <script>
 export default {
-    props: ["movimientos"],
+    props: ["movimientos", "tipo", "estado"],
     methods: {
         deleteMovimiento(movimiento) {
             Swal.fire({
