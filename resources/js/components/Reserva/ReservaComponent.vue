@@ -13,11 +13,7 @@
                         <h5>Reservas</h5>
                     </div>
 
-                    <GSTC
-                        :config="config"
-                        @state="onState"
-                        @click="console.log(config)"
-                    />
+                    <GSTC :config="config" @state="onState" />
                     <div class="card-footer"></div>
                 </div>
             </div>
@@ -132,12 +128,20 @@ export default {
                                     content: "Piso"
                                 }
                             },
+                            capacidad: {
+                                id: "capacidad",
+                                data: "capacidad",
+                                width: 80,
+                                header: {
+                                    content: "Capacidad"
+                                }
+                            },
                             single: {
                                 id: "single",
                                 data: "single",
-                                width: 50,
+                                width: 60,
                                 header: {
-                                    content: "Single"
+                                    content: "Singles"
                                 }
                             },
                             doble: {
@@ -145,7 +149,7 @@ export default {
                                 data: "doble",
                                 width: 100,
                                 header: {
-                                    content: "Matrimoñales"
+                                    content: "Matrimoñiales"
                                 }
                             }
                         }

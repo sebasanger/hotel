@@ -295,7 +295,7 @@ export default {
                     });
                 this.loaded = true;
             } catch (e) {
-                console.error(e);
+                this.$router.push({ name: "reserva" });
             }
         },
         editModal(reserva) {

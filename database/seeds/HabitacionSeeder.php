@@ -40,7 +40,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 2;
         $habitacion->single = 0;
         $habitacion->doble = 1;
-        $habitacion->estado = 2;
+        $habitacion->estado = 0;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -51,7 +51,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 3;
         $habitacion->single = 1;
         $habitacion->doble = 1;
-        $habitacion->estado = 3;
+        $habitacion->estado = 0;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -62,7 +62,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 4;
         $habitacion->single = 2;
         $habitacion->doble = 1;
-        $habitacion->estado = 2;
+        $habitacion->estado = 1;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -84,7 +84,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 1;
         $habitacion->single = 1;
         $habitacion->doble = 0;
-        $habitacion->estado = 2;
+        $habitacion->estado = 0;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -95,7 +95,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 2;
         $habitacion->single = 2;
         $habitacion->doble = 0;
-        $habitacion->estado = 3;
+        $habitacion->estado = 1;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -150,7 +150,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 2;
         $habitacion->single = 0;
         $habitacion->doble = 1;
-        $habitacion->estado = 2;
+        $habitacion->estado = 0;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -172,7 +172,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 4;
         $habitacion->single = 2;
         $habitacion->doble = 1;
-        $habitacion->estado = 2;
+        $habitacion->estado = 1;
         $habitacion->created_at = now();
 
         $habitacion->save();
@@ -183,7 +183,7 @@ class HabitacionSeeder extends Seeder
         $habitacion->capacidad = 3;
         $habitacion->single = 1;
         $habitacion->doble = 1;
-        $habitacion->estado = 2;
+        $habitacion->estado = 0;
         $habitacion->created_at = now();
 
         $habitacion->save();

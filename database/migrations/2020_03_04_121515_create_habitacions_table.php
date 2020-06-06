@@ -16,17 +16,17 @@ class CreateHabitacionsTable extends Migration
         Schema::create('habitaciones', function (Blueprint $table) {
             $table->smallIncrements('id');
             $table->smallInteger('numeroHabitacion');
-		    $table->smallInteger('piso');
-		    $table->smallInteger('capacidad');
-		    $table->smallInteger('single')->nullable();
-		    $table->smallInteger('doble')->nullable();
-		    $table->string('image_path')->nullable();
-		    $table->string('image_path2')->nullable();
-		    $table->string('image_path3')->nullable();
-		    $table->smallInteger('estado')->default(1);
+            $table->smallInteger('piso');
+            $table->smallInteger('capacidad');
+            $table->smallInteger('single')->nullable()->default(0);
+            $table->smallInteger('doble')->nullable()->default(0);
+            $table->string('image_path')->nullable();
+            $table->string('image_path2')->nullable();
+            $table->string('image_path3')->nullable();
+            $table->smallInteger('estado')->default(1);
+            $table->smallInteger('estadoLimpieza')->default(1);
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 

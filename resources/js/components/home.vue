@@ -23,7 +23,7 @@
             <div class="row">
                 <div
                     class="col-md-4"
-                    v-for="habitacion in habitacionesReales"
+                    v-for="habitacion in habitacionesConImagenes"
                     :key="habitacion.id"
                 >
                     <div
@@ -66,7 +66,7 @@
                                         focusable="false"
                                         :src="
                                             'img/habitaciones/' +
-                                                habitacion.image_path
+                                                habitacion.image_path2
                                         "
                                     />
                                 </div>
@@ -83,7 +83,7 @@
                                         focusable="false"
                                         :src="
                                             'img/habitaciones/' +
-                                                habitacion.image_path
+                                                habitacion.image_path3
                                         "
                                     />
                                 </div>
@@ -154,7 +154,7 @@ export default {
         this.$Progress.finish();
     },
     computed: {
-        ...mapGetters("habitacion", ["habitacionesReales"]),
+        ...mapGetters("habitacion", ["habitacionesConImagenes"]),
 
         getFoto() {
             return "img/habitaciones/" + this.habitacion.image_path;
@@ -162,7 +162,6 @@ export default {
     },
     methods: {
         galery(id) {
-            console.log("hola");
             this.$store
                 .dispatch("habitacion/fetchHabitacion", id)
                 .then(() => {

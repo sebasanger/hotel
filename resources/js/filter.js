@@ -35,8 +35,13 @@ Vue.filter("capacidad", function(value) {
 Vue.filter("estado", function(value) {
     if (value == null) return "";
     if (value == 1) return "Disponible";
-    if (value == 2) return "Ocupada";
-    if (value == 3) return "Para limpiar";
+    if (value == 0) return "Ocupada";
+});
+
+Vue.filter("estadoLimpieza", function(value) {
+    if (value == null) return "";
+    if (value == 1) return "Limpia";
+    if (value == 0) return "Para limpiar";
 });
 
 Vue.filter("estadoReserva", function(value) {

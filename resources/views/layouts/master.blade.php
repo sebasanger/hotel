@@ -29,7 +29,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     .component-fade-enter-active,
     .component-fade-leave-active {
-        transition: all 1s ease-in-out;
+        transition: all 1.5s ease-in-out;
     }
 
 

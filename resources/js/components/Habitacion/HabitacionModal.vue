@@ -119,7 +119,7 @@
                                         'is-invalid': form.errors.has('single')
                                     }"
                                 >
-                                    <option value="0" selected
+                                    <option value selected disabled
                                         >Seleccionar la cantidad de camas
                                         singles</option
                                     >
@@ -146,7 +146,7 @@
                                         'is-invalid': form.errors.has('doble')
                                     }"
                                 >
-                                    <option value="0" selected
+                                    <option value selected disabled
                                         >Seleccionar la cantidad de camas
                                         matrimoñales</option
                                     >
@@ -164,7 +164,7 @@
                             </div>
 
                             <div class="form-group" v-show="editMode">
-                                <label>Estado</label>
+                                <label>Estado de la habitacion</label>
                                 <select
                                     v-model="form.estado"
                                     name="estado"
@@ -173,13 +173,8 @@
                                         'is-invalid': form.errors.has('estado')
                                     }"
                                 >
-                                    <option value
-                                        >Seleccionar el estado de la
-                                        habitacion</option
-                                    >
                                     <option value="1">Disponible</option>
-                                    <option value="2">Ocupada</option>
-                                    <option value="3">Limpiar</option>
+                                    <option value="0">Ocupada</option>
                                 </select>
                                 <has-error
                                     :form="form"
@@ -356,14 +351,14 @@ export default {
             this.form
                 .put("habitacion/" + this.form.id)
                 .then(res => {
-                    this.imagenMiniatrua = "";
-                    this.imagenMiniatrua2 = "";
-                    this.imagenMiniatrua3 = "";
                     $("#addNew").modal("hide");
                     Toast.fire({
                         icon: "success",
                         title: "Habitacion actualizada correctamente"
                     });
+                    this.imagenMiniatrua = "";
+                    this.imagenMiniatrua2 = "";
+                    this.imagenMiniatrua3 = "";
                     this.$Progress.finish();
                     this.getResults();
                 })
@@ -377,9 +372,7 @@ export default {
         },
         createHabitacion() {
             this.$Progress.start();
-            this.imagenMiniatrua = "";
-            this.imagenMiniatrua2 = "";
-            this.imagenMiniatrua3 = "";
+
             this.form
                 .post("habitacion")
                 .then(() => {
@@ -388,6 +381,9 @@ export default {
                         icon: "success",
                         title: "habitacion creada correctamente"
                     });
+                    this.imagenMiniatrua = "";
+                    this.imagenMiniatrua2 = "";
+                    this.imagenMiniatrua3 = "";
                     this.$Progress.finish();
                     this.getResults();
                 })
@@ -428,15 +424,15 @@ export default {
         },
 
         obtenerImagen2(e) {
-            let file = e.target.files[0];
-            let reader = new FileReader();
+            let file2 = e.target.files[0];
+            let reader2 = new FileReader();
 
-            if (file["size"] < 2111775) {
-                reader.onloadend = event => {
+            if (file2["size"] < 2111775) {
+                reader2.onloadend = event => {
                     this.imagenMiniatrua2 = event.target.result;
-                    this.form.image_path2 = reader.result;
+                    this.form.image_path2 = reader2.result;
                 };
-                reader.readAsDataURL(file);
+                reader2.readAsDataURL(file2);
             } else {
                 Swal.fire(
                     "Error!",
@@ -452,15 +448,15 @@ export default {
         },
 
         obtenerImagen3(e) {
-            let file = e.target.files[0];
-            let reader = new FileReader();
+            let file3 = e.target.files[0];
+            let reader3 = new FileReader();
 
-            if (file["size"] < 2111775) {
-                reader.onloadend = event => {
+            if (file3["size"] < 2111775) {
+                reader3.onloadend = event => {
                     this.imagenMiniatrua3 = event.target.result;
-                    this.form.image_path3 = reader.result;
+                    this.form.image_path3 = reader3.result;
                 };
-                reader.readAsDataURL(file);
+                reader3.readAsDataURL(file3);
             } else {
                 Swal.fire(
                     "Error!",

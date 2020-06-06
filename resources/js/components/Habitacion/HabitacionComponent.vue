@@ -5,6 +5,7 @@
                 <div class="card">
                     <div class="card-header">
                         <button
+                            v-show="user.role == 1"
                             class="btn-info text-white float-right"
                             @click="newModal"
                         >
@@ -26,6 +27,7 @@
                                     <th>Camas Matrimoñales</th>
                                     <th>Cambiar estado</th>
                                     <th>Estado</th>
+                                    <th>Limpieza</th>
                                     <th>Fotos</th>
                                     <th v-show="user.role == 1">Acciones</th>
                                 </tr>
@@ -35,14 +37,8 @@
                                     v-for="item in habitacionesReales"
                                     :key="item.id"
                                 >
-                                    <td>
-                                        <router-link
-                                            :to="{
-                                                name: 'habitacionShow',
-                                                params: { id: item.id }
-                                            }"
-                                            >{{ item.numeroHabitacion }}
-                                        </router-link>
+                                    <td class="text-bold">
+                                        {{ item.numeroHabitacion }}
                                     </td>
                                     <td>{{ item.piso | piso }}</td>
                                     <td>{{ item.capacidad | capacidad }}</td>
@@ -72,26 +68,35 @@
                                                 >Cambiar estado</option
                                             >
                                             <option value="1" class="bg-green"
-                                                >Disponible</option
+                                                >Limpia</option
                                             >
-                                            <option class="bg-red" value="2"
-                                                >Ocupada</option
-                                            >
-                                            <option class="bg-yellow" value="3"
-                                                >Limpiar</option
+                                            <option class="bg-yellow" value="0"
+                                                >Para limpiar</option
                                             >
                                         </select>
                                     </td>
                                     <td
                                         :style="[
-                                            item.estado == 2 ? ocupada : '',
-                                            item.estado == 1 ? disponible : '',
-                                            item.estado == 3 ? limpieza : ''
+                                            item.estado == 0 ? ocupada : '',
+                                            item.estado == 1 ? disponible : ''
                                         ]"
                                     >
                                         {{ item.estado | estado }}
                                     </td>
-
+                                    <td
+                                        :style="[
+                                            item.estadoLimpieza == 1
+                                                ? disponible
+                                                : '',
+                                            item.estadoLimpieza == 0
+                                                ? limpieza
+                                                : ''
+                                        ]"
+                                    >
+                                        {{
+                                            item.estadoLimpieza | estadoLimpieza
+                                        }}
+                                    </td>
                                     <td>
                                         <button
                                             v-if="

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Intervention\Image\ImageManagerStatic as Image;
 
+use function Psy\debug;
+
 class HabitacionController extends Controller
 {
     /**
@@ -28,17 +30,17 @@ class HabitacionController extends Controller
     public function store(Request $request)
     {
         $this->authorize('isAdmin');
-        $validatedData = $request->validate([
+        $request->validate([
             'numeroHabitacion' => 'required|numeric|unique:habitaciones',
             'piso' => 'required|numeric|max:8',
             'capacidad' => 'required|numeric',
             'single' => 'nullable|numeric|max:6',
             'doble' => 'nullable|numeric|max:4',
-            //'image_path' => 'nullable|mimes:jpeg,bmp,png,jpg',
-            //'image_path2' => 'nullable|mimes:jpeg,bmp,png,jpg',
-            //'image_path3' => 'nullable|mimes:jpeg,bmp,png,jpg',
-
         ]);
+
+        $nombreImagen = $this->guardarImagen($request->image_path);
+        $nombreImagen2 = $this->guardarImagen($request->image_path2);
+        $nombreImagen3 = $this->guardarImagen($request->image_path3);
 
         $habitacion = new Habitacion();
         $habitacion->numeroHabitacion = $request->numeroHabitacion;
@@ -46,12 +48,11 @@ class HabitacionController extends Controller
         $habitacion->capacidad = $request->capacidad;
         $habitacion->single = $request->single;
         $habitacion->doble = $request->doble;
-        $habitacion->image_path = $request->image_path;
-        $habitacion->image_path2 = $request->image_path2;
-        $habitacion->image_path3 = $request->image_path3;
         $habitacion->estado = 1;
-
-
+        $habitacion->estadoLimpieza = 1;
+        $habitacion->image_path = $nombreImagen;
+        $habitacion->image_path2 = $nombreImagen2;
+        $habitacion->image_path3 = $nombreImagen3;
         $habitacion->save();
 
         return $habitacion;
@@ -101,7 +102,7 @@ class HabitacionController extends Controller
 
             //se busca la foto anterior
             $image1 = public_path('img/habitaciones/') . $currentImage1;
-            //se verifica si eiste
+            //se verifica si existe
             if (file_exists($image1)) {
                 //se elimina
                 @unlink($image1);
@@ -139,9 +140,7 @@ class HabitacionController extends Controller
         $habitacion->image_path2 = $request->image_path2;
         $habitacion->image_path3 = $request->image_path3;
         $habitacion->estado = $request->estado;
-
         $habitacion->save();
-
         return $habitacion;
     }
 
@@ -167,9 +166,21 @@ class HabitacionController extends Controller
     public function cambiarEstado($id, $estado)
     {
         $habitacion = Habitacion::find($id);
-        $habitacion->estado = $estado;
+        $habitacion->estadoLimpieza = $estado;
         $habitacion->save();
 
         return $habitacion;
+    }
+
+    public function guardarImagen($path)
+    {
+        //se verifica si es que se envio una nueva imagen por el request
+        if ($path) {
+            //nombre de la foto para que no se pueda duplicar
+            $name = time() . '.' . explode('/', explode(':', substr($path, 0, strpos($path, ';')))[1])[1];
+            //se guarda en public/img/habitaciones con el plugin image mananger
+            Image::make($path)->save(public_path('img/habitaciones/') . $name);
+            return $name;
+        }
     }
 }

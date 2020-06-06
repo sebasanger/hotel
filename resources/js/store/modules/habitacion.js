@@ -53,5 +53,14 @@ export const getters = {
     },
     habitacionesReales: state => {
         return state.habitaciones.filter(habitacion => habitacion.id != 1);
+    },
+
+    habitacionesConImagenes: state => {
+        return state.habitaciones.filter(
+            habitacion =>
+                (habitacion.id != 1 && habitacion.image_path != null) ||
+                habitacion.image_path2 != null ||
+                habitacion.image_path3 != null
+        );
     }
 };
